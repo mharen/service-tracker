@@ -1,0 +1,45 @@
+﻿@model IEnumerable<service_tracker_mvc.Models.Service>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Sku
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Cost
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sku)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cost)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ServiceId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ServiceId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ServiceId })
+        </td>
+    </tr>
+}
+
+</table>

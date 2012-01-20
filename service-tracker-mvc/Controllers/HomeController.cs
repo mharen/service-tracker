@@ -16,23 +16,7 @@ namespace service_tracker_mvc.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
-            ViewBag.Environment = ConfigurationManager.AppSettings["RuntimeEnvironment"];
-
-            new LogEvent("Connection string is " + ConfigurationManager.AppSettings["ApplicationServices"]);
-
-            using (var DB = new DataContext())
-            {
-                var Customer = new Customer() { Name = "Acme", Address = "123 Main St.", VendorNumber = "123" };
-                DB.Customers.Add(Customer);
-
-                DB.SaveChanges();
-            }
-   
-            using (var DB = new DataContext())
-            {
-                var Customers = DB.Customers.ToList();
-                return View(Customers);
-            }
+            return View();
         }
 
         public ActionResult About()

@@ -11,5 +11,9 @@ namespace service_tracker_mvc.Data
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Servicer> Servicers { get; set; }
+
+        public DbSet<Service> Services { get; set; }
+
+        public DbSet<Product> Products { get; set; }
     }
 }

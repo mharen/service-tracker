@@ -10,8 +10,8 @@ namespace service_tracker_mvc.App_Start {
             // Uncomment this line and replace CONTEXT_NAME with the name of your DbContext if you are 
             // using your DbContext to create and manage your database
             new LogEvent("In app start");
-
-             Database.SetInitializer(new DontDropDbJustCreateTablesIfModelChanged<DataContext>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DataContext>());
+            //Database.SetInitializer(new DontDropDbJustCreateTablesIfModelChanged<DataContext>());
         }
     }
 }

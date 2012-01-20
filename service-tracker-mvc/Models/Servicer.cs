@@ -9,5 +9,7 @@ namespace service_tracker_mvc.Models
     {
         public int ServicerId { get; set; }
         public string Name { get; set; }
+
+        public virtual ICollection<Customer> Customers { get; set; }
     }
 }
