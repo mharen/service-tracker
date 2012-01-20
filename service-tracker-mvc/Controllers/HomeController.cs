@@ -13,7 +13,7 @@ namespace service_tracker_mvc.Controllers
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
             ViewBag.Environment = ConfigurationManager.AppSettings["RuntimeEnvironment"];
-            ViewBag.ConnectionString = ConfigurationManager.AppSettings["SQLSERVER_CONNECTION_STRING"];
+            
             return View();
         }
 
