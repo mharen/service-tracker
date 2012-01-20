@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Data.Entity;
 using service_tracker_mvc.Data;
 using service_tracker_mvc.Models;
+using System.Web.Management;
 
 namespace service_tracker_mvc.Controllers
 {
@@ -16,6 +17,8 @@ namespace service_tracker_mvc.Controllers
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
             ViewBag.Environment = ConfigurationManager.AppSettings["RuntimeEnvironment"];
+
+            new LogEvent("Connection string is " + ConfigurationManager.AppSettings["ApplicationServices"]);
 
             using (var DB = new DataContext())
             {
@@ -37,4 +40,5 @@ namespace service_tracker_mvc.Controllers
             return View();
         }
     }
+
 }
