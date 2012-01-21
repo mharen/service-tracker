@@ -1,0 +1,62 @@
+﻿@model service_tracker_mvc.Models.Invoice
+@{
+    ViewBag.Title = "Details";
+}
+<h2>Details</h2>
+<fieldset><legend>Invoice | @Html.ActionLink("Edit", "Edit", new { id = Model.InvoiceId })</legend>
+    
+    <div class="display-label">
+        ServiceDate</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ServiceDate)
+    </div>
+    <div class="display-label">
+        FrtBill</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FrtBill)
+    </div>
+    <div class="display-label">
+        KeyRec</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.KeyRec)
+    </div>
+    <div class="display-label">
+        PurchaseOrder</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PurchaseOrder)
+    </div>
+    <div class="display-label">
+        Items</div>
+    <table>
+        <tr>
+            <th>Product</th>
+            <th>Comment</th>
+            <th>Service</th>
+            <th>SKU</th>
+            <th class='number'>Quantity</th>
+            <th class='number'>Unit Price</th>
+            <th class='number'>Total</th>
+        </tr>
+        @foreach (var Item in Model.Items)
+        {
+            <tr>
+                <td>@Item.Product.Manufacturer - @Item.Product.Description</td>
+                <td>@Item.Comment</td>
+                <td>@Item.Service.Description</td>
+                <td>@Item.Service.Sku</td>
+                <td class='number'>@Item.Quantity</td>
+                <td class='number'>@Html.DisplayFor(model => Item.Service.Cost)</td>
+                <td class='number'>@Html.DisplayFor(model => Item.Total)</td>
+            </tr>
+        }
+        <tr>
+            <th class='number' colspan="5">@Html.DisplayFor(model=>model.Quantity)</th>
+            <th class='number' colspan="2">@Html.DisplayFor(model => model.Total)</th>
+        </tr>
+    </table>
+    @Html.ActionLink("Add Item", "Create", "InvoiceItem", new { id = Model.InvoiceId }, null)
+</fieldset>
+<p>
+    |
+    @Html.ActionLink("Back to List", "Index")
+</p>

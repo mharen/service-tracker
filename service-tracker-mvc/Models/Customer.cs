@@ -17,7 +17,5 @@ namespace service_tracker_mvc.Models
         public string Name { get; set; }
         public string Address { get; set; }
         public string VendorNumber { get; set; }
-        
-        public virtual ICollection<Servicer> Servicers { get; set; }
     }
 }

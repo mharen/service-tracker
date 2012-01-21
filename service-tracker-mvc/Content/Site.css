@@ -304,11 +304,14 @@ div#title {
 .display-label, 
 .editor-label {
     margin: 1em 0 0 0;
+    float: left; width: 10em;
+    clear:left;
+    font-weight:bold;
 }
 
 .display-field, 
 .editor-field {
-    margin: 0.5em 0 0 0;
+    margin: 1em 0 0 0;
 }
 
 .text-box {
@@ -321,4 +324,8 @@ div#title {
 
 .tri-state {
     width: 6em;
+}
+td.number,th.number
+{
+    text-align:right;
 }

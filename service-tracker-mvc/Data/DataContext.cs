@@ -7,13 +7,13 @@ using service_tracker_mvc.Models;
 
 namespace service_tracker_mvc.Data
 {
-    public class DataContext :DbContext
+    public class DataContext : DbContext
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Servicer> Servicers { get; set; }
-
         public DbSet<Service> Services { get; set; }
-
         public DbSet<Product> Products { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoiceItem> InvoiceItems { get; set; }
     }
 }

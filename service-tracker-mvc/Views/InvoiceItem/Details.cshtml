@@ -1,0 +1,25 @@
+﻿@model service_tracker_mvc.Models.InvoiceItem
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>InvoiceItem</legend>
+
+    <div class="display-label">Quantity</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Quantity)
+    </div>
+
+    <div class="display-label">Comment</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Comment)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.InvoiceItemId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

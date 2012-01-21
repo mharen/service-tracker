@@ -1,0 +1,38 @@
+﻿@model service_tracker_mvc.Models.Invoice
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Invoice</legend>
+
+    <div class="display-label">ServiceDate</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ServiceDate)
+    </div>
+
+    <div class="display-label">FrtBill</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FrtBill)
+    </div>
+
+    <div class="display-label">KeyRec</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.KeyRec)
+    </div>
+
+    <div class="display-label">PurchaseOrder</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PurchaseOrder)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

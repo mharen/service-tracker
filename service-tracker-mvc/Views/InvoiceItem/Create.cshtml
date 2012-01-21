@@ -1,0 +1,58 @@
+﻿@model service_tracker_mvc.Models.InvoiceItem
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>InvoiceItem</legend>
+        @Html.HiddenFor(model => model.InvoiceId)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Quantity)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Quantity)
+            @Html.ValidationMessageFor(model => model.Quantity)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ProductId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.ProductId, (IEnumerable<SelectListItem>) ViewBag.Products)
+            @Html.ValidationMessageFor(model => model.ProductId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Comment)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Comment)
+            @Html.ValidationMessageFor(model => model.Comment)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ServiceId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.ServiceId, (IEnumerable<SelectListItem>) ViewBag.Services)
+            @Html.ValidationMessageFor(model => model.ServiceId)
+        </div>
+
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
