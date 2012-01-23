@@ -14,19 +14,35 @@
 
             var total = cost * qty;
 
+            cost = Number(cost).toFixed(2);
+            total = Number(total).toFixed(2);
+
             $row.find('.calc-output-cost').text(cost);
             $row.find('.calc-output-total').text(total);
         });
 
         $('.calc-quantity').change();
+
+        var UpdateGrandTotals = function () {
+            var GrandQuantity = 0, GrandTotal = 0;
+            $('.calc-quantity').each(function () { GrandQuantity += parseFloat($(this).val()); });
+            $('.calc-output-total').each(function () { GrandTotal += parseFloat($(this).text()); });
+
+            GrandQuantity = Number(GrandQuantity).toFixed(2);
+            GrandTotal = Number(GrandTotal).toFixed(2);
+            $('.calc-output-grand-quantity').text(GrandQuantity);
+            $('.calc-output-grand-total').text(GrandTotal);
+        };
+        UpdateGrandTotals();
+        $('.affects-calculation').change(UpdateGrandTotals);
     });
 </script>
 
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
-    <div class='float-block'>
-        @Html.HiddenFor(model => model.InvoiceId)
+    @Html.HiddenFor(model => model.InvoiceId)
+    <div class='input-field'>
         <div class="editor-label">
             @Html.LabelFor(model => model.ServiceDate)
         </div>
@@ -34,6 +50,8 @@
             @Html.EditorFor(model => model.ServiceDate)
             @Html.ValidationMessageFor(model => model.ServiceDate)
         </div>
+    </div>    
+    <div class='input-field'>
         <div class="editor-label">
             @Html.LabelFor(model => model.ServicerId)
         </div>
@@ -41,8 +59,8 @@
             @Html.DropDownListFor(model => model.ServicerId, (IEnumerable<SelectListItem>)ViewBag.Servicers)
             @Html.ValidationMessageFor(model => model.ServicerId)
         </div>
-    </div>
-    <div class='float-block'>
+    </div>    
+    <div class='input-field'>
         <div class="editor-label">
             @Html.LabelFor(model => model.CustomerId)
         </div>
@@ -50,6 +68,8 @@
             @Html.DropDownListFor(model => model.CustomerId, (IEnumerable<SelectListItem>)ViewBag.Customers)
             @Html.ValidationMessageFor(model => model.CustomerId)
         </div>
+    </div>    
+    <div class='input-field'>
         <div class="editor-label">
             @Html.LabelFor(model => model.KeyRec)
         </div>
@@ -57,8 +77,8 @@
             @Html.TextBoxFor(model => model.KeyRec)
             @Html.ValidationMessageFor(model => model.KeyRec)
         </div>
-    </div>
-    <div class='float-block'>
+    </div>    
+    <div class='input-field'>
         <div class="editor-label">
             @Html.LabelFor(model => model.FrtBill)
         </div>
@@ -66,6 +86,8 @@
             @Html.EditorFor(model => model.FrtBill)
             @Html.ValidationMessageFor(model => model.FrtBill)
         </div>
+    </div>    
+    <div class='input-field' style='margin-right:0'>
         <div class="editor-label">
             @Html.LabelFor(model => model.PurchaseOrder)
         </div>
@@ -73,7 +95,7 @@
             @Html.EditorFor(model => model.PurchaseOrder)
             @Html.ValidationMessageFor(model => model.PurchaseOrder)
         </div>
-    </div>
+    </div>    
     <hr style="clear:both; padding:10px 0px; color:#fff; border-color: transparent"/>
     <table style="clear:both">
         <tr>
@@ -90,8 +112,9 @@
                 <td>@Html.Hidden("Items.Index", index)
                     @Html.HiddenFor(m => m.Items[i].InvoiceId)
                     @Html.HiddenFor(m => m.Items[i].InvoiceItemId)
-                    @Html.DropDownListFor(m=>m.Items[i].ProductId, new SelectList(ViewBag.Products, "Value", "Text"))</td>
-                <td>@Html.EditorFor(m=>m.Items[i].Comment)</td>
+                    @Model.Items[i].ProductId
+                    @Html.DropDownListFor(m => m.Items[i].ProductId, new SelectList(ViewBag.Products, "Value", "Text", Model.Items[i].ProductId))</td>
+                <td>@Html.EditorFor(m => m.Items[i].Comment)</td>
                 <td>@Html.ExtendedDropDownListFor(m => m.Items[i].ServiceId, (IEnumerable<service_tracker_mvc.ExtendedSelectListItem>)ViewBag.Services, null, new { @class = "calc-cost affects-calculation" })</td>
                 <td class='number'>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "calc-quantity affects-calculation" })</td>
                 <td class='number'><span class='calc-output-cost'>(cost)</span></td>
@@ -99,14 +122,14 @@
             </tr>
         }
         <tr>
-            <th class='number' colspan="5">(total)</th>
-            <th class='number' colspan="2">(total)</th>
+            <th class='number' colspan="4"><span class='calc-output-grand-quantity'></span></th>
+            <th class='number' colspan="2"><span class='calc-output-grand-total'></span></th>
         </tr>
     </table>
-    <p>
+    <p class='actions'>
+        @Html.ActionLink("Back to List", "Index")
         <input type="submit" value="Save" />
     </p>
 }
 <div>
-    @Html.ActionLink("Back to List", "Index")
 </div>

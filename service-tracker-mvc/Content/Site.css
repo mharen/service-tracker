@@ -87,7 +87,7 @@ h5, h6
 page width. Or, you can specify an exact pixel width. */
 .page
 {
-    width: 90%;
+    width: 900px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -219,7 +219,7 @@ input[type="text"], input[type="password"]
     padding: 2px;
     font-size: 1.2em;
     color: #444;
-    width: 200px;
+    width: 120px;
 }
 
 select
@@ -243,7 +243,7 @@ table
 {
     border: solid 1px #e8eef4;
     border-collapse: collapse;
-    width:100%;
+    width: 100%;
 }
 
 table td
@@ -341,7 +341,7 @@ div#title
 
 /* Styles for editor and display helpers
 ----------------------------------------------------------*/
-.display-label,.editor-label
+.display-label, .editor-label
 {
     margin: .5em 0 0 0;
     clear: left;
@@ -349,7 +349,7 @@ div#title
 
 .text-box
 {
-    width: 20em;
+    width: 10em;
 }
 
 .text-box.multi-line
@@ -366,12 +366,20 @@ td.number, th.number, td.number > input, th.number > input
 {
     text-align: right;
 }
+td.number > input, th.number > input
+{
+    width: 2.5em;
+}
 input[type=date]
 {
-    width: 7em;
+    width: 6em;
 }
-.float-block
+.input-field
 {
-    margin-right:20px;
+    margin-right: 20px;
     float: left;
+}
+.actions
+{
+    text-align:right;
 }

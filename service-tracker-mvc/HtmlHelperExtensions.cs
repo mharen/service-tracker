@@ -77,7 +77,7 @@ namespace service_tracker_mvc
             {
                 listItemBuilder.Append(ListItemToOption(item));
             }
-
+            
             TagBuilder tagBuilder = new TagBuilder("select")
             {
                 InnerHtml = listItemBuilder.ToString()
