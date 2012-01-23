@@ -9,7 +9,7 @@ using service_tracker_mvc.Models;
 using service_tracker_mvc.Data;
 
 namespace service_tracker_mvc.Controllers
-{ 
+{
     public class InvoiceController : Controller
     {
         private DataContext db = new DataContext();
@@ -54,9 +54,25 @@ namespace service_tracker_mvc.Controllers
                                                   Text = s.Name,
                                                   Value = s.ServicerId.ToString()
                                               });
+
+                ViewBag.Products = DB.Products.ToList()
+                                              .Select(p => new SelectListItem()
+                                              {
+                                                  Text = string.Format("{0} - {1}", p.Manufacturer, p.Description),
+                                                  Value = p.ProductId.ToString()
+                                              });
+
+                ViewBag.Services = DB.Services.ToList()
+                                              .Select(s => new SelectListItem()
+                                              {
+                                                  Text = string.Format("{0} - {1} ({2:c})", s.Sku, s.Description, s.Cost),
+                                                  Value = s.ServiceId.ToString()
+                                              });
             }
-            return View();
-        } 
+
+            Invoice Invoice = new Invoice() { ServiceDate = DateTime.UtcNow.Date };
+            return View(Invoice);
+        }
 
         //
         // POST: /Invoice/Create
@@ -68,18 +84,53 @@ namespace service_tracker_mvc.Controllers
             {
                 db.Invoices.Add(invoice);
                 db.SaveChanges();
-                return RedirectToAction("Index");  
+                return RedirectToAction("Index");
             }
 
             return View(invoice);
         }
-        
+
         //
         // GET: /Invoice/Edit/5
- 
+
         public ActionResult Edit(int id)
         {
-            Invoice invoice = db.Invoices.Find(id);
+            ViewBag.Customers = db.Customers.ToList()
+                                          .Select(p => new SelectListItem()
+                                          {
+                                              Text = string.Format("{0} - {1}", p.Name, p.VendorNumber),
+                                              Value = p.CustomerId.ToString()
+                                          });
+
+            ViewBag.Servicers = db.Servicers.ToList()
+                                          .Select(s => new SelectListItem()
+                                          {
+                                              Text = s.Name,
+                                              Value = s.ServicerId.ToString()
+                                          });
+
+            ViewBag.Products = db.Products.ToList()
+                                          .Select(p => new
+                                          {
+                                              Text = string.Format("{0} - {1}", p.Manufacturer, p.Description),
+                                              Value = p.ProductId.ToString()
+                                          });
+
+            ViewBag.Services = db.Services.ToList()
+                                          .Select(s => new ExtendedSelectListItem()
+                                          {
+                                              Text = string.Format("{0} - {1} ({2:c})", s.Sku, s.Description, s.Cost),
+                                              Value = s.ServiceId.ToString(),
+                                              htmlAttributes = new { data_cost = s.Cost }
+                                          });
+
+            Invoice invoice = db.Invoices.Include("Items").Single(i => i.InvoiceId == id);
+
+            for (int i = invoice.Items == null ? 0 : invoice.Items.Count; i < 10; ++i)
+            {
+                invoice.Items.Add(new InvoiceItem() { InvoiceId = invoice.InvoiceId, InvoiceItemId = i });
+            }
+
             return View(invoice);
         }
 
@@ -91,8 +142,22 @@ namespace service_tracker_mvc.Controllers
         {
             if (ModelState.IsValid)
             {
+                //foreach (var Item in invoice.Items)
+                //{
+                //    //db.Entry(Item).State = Item.InvoiceItemId > 0 ? EntityState.Modified : EntityState.Added;
+                //}
+
                 db.Entry(invoice).State = EntityState.Modified;
                 db.SaveChanges();
+
+                var ExistingItemIds = db.InvoiceItems.Where(i => i.InvoiceId == invoice.InvoiceId).Select(i => i.InvoiceItemId).ToList();
+
+                foreach (var Item in invoice.Items)
+                {
+                    db.Entry(Item).State = ExistingItemIds.Contains(Item.InvoiceItemId) ? EntityState.Modified : EntityState.Added;
+                }
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             return View(invoice);
@@ -100,7 +165,7 @@ namespace service_tracker_mvc.Controllers
 
         //
         // GET: /Invoice/Delete/5
- 
+
         public ActionResult Delete(int id)
         {
             Invoice invoice = db.Invoices.Find(id);
@@ -112,7 +177,7 @@ namespace service_tracker_mvc.Controllers
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
-        {            
+        {
             Invoice invoice = db.Invoices.Find(id);
             db.Invoices.Remove(invoice);
             db.SaveChanges();

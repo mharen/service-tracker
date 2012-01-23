@@ -1,29 +1,64 @@
 ﻿@model service_tracker_mvc.Models.Invoice
-
 @{
     ViewBag.Title = "Edit";
 }
-
-<h2>Edit</h2>
-
+<h2>Edit Invoice</h2>
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script>
+    $(function () {
+        $('.affects-calculation').change(function () {
+            var $row = $(this).closest('tr');
+            var cost = $row.find('.calc-cost option:selected').data('cost');
+            var qty = parseFloat($row.find('.calc-quantity').val());
 
-@using (Html.BeginForm()) {
+            var total = cost * qty;
+
+            $row.find('.calc-output-cost').text(cost);
+            $row.find('.calc-output-total').text(total);
+        });
+
+        $('.calc-quantity').change();
+    });
+</script>
+
+@using (Html.BeginForm())
+{
     @Html.ValidationSummary(true)
-    <fieldset>
-        <legend>Invoice</legend>
-
+    <div class='float-block'>
         @Html.HiddenFor(model => model.InvoiceId)
-
         <div class="editor-label">
             @Html.LabelFor(model => model.ServiceDate)
         </div>
-        <div class="editor-field">
+        <div class="editor-field date">
             @Html.EditorFor(model => model.ServiceDate)
             @Html.ValidationMessageFor(model => model.ServiceDate)
         </div>
-
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ServicerId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.ServicerId, (IEnumerable<SelectListItem>)ViewBag.Servicers)
+            @Html.ValidationMessageFor(model => model.ServicerId)
+        </div>
+    </div>
+    <div class='float-block'>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CustomerId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.CustomerId, (IEnumerable<SelectListItem>)ViewBag.Customers)
+            @Html.ValidationMessageFor(model => model.CustomerId)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.KeyRec)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.KeyRec)
+            @Html.ValidationMessageFor(model => model.KeyRec)
+        </div>
+    </div>
+    <div class='float-block'>
         <div class="editor-label">
             @Html.LabelFor(model => model.FrtBill)
         </div>
@@ -31,15 +66,6 @@
             @Html.EditorFor(model => model.FrtBill)
             @Html.ValidationMessageFor(model => model.FrtBill)
         </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.KeyRec)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.KeyRec)
-            @Html.ValidationMessageFor(model => model.KeyRec)
-        </div>
-
         <div class="editor-label">
             @Html.LabelFor(model => model.PurchaseOrder)
         </div>
@@ -47,13 +73,40 @@
             @Html.EditorFor(model => model.PurchaseOrder)
             @Html.ValidationMessageFor(model => model.PurchaseOrder)
         </div>
-
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-    </fieldset>
+    </div>
+    <hr style="clear:both; padding:10px 0px; color:#fff; border-color: transparent"/>
+    <table style="clear:both">
+        <tr>
+            <th>Product</th>
+            <th>Comment</th>
+            <th>Service</th>
+            <th class='number'>Quantity</th>
+            <th class='number'>Unit Price</th>
+            <th class='number'>Total</th>
+        </tr>
+        @for(int i =0; i<Model.Items.Count; ++i){
+            var index = Model.Items[i].InvoiceItemId.ToString();
+            <tr>
+                <td>@Html.Hidden("Items.Index", index)
+                    @Html.HiddenFor(m => m.Items[i].InvoiceId)
+                    @Html.HiddenFor(m => m.Items[i].InvoiceItemId)
+                    @Html.DropDownListFor(m=>m.Items[i].ProductId, new SelectList(ViewBag.Products, "Value", "Text"))</td>
+                <td>@Html.EditorFor(m=>m.Items[i].Comment)</td>
+                <td>@Html.ExtendedDropDownListFor(m => m.Items[i].ServiceId, (IEnumerable<service_tracker_mvc.ExtendedSelectListItem>)ViewBag.Services, null, new { @class = "calc-cost affects-calculation" })</td>
+                <td class='number'>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "calc-quantity affects-calculation" })</td>
+                <td class='number'><span class='calc-output-cost'>(cost)</span></td>
+                <td class='number'><span class='calc-output-total'>(total)</span></td>
+            </tr>
+        }
+        <tr>
+            <th class='number' colspan="5">(total)</th>
+            <th class='number' colspan="2">(total)</th>
+        </tr>
+    </table>
+    <p>
+        <input type="submit" value="Save" />
+    </p>
 }
-
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>

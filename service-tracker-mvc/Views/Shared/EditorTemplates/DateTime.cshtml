@@ -1,2 +1,2 @@
-﻿@model DateTime?
-@Html.TextBoxFor(m=> m, new { type = "date" })
+﻿@model DateTime
+@Html.TextBox("", Model.ToShortDateString(), new { type = "date" })

@@ -8,10 +8,14 @@ namespace service_tracker_mvc.Models
 {
     public class InvoiceItem
     {
-        public int InvoiceItemId { get; set; }
-
+        [Key()]
+        [Column(Order = 0)]
         public int InvoiceId { get; set; }
         public virtual Invoice Invoice { get; set; }
+
+        [Key()]
+        [Column(Order = 1)]
+        public int InvoiceItemId { get; set; }
 
         public decimal Quantity { get; set; }
 

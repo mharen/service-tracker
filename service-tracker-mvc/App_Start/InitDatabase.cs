@@ -3,17 +3,22 @@ using Devtalk.EF.CodeFirst;
 using service_tracker_mvc.Data;
 using System.Linq;
 using service_tracker_mvc.Models;
+using System;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(service_tracker_mvc.App_Start.InitDatabase), "Start")]
 
-namespace service_tracker_mvc.App_Start {
-    public static class InitDatabase {
-        public static void Start() {
+namespace service_tracker_mvc.App_Start
+{
+    public static class InitDatabase
+    {
+        public static void Start()
+        {
             // Uncomment this line and replace CONTEXT_NAME with the name of your DbContext if you are 
             // using your DbContext to create and manage your database
             new LogEvent("In app start");
-            Database.SetInitializer(new SeedDataInitializer<DataContext>());
+            //Database.SetInitializer(new SeedDataInitializer<DataContext>());
             //Database.SetInitializer(new DontDropDbJustCreateTablesIfModelChanged<DataContext>());
+            Database.SetInitializer(new DropCreateDatabaseAlways<DataContext>());
 
             using (var DB = new DataContext())
             {
@@ -44,7 +49,22 @@ namespace service_tracker_mvc.App_Start {
                     DB.Servicers.Add(new Servicer() { Name = "Bill" });
                     DB.Servicers.Add(new Servicer() { Name = "Chris" });
                 }
-                
+
+                DB.SaveChanges();
+
+                if (!DB.Invoices.Any())
+                {
+                    DB.Invoices.Add(new Invoice()
+                    {
+                        CustomerId = 1,
+                        FrtBill = "frtbill 1 2 3",
+                        KeyRec = "Key Rec a b c",
+                        PurchaseOrder = "PO 123 abc",
+                        ServiceDate = DateTime.UtcNow.Date,
+                        ServicerId = 1
+                    });
+                }
+
                 DB.SaveChanges();
             }
         }
