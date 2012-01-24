@@ -30,12 +30,32 @@ namespace service_tracker_mvc
             return null;
         }
 
-        public static MvcHtmlString ExtendedDropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<ExtendedSelectListItem> selectList, string optionLabel, object htmlAttributes)
+        public static MvcHtmlString ExtendedDropDownListFor<TModel, TProperty>(
+            this HtmlHelper<TModel> htmlHelper, 
+            Expression<Func<TModel, TProperty>> expression, 
+            IEnumerable<ExtendedSelectListItem> selectList, 
+            string optionLabel, 
+            object htmlAttributes,
+            object selectedValue)
         {
-            return SelectInternal(htmlHelper, optionLabel, ExpressionHelper.GetExpressionText(expression), selectList, false /* allowMultiple */, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+            return SelectInternal(
+                htmlHelper, 
+                optionLabel, 
+                ExpressionHelper.GetExpressionText(expression), 
+                selectList, 
+                false /* allowMultiple */, 
+                HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes),
+                selectedValue);
         }
 
-        private static MvcHtmlString SelectInternal(this HtmlHelper htmlHelper, string optionLabel, string name, IEnumerable<ExtendedSelectListItem> selectList, bool allowMultiple, IDictionary<string, object> htmlAttributes)
+        private static MvcHtmlString SelectInternal(
+            this HtmlHelper htmlHelper, 
+            string optionLabel, 
+            string name, 
+            IEnumerable<ExtendedSelectListItem> selectList, 
+            bool allowMultiple, 
+            IDictionary<string, object> htmlAttributes,
+            object selectedValue)
         {
             string fullName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
             if (String.IsNullOrEmpty(fullName))
@@ -50,6 +70,10 @@ namespace service_tracker_mvc
             // use the ViewData-supplied value before using the parameter-supplied value.
             if (defaultValue == null)
                 defaultValue = htmlHelper.ViewData.Eval(fullName);
+
+            // If we still don't have the value, use what was passed in
+            if (defaultValue == null)
+                defaultValue = selectedValue;
 
             if (defaultValue != null)
             {

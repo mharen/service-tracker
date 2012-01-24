@@ -95,6 +95,20 @@ namespace service_tracker_mvc.Controllers
 
         public ActionResult Edit(int id)
         {
+            PopulateEditViewBagProperties();
+
+            Invoice invoice = db.Invoices.Include("Items").Single(i => i.InvoiceId == id);
+
+            for (int i = invoice.Items == null ? 0 : invoice.Items.Count; i < 10; ++i)
+            {
+                invoice.Items.Add(new InvoiceItem() { InvoiceId = invoice.InvoiceId, InvoiceItemId = i });
+            }
+
+            return View(invoice);
+        }
+
+        private void PopulateEditViewBagProperties()
+        {
             ViewBag.Customers = db.Customers.ToList()
                                           .Select(p => new SelectListItem()
                                           {
@@ -123,15 +137,6 @@ namespace service_tracker_mvc.Controllers
                                               Value = s.ServiceId.ToString(),
                                               htmlAttributes = new { data_cost = s.Cost }
                                           });
-
-            Invoice invoice = db.Invoices.Include("Items").Single(i => i.InvoiceId == id);
-
-            for (int i = invoice.Items == null ? 0 : invoice.Items.Count; i < 10; ++i)
-            {
-                invoice.Items.Add(new InvoiceItem() { InvoiceId = invoice.InvoiceId, InvoiceItemId = i });
-            }
-
-            return View(invoice);
         }
 
         //
@@ -140,6 +145,9 @@ namespace service_tracker_mvc.Controllers
         [HttpPost]
         public ActionResult Edit(Invoice invoice)
         {
+            // remove incomplete Items
+            invoice.Items.RemoveAll(item => item.ProductId <= 0);
+
             if (ModelState.IsValid)
             {
                 //foreach (var Item in invoice.Items)
@@ -160,6 +168,7 @@ namespace service_tracker_mvc.Controllers
 
                 return RedirectToAction("Index");
             }
+            PopulateEditViewBagProperties();
             return View(invoice);
         }
 

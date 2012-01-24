@@ -34,7 +34,7 @@ namespace service_tracker_mvc.Models
         [Display(Name = "PO No.")]
         public string PurchaseOrder { get; set; }
 
-        public virtual IList<InvoiceItem> Items { get; set; }
+        public virtual List<InvoiceItem> Items { get; set; }
 
         [NotMapped]
         [DisplayFormat(DataFormatString = "{0:N2}")]
