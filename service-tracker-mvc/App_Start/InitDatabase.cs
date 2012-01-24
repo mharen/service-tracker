@@ -17,8 +17,8 @@ namespace service_tracker_mvc.App_Start
             // using your DbContext to create and manage your database
             new LogEvent("In app start");
             //Database.SetInitializer(new SeedDataInitializer<DataContext>());
-            //Database.SetInitializer(new DontDropDbJustCreateTablesIfModelChanged<DataContext>());
-            Database.SetInitializer(new DropCreateDatabaseAlways<DataContext>());
+            Database.SetInitializer(new DontDropDbJustCreateTablesIfModelChanged<DataContext>());
+            //Database.SetInitializer(new DropCreateDatabaseAlways<DataContext>());
 
             using (var DB = new DataContext())
             {
