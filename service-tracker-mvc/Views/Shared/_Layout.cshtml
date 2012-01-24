@@ -23,14 +23,16 @@
     <div class="page">
         <header>
             <div id="title">
-                <h1>My MVC Application</h1>
+                <h1>Service Tracker</h1>
             </div>
-            <div id="logindisplay">
+@*            <div id="logindisplay">
                 @Html.Partial("_LogOnPartial")
-            </div>
+            </div>*@
             <nav>
                 <ul id="menu">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Data Entry", "Index", "Invoice")</li>
+                    <li>@Html.ActionLink("Reports", "Index", "Invoice")</li>
+                    <li>@Html.ActionLink("Settings", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                 </ul>
             </nav>

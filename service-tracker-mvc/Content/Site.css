@@ -103,22 +103,20 @@ header, #header
 header h1, #header h1
 {
     font-weight: bold;
-    padding: 5px 0;
     margin: 0;
     color: #fff;
     border: none;
-    line-height: 2em;
     font-size: 32px !important;
     text-shadow: 1px 1px 2px #111;
 }
 
 #main
 {
-    padding: 30px 30px 15px 30px;
+    padding: 15px;
     background-color: #fff;
-    border-radius: 4px 0 0 0;
-    -webkit-border-radius: 4px 0 0 0;
-    -moz-border-radius: 4px 0 0 0;
+    border-radius: 10px 0 0 0;
+    -webkit-border-radius: 10px 0 0 0;
+    -moz-border-radius: 10px 0 0 0;
 }
 
 footer, #footer
@@ -130,9 +128,9 @@ footer, #footer
     line-height: normal;
     margin: 0 0 30px 0;
     font-size: .9em;
-    border-radius: 0 0 4px 4px;
-    -webkit-border-radius: 0 0 4px 4px;
-    -moz-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 10px 10px;
+    -webkit-border-radius: 0 0 10px 10px;
+    -moz-border-radius: 0 0 10px 10px;
 }
 
 /* TAB MENU   
@@ -213,19 +211,16 @@ textarea
     min-height: 75px;
 }
 
-input[type="text"], input[type="password"]
+input[type="text"],input[type="password"],input[type="date"]
 {
     border: 1px solid #ccc;
-    padding: 2px;
     font-size: 1.2em;
     color: #444;
-    width: 120px;
 }
 
 select
 {
     border: 1px solid #ccc;
-    padding: 2px;
     font-size: 1.2em;
     color: #444;
 }
@@ -233,7 +228,6 @@ select
 input[type="submit"]
 {
     font-size: 1.2em;
-    padding: 5px;
 }
 
 /* TABLE
@@ -251,7 +245,7 @@ table td
     padding: 2px;
 }
 
-table th, h2
+table th, h2, h3
 {
     padding: 6px 2px;
     text-align: left;
@@ -273,7 +267,7 @@ table th, h2
 
 nav, #menucontainer
 {
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 div#title
@@ -349,7 +343,7 @@ div#title
 
 .text-box
 {
-    width: 10em;
+    width: 8em;
 }
 
 .text-box.multi-line
@@ -372,14 +366,19 @@ td.number > input, th.number > input
 }
 input[type=date]
 {
-    width: 6em;
+    width: 6em !important;
 }
 .input-field
 {
-    margin-right: 20px;
+    margin-right: 10px;
     float: left;
 }
+#search-form input
+{
+    width: 5.5em;
+}
+
 .actions
 {
-    text-align:right;
+    text-align: right;
 }

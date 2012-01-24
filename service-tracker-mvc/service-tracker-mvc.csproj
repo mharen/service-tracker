@@ -93,6 +93,8 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Invoice.cs" />
+    <Compile Include="Models\InvoiceFilter.cs" />
+    <Compile Include="Models\InvoiceIndexViewModel.cs" />
     <Compile Include="Models\InvoiceItem.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Service.cs" />
@@ -302,6 +304,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Invoice\Report.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

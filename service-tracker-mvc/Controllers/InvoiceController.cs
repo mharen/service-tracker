@@ -17,13 +17,40 @@ namespace service_tracker_mvc.Controllers
         //
         // GET: /Invoice/
 
-        public ViewResult Index()
+        public ViewResult Index(InvoiceIndexViewModel invoiceIndexViewModel)
         {
-            return View(db.Invoices.ToList());
-        }
+            PopulateEditViewBagProperties(includeAllOption: true);
 
-        //
-        // GET: /Invoice/Details/5
+            if (invoiceIndexViewModel == null)
+            {
+                invoiceIndexViewModel = new InvoiceIndexViewModel();
+            }
+
+            if (invoiceIndexViewModel.InvoiceFilter == null)
+            {
+                invoiceIndexViewModel.InvoiceFilter = new InvoiceFilter()
+                {
+                    CustomerId = 0,
+                    StartDate = DateTime.UtcNow.Date,
+                    EndDate = DateTime.UtcNow.Date,
+                    ServicerId = 0
+                };
+            }
+
+            var Filter = invoiceIndexViewModel.InvoiceFilter;
+
+            invoiceIndexViewModel.Invoices = db.Invoices
+                                                .Where(i => i.ServiceDate >= Filter.StartDate)
+                                                .Where(i => i.ServiceDate <= Filter.EndDate)
+                                                .Where(i => i.CustomerId == Filter.CustomerId || Filter.CustomerId == 0)
+                                                .Where(i => i.CustomerId == Filter.ServicerId || Filter.ServicerId == 0)
+                                                .Where(i => i.KeyRec.Contains(Filter.KeyRec) || Filter.KeyRec == null || Filter.KeyRec == "")
+                                                .Where(i => i.KeyRec.Contains(Filter.FrtBill) || Filter.FrtBill == null || Filter.FrtBill == "")
+                                                .Where(i => i.KeyRec.Contains(Filter.PurchaseOrder) || Filter.PurchaseOrder == null || Filter.PurchaseOrder == "")
+                                                .OrderBy(i => i.ServiceDate)
+                                                .ToList();
+            return View(invoiceIndexViewModel);
+        }
 
         public ViewResult Details(int id)
         {
@@ -39,36 +66,7 @@ namespace service_tracker_mvc.Controllers
 
         public ActionResult Create()
         {
-            using (var DB = new DataContext())
-            {
-                ViewBag.Customers = DB.Customers.ToList()
-                                              .Select(p => new SelectListItem()
-                                              {
-                                                  Text = string.Format("{0} - {1}", p.Name, p.VendorNumber),
-                                                  Value = p.CustomerId.ToString()
-                                              });
-
-                ViewBag.Servicers = DB.Servicers.ToList()
-                                              .Select(s => new SelectListItem()
-                                              {
-                                                  Text = s.Name,
-                                                  Value = s.ServicerId.ToString()
-                                              });
-
-                ViewBag.Products = DB.Products.ToList()
-                                              .Select(p => new SelectListItem()
-                                              {
-                                                  Text = string.Format("{0} - {1}", p.Manufacturer, p.Description),
-                                                  Value = p.ProductId.ToString()
-                                              });
-
-                ViewBag.Services = DB.Services.ToList()
-                                              .Select(s => new SelectListItem()
-                                              {
-                                                  Text = string.Format("{0} - {1} ({2:c})", s.Sku, s.Description, s.Cost),
-                                                  Value = s.ServiceId.ToString()
-                                              });
-            }
+            PopulateEditViewBagProperties(false);
 
             Invoice Invoice = new Invoice() { ServiceDate = DateTime.UtcNow.Date };
             return View(Invoice);
@@ -95,7 +93,7 @@ namespace service_tracker_mvc.Controllers
 
         public ActionResult Edit(int id)
         {
-            PopulateEditViewBagProperties();
+            PopulateEditViewBagProperties(false);
 
             Invoice invoice = db.Invoices.Include("Items").Single(i => i.InvoiceId == id);
 
@@ -107,36 +105,59 @@ namespace service_tracker_mvc.Controllers
             return View(invoice);
         }
 
-        private void PopulateEditViewBagProperties()
+        private void PopulateEditViewBagProperties(bool includeAllOption)
         {
-            ViewBag.Customers = db.Customers.ToList()
+            SelectListItem[] AllOptions = includeAllOption
+                ? new SelectListItem[] { new SelectListItem { Text = "All", Value = "0" } }
+                : new SelectListItem[] { };
+
+            ViewBag.Customers = AllOptions.Union(
+                                    db.Customers.ToList()
                                           .Select(p => new SelectListItem()
                                           {
                                               Text = string.Format("{0} - {1}", p.Name, p.VendorNumber),
                                               Value = p.CustomerId.ToString()
-                                          });
+                                          })
+                                ).ToList();
 
-            ViewBag.Servicers = db.Servicers.ToList()
+            ViewBag.Servicers = AllOptions.Union(
+                                    db.Servicers.ToList()
                                           .Select(s => new SelectListItem()
                                           {
                                               Text = s.Name,
                                               Value = s.ServicerId.ToString()
-                                          });
+                                          })
+                                ).ToList();
 
-            ViewBag.Products = db.Products.ToList()
-                                          .Select(p => new
+            ViewBag.Products = AllOptions.Select(p => new
                                           {
-                                              Text = string.Format("{0} - {1}", p.Manufacturer, p.Description),
-                                              Value = p.ProductId.ToString()
-                                          });
+                                              Text = p.Text,
+                                              Value = p.Value
+                                          })
+                                         .Union(
+                                            db.Products.ToList()
+                                              .Select(p => new
+                                              {
+                                                  Text = string.Format("{0} - {1}", p.Manufacturer, p.Description),
+                                                  Value = p.ProductId.ToString()
+                                              })
+                                ).ToList();
 
-            ViewBag.Services = db.Services.ToList()
-                                          .Select(s => new ExtendedSelectListItem()
+            ViewBag.Services = AllOptions.Select(p => new ExtendedSelectListItem()
                                           {
-                                              Text = string.Format("{0} - {1} ({2:c})", s.Sku, s.Description, s.Cost),
-                                              Value = s.ServiceId.ToString(),
-                                              htmlAttributes = new { data_cost = s.Cost }
-                                          });
+                                              Text = p.Text,
+                                              Value = p.Value,
+                                              htmlAttributes = new { data_cost = 0m }
+                                          })
+                                         .Union(
+                                            db.Services.ToList()
+                                              .Select(s => new ExtendedSelectListItem()
+                                              {
+                                                  Text = string.Format("{0} - {1} ({2:c})", s.Sku, s.Description, s.Cost),
+                                                  Value = s.ServiceId.ToString(),
+                                                  htmlAttributes = new { data_cost = s.Cost }
+                                              })
+                                ).ToList();
         }
 
         //
@@ -168,7 +189,7 @@ namespace service_tracker_mvc.Controllers
 
                 return RedirectToAction("Index");
             }
-            PopulateEditViewBagProperties();
+            PopulateEditViewBagProperties(false);
             return View(invoice);
         }
 

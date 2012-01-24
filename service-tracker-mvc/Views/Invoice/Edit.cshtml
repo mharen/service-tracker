@@ -37,7 +37,6 @@
                    .has('select.skip-row-if-missing option[value=]:selected')
                    .find('input,select,textarea')
                      .attr('disabled', 'disabled');
-            alert('thanks!');
         });
     });
 </script>
@@ -78,7 +77,7 @@
             @Html.LabelFor(model => model.KeyRec)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.KeyRec)
+            @Html.EditorFor(model => model.KeyRec)
             @Html.ValidationMessageFor(model => model.KeyRec)
         </div>
     </div>    
@@ -130,10 +129,8 @@
             <th class='number' colspan="2"><span class='calc-output-grand-total'></span></th>
         </tr>
     </table>
-    <p class='actions'>
+    <div class='actions'>
         @Html.ActionLink("Back to List", "Index")
         <input type="submit" value="Save" />
-    </p>
+    </div>
 }
-<div>
-</div>

@@ -57,15 +57,86 @@ namespace service_tracker_mvc.App_Start
                     DB.Invoices.Add(new Invoice()
                     {
                         CustomerId = 1,
-                        FrtBill = "frtbill 1 2 3",
-                        KeyRec = "Key Rec a b c",
+                        FrtBill = "frtbill 1  3",
+                        KeyRec = "Key Rec  b c",
                         PurchaseOrder = "PO 123 abc",
                         ServiceDate = DateTime.UtcNow.Date,
                         ServicerId = 1
                     });
-                }
+                    DB.Invoices.Add(new Invoice()
+                    {
+                        CustomerId = 1,
+                        FrtBill = "frtbill 1 2  4",
+                        KeyRec = "Key a b d",
+                        PurchaseOrder = " 123 abcd",
+                        ServiceDate = DateTime.UtcNow.Date.AddDays(-1),
+                        ServicerId = 1
+                    });
+                    DB.Invoices.Add(new Invoice()
+                    {
+                        CustomerId = 1,
+                        FrtBill = "frtbill  2 3",
+                        KeyRec = "Key Rec a ",
+                        PurchaseOrder = "PO 123 ",
+                        ServiceDate = DateTime.UtcNow.Date.AddDays(-1),
+                        ServicerId = 1
+                    });
+                    DB.Invoices.Add(new Invoice()
+                    {
+                        CustomerId = 1,
+                        KeyRec = " Rec  c",
+                        PurchaseOrder = "PO  abc",
+                        ServiceDate = DateTime.UtcNow.Date.AddDays(-3),
+                        ServicerId = 1
+                    });
 
-                DB.SaveChanges();
+                    DB.SaveChanges();
+
+                    DB.InvoiceItems.Add(new InvoiceItem()
+                    {
+                        InvoiceId = 1,
+                        InvoiceItemId = 1,
+                        ProductId = 1,
+                        ServiceId = 1,
+                        Quantity = 2m
+                    });
+                    DB.InvoiceItems.Add(new InvoiceItem()
+                    {
+                        InvoiceId = 1,
+                        InvoiceItemId = 2,
+                        ProductId = 1,
+                        ServiceId = 1,
+                        Quantity = 2m,
+                        Comment = "Repairs needed"
+                    });
+                    DB.InvoiceItems.Add(new InvoiceItem()
+                    {
+                        InvoiceId = 1,
+                        InvoiceItemId = 3,
+                        ProductId = 2,
+                        ServiceId = 1,
+                        Quantity = 3m,
+                        Comment = "Low on stock"
+                    });
+                    DB.InvoiceItems.Add(new InvoiceItem()
+                    {
+                        InvoiceId = 1,
+                        InvoiceItemId = 4,
+                        ProductId = 1,
+                        ServiceId = 2,
+                        Quantity = 4m,
+                    });
+                    DB.InvoiceItems.Add(new InvoiceItem()
+                    {
+                        InvoiceId = 1,
+                        InvoiceItemId = 5,
+                        ProductId = 2,
+                        ServiceId = 2,
+                        Quantity = 5m
+                    });
+
+                    DB.SaveChanges();
+                }
             }
         }
     }

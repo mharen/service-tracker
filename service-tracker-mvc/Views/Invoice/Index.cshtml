@@ -1,51 +1,117 @@
-﻿@model IEnumerable<service_tracker_mvc.Models.Invoice>
-
+﻿@model service_tracker_mvc.Models.InvoiceIndexViewModel
 @{
     ViewBag.Title = "Index";
 }
+<div style="float: right">@Html.ActionLink("Create New", "Create")</div>
+<h2>Invoices</h2>
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table>
+@using (Html.BeginForm(null, null, FormMethod.Get, htmlAttributes: new { id = "search-form" }))
+{
+    <div class='input-field'>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.InvoiceFilter.StartDate)
+        </div>
+        <div class="editor-field date">
+            @Html.EditorFor(model => model.InvoiceFilter.StartDate)
+            @Html.ValidationMessageFor(model => model.InvoiceFilter.StartDate)
+            - 
+            @Html.EditorFor(model => model.InvoiceFilter.EndDate)
+            @Html.ValidationMessageFor(model => model.InvoiceFilter.EndDate)
+        </div>
+    </div>
+    <div class='input-field'>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.InvoiceFilter.ServicerId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.InvoiceFilter.ServicerId, (IEnumerable<SelectListItem>)ViewBag.Servicers)
+            @Html.ValidationMessageFor(model => model.InvoiceFilter.ServicerId)
+        </div>
+    </div>    
+    <div class='input-field'>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.InvoiceFilter.CustomerId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.InvoiceFilter.CustomerId, (IEnumerable<SelectListItem>)ViewBag.Customers)
+            @Html.ValidationMessageFor(model => model.InvoiceFilter.CustomerId)
+        </div>
+    </div>    
+    <div class='input-field'>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.InvoiceFilter.KeyRec)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.InvoiceFilter.KeyRec)
+            @Html.ValidationMessageFor(model => model.InvoiceFilter.KeyRec)
+        </div>
+    </div>    
+    <div class='input-field'>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.InvoiceFilter.FrtBill)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.InvoiceFilter.FrtBill)
+            @Html.ValidationMessageFor(model => model.InvoiceFilter.FrtBill)
+        </div>
+    </div>    
+    <div class='input-field' style='margin-right: 0'>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.InvoiceFilter.PurchaseOrder)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.InvoiceFilter.PurchaseOrder)
+            @Html.ValidationMessageFor(model => model.InvoiceFilter.PurchaseOrder)
+        </div>
+    </div>    
+    <div class='actions clear' style='padding-top:15px;'>
+        <input type='submit' value='Filter'/>
+    </div>
+}
+<table style='margin-top:10px;'>
     <tr>
-        <th>
-            ServiceDate
-        </th>
-        <th>
-            FrtBill
-        </th>
-        <th>
-            KeyRec
-        </th>
-        <th>
-            PurchaseOrder
-        </th>
+        <th>Service Date</th>
+        <th>Customer</th>
+        <th>Servicer</th>
+        <th>FRT Bill</th>
+        <th>Key Rec</th>
+        <th>Purchase Order</th>
+        <th>Items</th>
+        <th>Total</th>
         <th></th>
     </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ServiceDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FrtBill)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.KeyRec)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PurchaseOrder)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.InvoiceId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.InvoiceId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.InvoiceId })
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model.Invoices)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Servicer.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FrtBill)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KeyRec)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PurchaseOrder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.InvoiceId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.InvoiceId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.InvoiceId })
+            </td>
+        </tr>
+    }
 </table>
