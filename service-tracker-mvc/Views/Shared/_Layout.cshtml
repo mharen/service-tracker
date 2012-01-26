@@ -43,5 +43,19 @@
         <footer>
         </footer>
     </div>
+    @if (Request.QueryString["debug"] == "1")
+    {
+    <!--
+        @foreach (System.Configuration.ConnectionStringSettings connection in System.Configuration.ConfigurationManager.ConnectionStrings)
+        {
+            string connectionStringName = connection.Name;
+            string connectionString = connection.ConnectionString;
+            string providerName = connection.ProviderName;
+            <text>
+                @connection.Name: @connection.ConnectionString.Take(20).ToString()
+            </text>
+        }
+    -->
+    }
 </body>
 </html>
