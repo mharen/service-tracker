@@ -40,8 +40,16 @@ namespace service_tracker_mvc
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            //Database.SetInitializer(new SeedDataInitializer<DataContext>());
-            Database.SetInitializer(new DontDropDbJustCreateTablesIfModelChanged<DataContext>());
+            if (Database.Exists(new DataContext().Database.Connection.ConnectionString))
+            {
+                Database.SetInitializer(new DontDropDbJustCreateTablesIfModelChanged<DataContext>());
+            }
+            else
+            {
+                Database.SetInitializer(new SeedDataInitializer<DataContext>());
+            }
+
+            SeedData();
         }
 
         private void SeedData()
