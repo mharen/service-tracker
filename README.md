@@ -1,1 +1,3 @@
 More to come...
+
+You would be well advised to avoid this project for now :)
