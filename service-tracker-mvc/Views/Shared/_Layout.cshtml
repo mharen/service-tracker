@@ -45,14 +45,21 @@
     </div>
     @if (Request.QueryString["debug"] == "1")
     {
-    <!--
+        <!--
         @foreach (System.Configuration.ConnectionStringSettings connection in System.Configuration.ConfigurationManager.ConnectionStrings)
         {
             string connectionStringName = connection.Name;
             string connectionString = connection.ConnectionString;
             string providerName = connection.ProviderName;
+            var builder = new System.Data.SqlClient.SqlConnectionStringBuilder(connectionString);
+            var dataSource = builder.DataSource;
+            var Pinger = new System.Net.NetworkInformation.Ping();
+            var PingResult = Pinger.Send(dataSource, 10000);
+            
             <text>
                 @connection.Name: @connection.ConnectionString
+                Provider: @providerName
+                Ping test: @PingResult.Status.ToString()
             </text>
         }
     -->
