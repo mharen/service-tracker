@@ -7,6 +7,10 @@ using service_tracker_mvc.Data;
 namespace service_tracker_mvc.App_Start {
     public static class DontDropDbJustCreateTablesIfModelChangedStart {
         public static void Start() {
+            using (var DB = new DataContext())
+            {
+                DB.Database.CreateIfNotExists();
+            }
             Database.SetInitializer(new DontDropDbJustCreateTablesIfModelChanged<DataContext>());
             Utilites.SeedData();
         }

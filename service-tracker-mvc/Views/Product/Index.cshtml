@@ -4,12 +4,12 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Products</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table>
+<table class="data-table">
     <tr>
         <th>
             Manufacturer
@@ -35,5 +35,5 @@
         </td>
     </tr>
 }
-
 </table>
+<div class="actions">@Html.ActionLink("Back", "Index", "Setting")</div>

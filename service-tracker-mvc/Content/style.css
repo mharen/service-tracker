@@ -166,7 +166,7 @@ first child of the left and right table columns */
 page width. Or, you can specify an exact pixel width. */
 #container
 {
-    width: 90%;
+    max-width: 950px;
     margin-left: auto;
     margin-right: auto;
     background-color: transparent;
@@ -231,27 +231,12 @@ ul#menu li a
     font-weight: bold;
     text-decoration: none;
     line-height: 2.8em;
-    background-color: #C5C7B6;
     color: #222028;
+    background-color: #C5C7B6;
 }
-
 ul#menu li a:hover
 {
-    background-color: #fff;
-    text-decoration: FFF8D3;
-    color: #363340;
-}
-
-ul#menu li a:active
-{
     background-color: #FFF8D3;
-    text-decoration: none;
-}
-
-ul#menu li.selected a
-{
-    background-color: #FFF8D3;
-    color: #000;
 }
 
 /* FORM LAYOUT ELEMENTS   
@@ -286,10 +271,11 @@ input[type="password"]
 /* TABLE
 ----------------------------------------------------------*/
 
-table 
+table.data-table 
 {
   border: solid 1px #C5C7B6;
   border-collapse: collapse;
+  width:100%;
 }
 
 table td 
@@ -304,7 +290,7 @@ table th
   background-color: #C5C7B6; 
 }
 
-tr:hover { background-color: #DEE0CD }
+table.data-table tr:hover { background-color: #DEE0CD }
 
 /* MISC  
 ----------------------------------------------------------*/
