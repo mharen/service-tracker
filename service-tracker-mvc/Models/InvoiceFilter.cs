@@ -22,7 +22,7 @@ namespace service_tracker_mvc.Models
         public string KeyRec { get; set; }
         [DisplayName("FRT Bill")]
         public string FrtBill { get; set; }
-        [DisplayName("Purchase Order")]
+        [DisplayName("PO")]
         public string PurchaseOrder { get; set; }
     }
 }

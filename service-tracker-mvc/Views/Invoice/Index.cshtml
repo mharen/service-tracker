@@ -55,7 +55,7 @@
             @Html.ValidationMessageFor(model => model.InvoiceFilter.FrtBill)
         </div>
     </div>    
-    <div class='input-field' style='margin-right: 0'>
+    <div class='input-field'>
         <div class="editor-label">
             @Html.LabelFor(model => model.InvoiceFilter.PurchaseOrder)
         </div>
@@ -64,18 +64,23 @@
             @Html.ValidationMessageFor(model => model.InvoiceFilter.PurchaseOrder)
         </div>
     </div>    
-    <div class='actions clear' style='padding-top:15px;'>
-        <input type='submit' value='Filter'/>
+    <div class='input-field actions' style='margin-right: 0; margin-bottom:15px;'>
+        <div class="editor-label">
+            &nbsp;
+        </div>
+        <div class="editor-field">
+            <input type='submit' value='Filter'/>
+        </div>
     </div>
 }
-<table style='margin-top:10px;'>
+<table style='margin-top:10px;' class='clear'>
     <tr>
         <th>Service Date</th>
         <th>Customer</th>
         <th>Servicer</th>
         <th>FRT Bill</th>
         <th>Key Rec</th>
-        <th>Purchase Order</th>
+        <th>PO</th>
         <th>Items</th>
         <th>Total</th>
         <th></th>
@@ -108,9 +113,7 @@
                 @Html.DisplayFor(modelItem => item.Total)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.InvoiceId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.InvoiceId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.InvoiceId })
+                @Html.ActionLink("Details", "Details", new { id = item.InvoiceId })
             </td>
         </tr>
     }
