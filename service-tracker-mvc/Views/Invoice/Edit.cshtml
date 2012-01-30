@@ -45,7 +45,7 @@
 {
     @Html.ValidationSummary(true)
     @Html.HiddenFor(model => model.InvoiceId)
-    <div class='input-field'>
+    <div class='pair'>
         <div class="editor-label">
             @Html.LabelFor(model => model.ServiceDate)
         </div>
@@ -54,7 +54,7 @@
             @Html.ValidationMessageFor(model => model.ServiceDate)
         </div>
     </div>    
-    <div class='input-field'>
+    <div class='pair'>
         <div class="editor-label">
             @Html.LabelFor(model => model.ServicerId)
         </div>
@@ -63,7 +63,7 @@
             @Html.ValidationMessageFor(model => model.ServicerId)
         </div>
     </div>    
-    <div class='input-field'>
+    <div class='pair'>
         <div class="editor-label">
             @Html.LabelFor(model => model.CustomerId)
         </div>
@@ -72,7 +72,7 @@
             @Html.ValidationMessageFor(model => model.CustomerId)
         </div>
     </div>    
-    <div class='input-field'>
+    <div class='pair'>
         <div class="editor-label">
             @Html.LabelFor(model => model.KeyRec)
         </div>
@@ -81,7 +81,7 @@
             @Html.ValidationMessageFor(model => model.KeyRec)
         </div>
     </div>    
-    <div class='input-field'>
+    <div class='pair'>
         <div class="editor-label">
             @Html.LabelFor(model => model.FrtBill)
         </div>
@@ -90,7 +90,7 @@
             @Html.ValidationMessageFor(model => model.FrtBill)
         </div>
     </div>    
-    <div class='input-field' style='margin-right:0'>
+    <div class='pair' style='margin-right:0'>
         <div class="editor-label">
             @Html.LabelFor(model => model.PurchaseOrder)
         </div>

@@ -2,31 +2,36 @@
 @{
     ViewBag.Title = "Details";
 }
-<h2>Details</h2>
-<fieldset><legend>Invoice | @Html.ActionLink("Edit", "Edit", new { id = Model.InvoiceId })</legend>
-    
-    <div class="display-label">
-        ServiceDate</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.ServiceDate)
+<h2>Invoice | @Html.ActionLink("Edit", "Edit", new { id = Model.InvoiceId })</h2>
+    <div class='pair'>
+        <div class="display-label">
+            @Html.LabelFor(model => model.ServiceDate)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.ServiceDate)
+        </div>
     </div>
-    <div class="display-label">
-        FrtBill</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.FrtBill)
+    <div class='pair'>
+        <div class="display-label">
+            @Html.LabelFor(model => model.FrtBill)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.FrtBill)
+        </div>
     </div>
-    <div class="display-label">
-        KeyRec</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.KeyRec)
+    <div class='pair'>
+        <div class="display-label">
+            @Html.LabelFor(model => model.KeyRec)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.KeyRec)
+        </div>
     </div>
-    <div class="display-label">
-        PurchaseOrder</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.PurchaseOrder)
+    <div class='pair'>
+        <div class="display-label">
+            @Html.LabelFor(model => model.PurchaseOrder)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.PurchaseOrder)
+        </div>
     </div>
-    <div class="display-label">
-        Items</div>
+    <div class='clear' >&nbsp;</div>
     <table>
         <tr>
             <th>Product</th>
@@ -54,9 +59,6 @@
             <th class='number' colspan="2">@Html.DisplayFor(model => model.Total)</th>
         </tr>
     </table>
-    @Html.ActionLink("Add Item", "Create", "InvoiceItem", new { id = Model.InvoiceId }, null)
-</fieldset>
-<p>
-    |
+<p style='margin-top:15px'>
     @Html.ActionLink("Back to List", "Index")
 </p>

@@ -7,7 +7,7 @@
 
 @using (Html.BeginForm(null, null, FormMethod.Get, htmlAttributes: new { id = "search-form" }))
 {
-    <div class='input-field'>
+    <div class='pair'>
         <div class="editor-label">
             @Html.LabelFor(model => model.InvoiceFilter.StartDate)
         </div>
@@ -19,7 +19,7 @@
             @Html.ValidationMessageFor(model => model.InvoiceFilter.EndDate)
         </div>
     </div>
-    <div class='input-field'>
+    <div class='pair'>
         <div class="editor-label">
             @Html.LabelFor(model => model.InvoiceFilter.ServicerId)
         </div>
@@ -28,7 +28,7 @@
             @Html.ValidationMessageFor(model => model.InvoiceFilter.ServicerId)
         </div>
     </div>    
-    <div class='input-field'>
+    <div class='pair'>
         <div class="editor-label">
             @Html.LabelFor(model => model.InvoiceFilter.CustomerId)
         </div>
@@ -37,7 +37,7 @@
             @Html.ValidationMessageFor(model => model.InvoiceFilter.CustomerId)
         </div>
     </div>    
-    <div class='input-field'>
+    <div class='pair'>
         <div class="editor-label">
             @Html.LabelFor(model => model.InvoiceFilter.KeyRec)
         </div>
@@ -46,7 +46,7 @@
             @Html.ValidationMessageFor(model => model.InvoiceFilter.KeyRec)
         </div>
     </div>    
-    <div class='input-field'>
+    <div class='pair'>
         <div class="editor-label">
             @Html.LabelFor(model => model.InvoiceFilter.FrtBill)
         </div>
@@ -55,7 +55,7 @@
             @Html.ValidationMessageFor(model => model.InvoiceFilter.FrtBill)
         </div>
     </div>    
-    <div class='input-field'>
+    <div class='pair'>
         <div class="editor-label">
             @Html.LabelFor(model => model.InvoiceFilter.PurchaseOrder)
         </div>
@@ -64,7 +64,7 @@
             @Html.ValidationMessageFor(model => model.InvoiceFilter.PurchaseOrder)
         </div>
     </div>    
-    <div class='input-field actions' style='margin-right: 0; margin-bottom:15px;'>
+    <div class='pair actions' style='margin-right: 0; margin-bottom:15px;'>
         <div class="editor-label">
             &nbsp;
         </div>

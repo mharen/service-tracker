@@ -398,6 +398,7 @@ div#title
 .editor-label
 {
     margin: 1em 0 0 0;
+    font-weight: bold; 
 }
 
 .display-field,
@@ -405,7 +406,6 @@ div#title
 {
     margin:0.5em 0 0 0;
 }
-
 .text-box
 {
     width: 30em;
@@ -433,7 +433,7 @@ input[type=date]
 {
     width: 6em !important;
 }
-.input-field
+.pair
 {
     margin-right: 10px;
     float: left;
