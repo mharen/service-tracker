@@ -52,7 +52,7 @@
             string connectionString = connection.ConnectionString;
             string providerName = connection.ProviderName;
             <text>
-                @connection.Name: @connection.ConnectionString
+                @connection.Name: @connectionString.Substring(0, 30)
                 Provider: @providerName
             </text>
         }
