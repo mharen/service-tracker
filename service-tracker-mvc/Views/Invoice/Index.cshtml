@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Index";
 }
-<div style="float: right">@Html.ActionLink("Create New", "Create")</div>
 <h2>Invoices</h2>
 @using (Html.BeginForm(null, null, FormMethod.Get, htmlAttributes: new { id = "search-form" }))
 {
@@ -63,7 +62,7 @@
             @Html.ValidationMessageFor(model => model.InvoiceFilter.PurchaseOrder)
         </div>
     </div>    
-    <div class='pair actions' style='margin-right: 0; margin-bottom: 15px;'>
+    <div class='pair' style='margin-right: 0; margin-bottom: 15px;'>
         <div class="editor-label">
             &nbsp;
         </div>

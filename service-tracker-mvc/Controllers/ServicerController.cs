@@ -84,6 +84,10 @@ namespace service_tracker_mvc.Controllers
  
         public ActionResult Delete(int id)
         {
+            if (db.Invoices.Any(i => i.ServicerId == id))
+            {
+                ViewBag.DeleteError = "You cannot delete this employee because it is tied to existing invoices. You must change the existing invoices to use a different employee first";
+            }
             Servicer servicer = db.Servicers.Find(id);
             return View(servicer);
         }
@@ -93,7 +97,11 @@ namespace service_tracker_mvc.Controllers
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
-        {            
+        {
+            if (db.Invoices.Any(i => i.ServicerId == id))
+            {
+                throw new InvalidOperationException("You cannot delete this employee because it is tied to existing invoices. You must change the existing invoices to use a different employee first");
+            }
             Servicer servicer = db.Servicers.Find(id);
             db.Servicers.Remove(servicer);
             db.SaveChanges();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace service_tracker_mvc.Models
 {
@@ -15,6 +16,7 @@ namespace service_tracker_mvc.Models
     {
         public int CustomerId { get; set; }
         public string Name { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Address { get; set; }
         public string VendorNumber { get; set; }
     }

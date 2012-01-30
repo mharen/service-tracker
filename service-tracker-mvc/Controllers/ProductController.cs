@@ -84,6 +84,10 @@ namespace service_tracker_mvc.Controllers
  
         public ActionResult Delete(int id)
         {
+            if (db.InvoiceItems.Any(i => i.ProductId == id))
+            {
+                ViewBag.DeleteError = "You cannot delete this product because it is tied to existing invoices. You must change the existing invoices to use a different product first";
+            }
             Product product = db.Products.Find(id);
             return View(product);
         }
@@ -93,7 +97,11 @@ namespace service_tracker_mvc.Controllers
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
-        {            
+        {
+            if (db.InvoiceItems.Any(i => i.ProductId == id))
+            {
+                throw new InvalidOperationException("You cannot delete this product because it is tied to existing invoices. You must change the existing invoices to use a different product first");
+            }
             Product product = db.Products.Find(id);
             db.Products.Remove(product);
             db.SaveChanges();

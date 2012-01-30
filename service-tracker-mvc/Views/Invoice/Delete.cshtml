@@ -32,7 +32,7 @@
 </fieldset>
 @using (Html.BeginForm()) {
     <p>
-        <input type="submit" value="Delete" /> |
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Cancel", "Details", new { id = Model.InvoiceId }) |
+        <input type="submit" class="confirm-no-undo" value="Delete" />
     </p>
 }

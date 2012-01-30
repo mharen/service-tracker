@@ -14,9 +14,6 @@ namespace service_tracker_mvc.Controllers
     {
         private DataContext db = new DataContext();
 
-        //
-        // GET: /Invoice/
-
         public ViewResult Index(InvoiceIndexViewModel invoiceIndexViewModel)
         {
             PopulateEditViewBagProperties(includeAllOption: true);
@@ -168,8 +165,15 @@ namespace service_tracker_mvc.Controllers
         [HttpPost]
         public ActionResult Edit(Invoice invoice)
         {
-            // remove incomplete Items
-            invoice.Items.RemoveAll(item => item.ProductId <= 0);
+            if (invoice.Items == null)
+            {
+                invoice.Items = new List<InvoiceItem>();
+            }
+            else
+            {
+                // remove incomplete Items
+                invoice.Items.RemoveAll(item => item.ProductId <= 0);
+            }
 
             if (ModelState.IsValid)
             {

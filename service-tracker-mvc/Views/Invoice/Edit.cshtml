@@ -140,6 +140,7 @@
             @Html.ActionLink("Cancel", "Index")
             break;
     }
+        @Html.ActionLink("Delete", "Delete", new { Id = Model.InvoiceId }, new { style = "float:right" }) |
         <input type="submit" value="Save" />
     </div>
 }
