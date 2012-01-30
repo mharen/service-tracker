@@ -315,6 +315,10 @@ div#title
     float:left;
     text-align:left;
 }
+div#title a
+{
+    text-decoration: none;
+}
 
 #logindisplay
 {

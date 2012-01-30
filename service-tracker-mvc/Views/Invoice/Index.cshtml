@@ -111,7 +111,7 @@
                 @Html.DisplayFor(modelItem => item.Total)
             </td>
             <td>
-                @Html.ActionLink("Details", "Details", new { id = item.InvoiceId })
+                @Html.ActionLink("Details", "Details", new { id = item.InvoiceId }) |
                 @Html.ActionLink("Edit", "Edit", new { id = item.InvoiceId, from = "index" })
             </td>
         </tr>
