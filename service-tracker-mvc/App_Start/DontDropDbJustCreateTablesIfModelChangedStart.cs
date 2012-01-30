@@ -8,7 +8,7 @@ namespace service_tracker_mvc.App_Start {
     public static class DontDropDbJustCreateTablesIfModelChangedStart {
         public static void Start() {
             Database.SetInitializer(new DontDropDbJustCreateTablesIfModelChanged<DataContext>());
-            Utilites.SeedData();
+            //Utilites.SeedData();
         }
     }
 }
