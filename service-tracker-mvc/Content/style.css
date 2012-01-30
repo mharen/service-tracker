@@ -1,8 +1,12 @@
-
-/* ==== Scroll down to find where to put your styles :) ==== */
-
-/*  HTML5 ✰ Boilerplate  */
-
+/*
+http://kuler.adobe.com/#themeID/1725919
+2F3837 bright gray
+C5C7B6 off white
+DEE0CD in between
+FFF8D3 white 
+4C493E gray
+222028 gray blue 363340 (brighter)
+*/
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
@@ -33,7 +37,7 @@ mark { background-color: #ff9; color: #000; font-style: italic; font-weight: bol
 del { text-decoration: line-through; }
 abbr[title], dfn[title] { border-bottom: 1px dotted; cursor: help; }
 table { border-collapse: collapse; border-spacing: 0; }
-hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
+hr { display: block; height: 1px; border: 0; border-top: 1px solid #4C493E; margin: 1em 0; padding: 0; }
 input, select { vertical-align: middle; }
 body { font:13px/1.231 sans-serif; *font-size:small; } 
 select, input, textarea, button { font:99% sans-serif; }
@@ -65,17 +69,17 @@ input:valid, textarea:valid   {  }
 input:invalid, textarea:invalid { border-radius: 1px; -moz-box-shadow: 0px 0px 5px red; -webkit-box-shadow: 0px 0px 5px red; box-shadow: 0px 0px 5px red; }
 .no-boxshadow input:invalid, .no-boxshadow textarea:invalid { background-color: #f0dddd; }
 
-::-moz-selection{ background: #FF5E99; color:#fff; text-shadow: none; }
-::selection { background:#FF5E99; color:#fff; text-shadow: none; }
-a:link { -webkit-tap-highlight-color: #FF5E99; }
+::-moz-selection{ background: #222028; color:#C5C7B6; text-shadow: none; }
+::selection { background:#222028; color:#C5C7B6; text-shadow: none; }
+a:link { -webkit-tap-highlight-color: #222028; }
 
 button {  width: auto; overflow: visible; }
 .ie7 img { -ms-interpolation-mode: bicubic; }
 
-body, select, input, textarea {  color: #444; }
+body, select, input, textarea {  color: #2F3837; }
 h1, h2, h3, h4, h5, h6 { font-weight: bold; }
-a, a:active, a:visited { color: #607890; }
-a:hover { color: #036; }
+a, a:active, a:visited { color: #222028; }
+a:hover { color: #363340; }
 
 /*----------------------------------------------------------
 The base color for this template is #5c87b2. If you'd like
@@ -84,31 +88,31 @@ to use a different color start by replacing all instances of
 ----------------------------------------------------------*/
 body
 {
-    background-color: #5c87b2;
+    background-color: #C5C7B6;
     font-size: 75%;
     font-family: Verdana, Tahoma, Arial, "Helvetica Neue", Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
-    color: #696969;
+    color: #2F3837;
 }
 
 a:link
 {
-    color: #034af3;
+    color: #222028;
     text-decoration: underline;
 }
 a:visited
 {
-    color: #505abc;
+    color: #222028;
 }
 a:hover
 {
-    color: #1d60ff;
+    color: #363340;
     text-decoration: none;
 }
 a:active
 {
-    color: #12eb87;
+    color: #222028;
 }
 
 p, ul
@@ -181,7 +185,7 @@ header h1
     font-weight: bold;
     padding: 5px 0;
     margin: 0;
-    color: #fff;
+    color: #222028;
     border: none;
     line-height: 2em;
     font-size: 32px !important;
@@ -190,14 +194,13 @@ header h1
 #main
 {
     padding: 30px 30px 15px 30px;
-    background-color: #fff;
+    background-color: #FFF8D3;
     margin-bottom: 30px;
     _height: 1px; /* only IE6 applies CSS properties starting with an underscore */
 }
 
-#footer
+footer
 {
-    color: #999;
     padding: 10px 0;
     text-align: center;
     line-height: normal;
@@ -209,7 +212,7 @@ header h1
 ----------------------------------------------------------*/
 ul#menu
 {
-    border-bottom: 1px #5C87B2 solid;
+    border-bottom: 1px #222028 solid;
     padding: 0 0 2px;
     position: relative;
     margin: 0;
@@ -222,40 +225,32 @@ ul#menu li
     list-style: none;
 }
 
-ul#menu li#greeting
-{
-    padding: 10px 20px;
-    font-weight: bold;
-    text-decoration: none;
-    line-height: 2.8em;
-    color: #fff;
-}
-
 ul#menu li a
 {
     padding: 10px 20px;
     font-weight: bold;
     text-decoration: none;
     line-height: 2.8em;
-    background-color: #e8eef4;
-    color: #034af3;
+    background-color: #C5C7B6;
+    color: #222028;
 }
 
 ul#menu li a:hover
 {
     background-color: #fff;
-    text-decoration: none;
+    text-decoration: FFF8D3;
+    color: #363340;
 }
 
 ul#menu li a:active
 {
-    background-color: #a6e2a6;
+    background-color: #FFF8D3;
     text-decoration: none;
 }
 
 ul#menu li.selected a
 {
-    background-color: #fff;
+    background-color: #FFF8D3;
     color: #000;
 }
 
@@ -284,7 +279,6 @@ input[type="text"],
 input[type="date"],
 input[type="password"] 
 {
-    width: 200px;
     border: 1px solid #CCC;
     padding: 1;
 }
@@ -294,23 +288,23 @@ input[type="password"]
 
 table 
 {
-  border: solid 1px #e8eef4;
+  border: solid 1px #C5C7B6;
   border-collapse: collapse;
 }
 
 table td 
 {
   padding: 5px;   
-  border: solid 1px #e8eef4;
 }
 
 table th
 {
   padding: 6px 5px;
   text-align: left;
-  background-color: #e8eef4; 
-  border: solid 1px #e8eef4;   
+  background-color: #C5C7B6; 
 }
+
+tr:hover { background-color: #DEE0CD }
 
 /* MISC  
 ----------------------------------------------------------*/
@@ -342,25 +336,6 @@ div#title
     display:block;
     text-align:right;
     margin:10px;
-    color:White;
-}
-
-#logindisplay a:link
-{
-    color: white;
-    text-decoration: underline;
-}
-
-#logindisplay a:visited
-{
-    color: white;
-    text-decoration: underline;
-}
-
-#logindisplay a:hover
-{
-    color: white;
-    text-decoration: none;
 }
 
 /* Styles for validation helpers
@@ -406,11 +381,6 @@ div#title
 {
     margin:0.5em 0 0 0;
 }
-.text-box
-{
-    width: 30em;
-}
-
 .text-box.multi-line
 {
     height: 6.5em;
@@ -445,7 +415,7 @@ input[type=date]
 
 .actions
 {
-    text-align: right;
+    padding-top:10px;
 }
 
 

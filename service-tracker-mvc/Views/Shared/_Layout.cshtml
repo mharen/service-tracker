@@ -8,7 +8,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <title>@ViewBag.Title</title>
+    <title>@ViewBag.Title - Service Tracker</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
 
@@ -37,17 +37,14 @@
             <div id="title">
                 <h1>Service Tracker</h1>
             </div>
-
             <div id="logindisplay">
                 @Html.Partial("_LogOnPartial")
             </div>
-
             <div id="menucontainer">
-
                 <ul id="menu">
-                    <li>@Html.ActionLink("Data Entry", "Create", "Invoice")</li>
-                    <li>@Html.ActionLink("Reports", "Index", "Invoice")</li>
-                    <li>@Html.ActionLink("Settings", "Index", "Home")</li>
+                    <li>@Html.ActionLink("New Invoice", "Create", "Invoice")</li>
+                    <li>@Html.ActionLink("Invoices", "Index", "Invoice")</li>
+                    <li>@Html.ActionLink("Settings", "Index", "Setting")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                 </ul>
             </div>
@@ -58,7 +55,7 @@
 		</div>
 
 		<footer>
-         (c) @DateTime.UtcNow.Year Michael Haren
+         &copy; @DateTime.UtcNow.Year Haren
 		</footer>
 	</div>
 @*	<script type="text/javascript">

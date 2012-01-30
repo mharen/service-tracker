@@ -66,10 +66,17 @@ namespace service_tracker_mvc.Controllers
 
         public ActionResult Create()
         {
-            PopulateEditViewBagProperties(false);
+            // initialize invoice with defaults
+            Invoice Invoice = new Invoice()
+            {
+                ServiceDate = DateTime.UtcNow.Date,
+                InvoiceId = 0,
+                Items = new List<InvoiceItem>()
+            };
 
-            Invoice Invoice = new Invoice() { ServiceDate = DateTime.UtcNow.Date };
-            return View(Invoice);
+            PadItemsList(Invoice);
+            PopulateEditViewBagProperties(false);
+            return View("Edit", Invoice);
         }
 
         //
@@ -78,14 +85,7 @@ namespace service_tracker_mvc.Controllers
         [HttpPost]
         public ActionResult Create(Invoice invoice)
         {
-            if (ModelState.IsValid)
-            {
-                db.Invoices.Add(invoice);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(invoice);
+            return Edit(invoice);
         }
 
         //
@@ -94,15 +94,17 @@ namespace service_tracker_mvc.Controllers
         public ActionResult Edit(int id)
         {
             PopulateEditViewBagProperties(false);
-
             Invoice invoice = db.Invoices.Include("Items").Single(i => i.InvoiceId == id);
+            PadItemsList(invoice);
+            return View(invoice);
+        }
 
+        private static void PadItemsList(Invoice invoice)
+        {
             for (int i = invoice.Items == null ? 0 : invoice.Items.Count; i < 10; ++i)
             {
                 invoice.Items.Add(new InvoiceItem() { InvoiceId = invoice.InvoiceId, InvoiceItemId = i });
             }
-
-            return View(invoice);
         }
 
         private void PopulateEditViewBagProperties(bool includeAllOption)
@@ -171,12 +173,7 @@ namespace service_tracker_mvc.Controllers
 
             if (ModelState.IsValid)
             {
-                //foreach (var Item in invoice.Items)
-                //{
-                //    //db.Entry(Item).State = Item.InvoiceItemId > 0 ? EntityState.Modified : EntityState.Added;
-                //}
-
-                db.Entry(invoice).State = EntityState.Modified;
+                db.Entry(invoice).State = invoice.InvoiceId > 0 ? EntityState.Modified : EntityState.Added;
                 db.SaveChanges();
 
                 var ExistingItemIds = db.InvoiceItems.Where(i => i.InvoiceId == invoice.InvoiceId).Select(i => i.InvoiceItemId).ToList();
@@ -184,6 +181,7 @@ namespace service_tracker_mvc.Controllers
                 foreach (var Item in invoice.Items)
                 {
                     db.Entry(Item).State = ExistingItemIds.Contains(Item.InvoiceItemId) ? EntityState.Modified : EntityState.Added;
+                    // should i set the item.invoiceid prop, too?
                 }
                 db.SaveChanges();
 

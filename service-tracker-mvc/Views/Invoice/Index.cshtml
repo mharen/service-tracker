@@ -4,7 +4,6 @@
 }
 <div style="float: right">@Html.ActionLink("Create New", "Create")</div>
 <h2>Invoices</h2>
-
 @using (Html.BeginForm(null, null, FormMethod.Get, htmlAttributes: new { id = "search-form" }))
 {
     <div class='pair'>
@@ -14,7 +13,7 @@
         <div class="editor-field date">
             @Html.EditorFor(model => model.InvoiceFilter.StartDate)
             @Html.ValidationMessageFor(model => model.InvoiceFilter.StartDate)
-            - 
+            -
             @Html.EditorFor(model => model.InvoiceFilter.EndDate)
             @Html.ValidationMessageFor(model => model.InvoiceFilter.EndDate)
         </div>
@@ -64,16 +63,16 @@
             @Html.ValidationMessageFor(model => model.InvoiceFilter.PurchaseOrder)
         </div>
     </div>    
-    <div class='pair actions' style='margin-right: 0; margin-bottom:15px;'>
+    <div class='pair actions' style='margin-right: 0; margin-bottom: 15px;'>
         <div class="editor-label">
             &nbsp;
         </div>
         <div class="editor-field">
-            <input type='submit' value='Filter'/>
+            <input type='submit' value='Filter' />
         </div>
     </div>
 }
-<table style='margin-top:10px;' class='clear'>
+<table style='margin-top: 10px;' class='clear'>
     <tr>
         <th>Service Date</th>
         <th>Customer</th>
@@ -114,6 +113,7 @@
             </td>
             <td>
                 @Html.ActionLink("Details", "Details", new { id = item.InvoiceId })
+                @Html.ActionLink("Edit", "Edit", new { id = item.InvoiceId, from = "index" })
             </td>
         </tr>
     }

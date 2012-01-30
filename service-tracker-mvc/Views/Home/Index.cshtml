@@ -1,14 +1,10 @@
-﻿@model IEnumerable<service_tracker_mvc.Models.Customer>
-@{
-    ViewBag.Title = "Home Page";
+﻿@{
+    ViewBag.Title = "Home";
 
 }
-<h2>Manage Master Data</h2>
+<h2>What would you like to do?</h2>
 <ul>
-    <li>@Html.ActionLink("Customers", "Index", "Customer")</li>
-    <li>@Html.ActionLink("Products", "Index", "Product")</li>
-    <li>@Html.ActionLink("Services", "Index", "Service")</li>
-    <li>@Html.ActionLink("Servicers", "Index", "Servicer")</li>
-    <li>@Html.ActionLink("Invoices", "Index", "Invoice")</li>
-    <li>@Html.ActionLink("Invoice Items", "Index", "InvoiceItem")</li>
+    <li>@Html.ActionLink("Enter an new invoice", "Create", "Invoice")</li>
+    <li>@Html.ActionLink("Search invoices", "Index", "Invoice")</li>
+    <li>@Html.ActionLink("Configure this system", "Index", "Setting")</li>
 </ul>

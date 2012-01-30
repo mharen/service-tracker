@@ -1,8 +1,8 @@
 ﻿@model service_tracker_mvc.Models.Invoice
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Invoice " + Model.InvoiceId + " - Details";
 }
-<h2>Invoice | @Html.ActionLink("Edit", "Edit", new { id = Model.InvoiceId })</h2>
+<h2>Invoice @Model.InvoiceId</h2>
     <div class='pair'>
         <div class="display-label">
             @Html.LabelFor(model => model.ServiceDate)</div>
@@ -60,5 +60,6 @@
         </tr>
     </table>
 <p style='margin-top:15px'>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index") |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.InvoiceId, from = "details" })
 </p>
