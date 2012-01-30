@@ -51,15 +51,9 @@
             string connectionStringName = connection.Name;
             string connectionString = connection.ConnectionString;
             string providerName = connection.ProviderName;
-            var builder = new System.Data.SqlClient.SqlConnectionStringBuilder(connectionString);
-            var dataSource = builder.DataSource;
-            var Pinger = new System.Net.NetworkInformation.Ping();
-            var PingResult = Pinger.Send("f0bf7d3d-2746-4d82-b514-9fe80025f22f.sqlserver.sequelizer.com", 10000);
-            
             <text>
                 @connection.Name: @connection.ConnectionString
                 Provider: @providerName
-                Ping test: address: @PingResult.Address, time: @PingResult.RoundtripTime, status: @PingResult.Status.ToString()
             </text>
         }
     -->
