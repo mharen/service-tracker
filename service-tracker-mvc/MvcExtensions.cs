@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using service_tracker_mvc.Data;
 
 namespace service_tracker_mvc
 {
@@ -21,5 +22,23 @@ namespace service_tracker_mvc
 
             return string.Format(FormatString, UrlPath, Version);
         }
+
+        public static string GetUserDisplayName(this HttpContext context)
+        {
+            // load the name from the database if it doesn't exist already
+            if (!context.Items.Contains(UserDisplayNameKey))
+            {
+                using (var db = new DataContext())
+                {
+                    context.Items[UserDisplayNameKey]
+                        = db.Users.Single(u => u.ClaimedIdentifier == context.User.Identity.Name).Email;
+                }
+            }
+
+            return context.Items[UserDisplayNameKey].ToString();
+        }
+        public const string UserDisplayNameKey = "UserDisplayName";
+        public const string UserRole = "UserRole";
+
     }
 }

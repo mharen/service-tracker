@@ -13,6 +13,7 @@ using ExcelGenerator.SpreadSheet.Styles;
 
 namespace service_tracker_mvc.Controllers
 {
+    //[Authorize(Roles="Manager")]
     public class InvoiceController : Controller
     {
         private DataContext db = new DataContext();
