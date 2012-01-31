@@ -10,6 +10,7 @@ using DotNetOpenAuth.OpenId.RelyingParty;
 using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using service_tracker_mvc.Data;
 using service_tracker_mvc.Models;
+using System.Data;
 
 namespace service_tracker_mvc.Controllers
 {
@@ -17,16 +18,6 @@ namespace service_tracker_mvc.Controllers
     {
         private static OpenIdRelyingParty openid = new OpenIdRelyingParty();
         private DataContext db = new DataContext();
-
-        public ActionResult Index()
-        {
-            if (!User.Identity.IsAuthenticated)
-            {
-                Response.Redirect("~/User/Login?ReturnUrl=Index");
-            }
-
-            return View("Index");
-        }
 
         public ActionResult Logout()
         {
@@ -141,7 +132,41 @@ namespace service_tracker_mvc.Controllers
             }
             db.SaveChanges();
         }
- 
+
+        public ViewResult Index()
+        {
+            return View(db.Users.ToList());
+        }
+
+        public ActionResult Edit(int id)
+        {
+            User user = db.Users.Find(id);
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(int userId, int roleId)
+        {
+            db.Users.Single(u => u.UserId == userId).RoleId = roleId;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Delete(int id)
+        {
+            User user = db.Users.Find(id);
+            return View(user);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            User user = db.Users.Find(id);
+            db.Users.Remove(user);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         protected override void Dispose(bool disposing)
         {
             db.Dispose();

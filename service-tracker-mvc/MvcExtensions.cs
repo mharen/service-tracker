@@ -9,6 +9,15 @@ namespace service_tracker_mvc
 {
     public static class MvcExtensions
     {
+        public static SelectList ToSelectList<T>(string selectedValue)
+        {
+            return new SelectList(
+                Enum.GetNames(typeof(T)).Select(text => new { Value = (int)Enum.Parse(typeof(T), text), Text = text }),
+                "Value",
+                "Text",
+                selectedValue
+           );
+        }
         public static string VersionedContent(this UrlHelper url, string relativePath)
         {
             var UrlPath = url.Content(relativePath);
@@ -40,5 +49,14 @@ namespace service_tracker_mvc
         public const string UserDisplayNameKey = "UserDisplayName";
         public const string UserRole = "UserRole";
 
+        public static string Left(this string s, int maxLength)
+        {
+            if (s.Length >= maxLength)
+            {
+                return s.Substring(0, maxLength) + "…";
+            }
+
+            return s;
+        }
     }
 }
