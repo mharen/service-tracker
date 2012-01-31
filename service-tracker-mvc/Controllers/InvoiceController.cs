@@ -7,6 +7,9 @@ using System.Web;
 using System.Web.Mvc;
 using service_tracker_mvc.Models;
 using service_tracker_mvc.Data;
+using System.Text;
+using ExcelGenerator.SpreadSheet;
+using ExcelGenerator.SpreadSheet.Styles;
 
 namespace service_tracker_mvc.Controllers
 {
@@ -14,10 +17,21 @@ namespace service_tracker_mvc.Controllers
     {
         private DataContext db = new DataContext();
 
-        public ViewResult Index(InvoiceIndexViewModel invoiceIndexViewModel)
+        public ActionResult Index(InvoiceIndexViewModel invoiceIndexViewModel, string button)
         {
+            invoiceIndexViewModel = QueryInvoices(invoiceIndexViewModel);
+
+            if(button == "Export"){
+                return Excel(invoiceIndexViewModel);
+            }
+
             PopulateEditViewBagProperties(includeAllOption: true);
 
+            return View(invoiceIndexViewModel);
+        }
+
+        private InvoiceIndexViewModel QueryInvoices(InvoiceIndexViewModel invoiceIndexViewModel)
+        {
             if (invoiceIndexViewModel == null)
             {
                 invoiceIndexViewModel = new InvoiceIndexViewModel();
@@ -46,7 +60,84 @@ namespace service_tracker_mvc.Controllers
                                                 .Where(i => i.KeyRec.Contains(Filter.PurchaseOrder) || Filter.PurchaseOrder == null || Filter.PurchaseOrder == "")
                                                 .OrderBy(i => i.ServiceDate)
                                                 .ToList();
-            return View(invoiceIndexViewModel);
+            return invoiceIndexViewModel;
+        }
+
+//        public FileContentResult Csv(InvoiceIndexViewModel invoiceIndexViewModel)
+//        {
+//            string Csv = "";
+//// TODO
+//            var CsvBytes = ASCIIEncoding.ASCII.GetBytes(Csv);
+//            var Filename = string.Format("invoices-{0:yyyy.MM.dd}-to-{1:yyyy.MM.dd}", invoiceIndexViewModel.InvoiceFilter.StartDate, invoiceIndexViewModel.InvoiceFilter.EndDate);
+//            return File(CsvBytes, "text/csv", Filename);
+//        }
+
+        public ActionResult Excel(InvoiceIndexViewModel invoiceIndexViewModel)
+        {
+            //get the invoices
+            invoiceIndexViewModel = QueryInvoices(invoiceIndexViewModel);
+
+            var HeaderStyle = new Style("Header");
+            HeaderStyle.font.bold = true;
+            StylesManager.addStyle(HeaderStyle);
+
+            // don't show a border by default
+            StylesManager.getStyle("Default").border.display = false;
+            
+            var Title = string.Format("{0:yyyy.MM.dd}-to-{1:yyyy.MM.dd}", invoiceIndexViewModel.InvoiceFilter.StartDate, invoiceIndexViewModel.InvoiceFilter.EndDate);
+            Workbook workbook = new Workbook();
+            Worksheet worksheet = new Worksheet(Title);
+            
+            // add header row
+            var Columns = new string[] { "Service Date", "Customer/Site", "Servicer", "FRT Bill", "Key REC", "PO", "Invoice Total", 
+                                         "Product", "Comment", "Service", "SKU", "Quantity", "Unit Price", "Total Line Item Price" };
+
+            Row HeaderRow = new Row();
+            foreach (var CellName in Columns)
+            {
+                HeaderRow.Cells.Add(new Cell(CellName, "Header"));
+            }
+            worksheet.Rows.Add(HeaderRow);
+
+            // add content rows
+            foreach (var Invoice in invoiceIndexViewModel.Invoices)
+            {
+                foreach (var Item in Invoice.Items)
+                {
+                    var Row = new Row();
+                    Row.Cells.AddRange(GetInvoiceCells(Invoice));
+                    Row.Cells.AddRange(GetInvoiceItemCells(Item));
+                    worksheet.Rows.Add(Row);
+                }
+            }
+            
+            //Add worksheet to Workbook
+            workbook.Worksheets.Add(worksheet);
+
+            //Return the byte array  
+            return new ExcelResult(workbook.getBytes(), Title);
+        }
+
+        private IEnumerable<Cell> GetInvoiceCells(Invoice invoice)
+        {
+            yield return new Cell(invoice.ServiceDate.ToShortDateString());
+            yield return new Cell(invoice.Customer.Name);
+            yield return new Cell(invoice.Servicer.Name);
+            yield return new Cell(invoice.FrtBill);
+            yield return new Cell(invoice.KeyRec);
+            yield return new Cell(invoice.PurchaseOrder);
+            yield return new Cell(invoice.Total.ToString("0.00"));
+        }
+
+        private IEnumerable<Cell> GetInvoiceItemCells(InvoiceItem item)
+        {
+            yield return new Cell(item.Product.Description);
+            yield return new Cell(item.Comment);
+            yield return new Cell(item.Service.Description);
+            yield return new Cell(item.Service.Sku);
+            yield return new Cell(item.Quantity.ToString("0.00"));
+            yield return new Cell(item.Service.Cost.ToString("0.00"));
+            yield return new Cell(item.Total.ToString("0.00"));
         }
 
         public ViewResult Details(int id)
