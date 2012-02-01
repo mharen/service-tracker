@@ -121,7 +121,10 @@
     <Content Include="apple-touch-icon-72x72-precomposed.png" />
     <Content Include="apple-touch-icon-precomposed.png" />
     <Content Include="apple-touch-icon.png" />
+    <Content Include="Content\balloon.png" />
     <Content Include="Content\handheld.css" />
+    <Content Include="Content\indicator.gif" />
+    <Content Include="Content\openid-icons.png" />
     <Content Include="Content\style.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -188,6 +191,7 @@
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.17.js" />
     <Content Include="Scripts\jquery-ui-1.8.17.min.js" />
+    <Content Include="Scripts\jquery.openid.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />

@@ -1,21 +1,23 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
-
+<script src="@Url.VersionedContent("~/Scripts/jquery.openid.js")" type="text/javascript"></script>
+<script>
+    $(function () {
+        $('#openid').empty().openid({ img_path: '@Url.Content("~/Content")' });
+    });
+</script>
 <h2>Welcome!</h2>
-	@if (ViewData["Message"] != null) { 
-	<div style="border: solid 1px red">
-		@ViewData["Message"].ToString()
-	</div>
-	} 
-	<p>You must log in before entering the Members Area: </p>
-    @using(Html.BeginForm("Authenticate", "User", FormMethod.Post)){
-        @Html.Hidden("ReturnUrl")
-	    <label for="openid_identifier">OpenID: </label>
-	    <input id="openid_identifier" name="openid_identifier" size="40" />
-	    <input type="submit" value="Login" />
-	}
-
-	<script type="text/javascript">
-	    document.getElementById("openid_identifier").focus();
-	</script>
+@if (ViewData["Message"] != null)
+{ 
+    <div style="border: solid 1px red">
+        @ViewData["Message"].ToString()
+    </div>
+}
+<p>You must log in before entering the Members Area: </p>
+@using (Html.BeginForm("Authenticate", "User", FormMethod.Post, new { id = "openid" }))
+{
+    @Html.Hidden("ReturnUrl")
+    <input id="openid_identifier" name="openid_identifier" />
+    <input type="submit" value="Login" />
+}
