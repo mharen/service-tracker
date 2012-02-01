@@ -83,7 +83,6 @@
   <ItemGroup>
     <Compile Include="ActionResults\ExcelResult.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Data\ModelBuilder.cs" />
     <Compile Include="ExcelResult.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\RoleType.cs" />
