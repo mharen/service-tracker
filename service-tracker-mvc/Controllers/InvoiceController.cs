@@ -22,7 +22,8 @@ namespace service_tracker_mvc.Controllers
         {
             invoiceIndexViewModel = QueryInvoices(invoiceIndexViewModel);
 
-            if(button == "Export"){
+            if (button == "Export")
+            {
                 return Excel(invoiceIndexViewModel);
             }
 
@@ -60,18 +61,10 @@ namespace service_tracker_mvc.Controllers
                                                 .Where(i => i.KeyRec.Contains(Filter.FrtBill) || Filter.FrtBill == null || Filter.FrtBill == "")
                                                 .Where(i => i.KeyRec.Contains(Filter.PurchaseOrder) || Filter.PurchaseOrder == null || Filter.PurchaseOrder == "")
                                                 .OrderBy(i => i.ServiceDate)
+                                                .ThenBy(i => i.InvoiceId)
                                                 .ToList();
             return invoiceIndexViewModel;
         }
-
-//        public FileContentResult Csv(InvoiceIndexViewModel invoiceIndexViewModel)
-//        {
-//            string Csv = "";
-//// TODO
-//            var CsvBytes = ASCIIEncoding.ASCII.GetBytes(Csv);
-//            var Filename = string.Format("invoices-{0:yyyy.MM.dd}-to-{1:yyyy.MM.dd}", invoiceIndexViewModel.InvoiceFilter.StartDate, invoiceIndexViewModel.InvoiceFilter.EndDate);
-//            return File(CsvBytes, "text/csv", Filename);
-//        }
 
         public ActionResult Excel(InvoiceIndexViewModel invoiceIndexViewModel)
         {
@@ -84,11 +77,11 @@ namespace service_tracker_mvc.Controllers
 
             // don't show a border by default
             StylesManager.getStyle("Default").border.display = false;
-            
+
             var Title = string.Format("{0:yyyy.MM.dd}-to-{1:yyyy.MM.dd}", invoiceIndexViewModel.InvoiceFilter.StartDate, invoiceIndexViewModel.InvoiceFilter.EndDate);
             Workbook workbook = new Workbook();
             Worksheet worksheet = new Worksheet(Title);
-            
+
             // add header row
             var Columns = new string[] { "Service Date", "Customer/Site", "Servicer", "FRT Bill", "Key REC", "PO", "Invoice Total", 
                                          "Product", "Comment", "Service", "SKU", "Quantity", "Unit Price", "Total Line Item Price" };
@@ -111,7 +104,7 @@ namespace service_tracker_mvc.Controllers
                     worksheet.Rows.Add(Row);
                 }
             }
-            
+
             //Add worksheet to Workbook
             workbook.Worksheets.Add(worksheet);
 
@@ -203,7 +196,9 @@ namespace service_tracker_mvc.Controllers
                 : new SelectListItem[] { };
 
             ViewBag.Customers = AllOptions.Union(
-                                    db.Customers.ToList()
+                                    db.Customers
+                                          .OrderBy(c => c.Name)
+                                          .ToList()
                                           .Select(p => new SelectListItem()
                                           {
                                               Text = string.Format("{0} - {1}", p.Name, p.VendorNumber),
@@ -212,7 +207,9 @@ namespace service_tracker_mvc.Controllers
                                 ).ToList();
 
             ViewBag.Servicers = AllOptions.Union(
-                                    db.Servicers.ToList()
+                                    db.Servicers
+                                          .OrderBy(c => c.Name)
+                                          .ToList()
                                           .Select(s => new SelectListItem()
                                           {
                                               Text = s.Name,
@@ -226,7 +223,10 @@ namespace service_tracker_mvc.Controllers
                                               Value = p.Value
                                           })
                                          .Union(
-                                            db.Products.ToList()
+                                            db.Products
+                                              .OrderBy(c => c.Manufacturer)
+                                              .ThenBy(c => c.Description)
+                                              .ToList()
                                               .Select(p => new
                                               {
                                                   Text = string.Format("{0} - {1}", p.Manufacturer, p.Description),
@@ -241,7 +241,9 @@ namespace service_tracker_mvc.Controllers
                                               htmlAttributes = new { data_cost = 0m }
                                           })
                                          .Union(
-                                            db.Services.ToList()
+                                            db.Services
+                                              .OrderBy(s=>s.Sku)
+                                              .ToList()
                                               .Select(s => new ExtendedSelectListItem()
                                               {
                                                   Text = string.Format("{0} - {1} ({2:c})", s.Sku, s.Description, s.Cost),

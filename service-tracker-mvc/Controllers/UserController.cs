@@ -135,7 +135,7 @@ namespace service_tracker_mvc.Controllers
 
         public ViewResult Index()
         {
-            return View(db.Users.ToList());
+            return View(db.Users.OrderBy(u => u.Email).ToList());
         }
 
         public ActionResult Edit(int id)

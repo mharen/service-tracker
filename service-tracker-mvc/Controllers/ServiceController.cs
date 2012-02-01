@@ -9,7 +9,7 @@ using service_tracker_mvc.Models;
 using service_tracker_mvc.Data;
 
 namespace service_tracker_mvc.Controllers
-{ 
+{
     public class ServiceController : Controller
     {
         private DataContext db = new DataContext();
@@ -19,7 +19,7 @@ namespace service_tracker_mvc.Controllers
 
         public ViewResult Index()
         {
-            return View(db.Services.ToList());
+            return View(db.Services.OrderBy(s => s.Sku).ToList());
         }
 
         //
@@ -37,7 +37,7 @@ namespace service_tracker_mvc.Controllers
         public ActionResult Create()
         {
             return View();
-        } 
+        }
 
         //
         // POST: /Service/Create
@@ -49,15 +49,15 @@ namespace service_tracker_mvc.Controllers
             {
                 db.Services.Add(service);
                 db.SaveChanges();
-                return RedirectToAction("Index");  
+                return RedirectToAction("Index");
             }
 
             return View(service);
         }
-        
+
         //
         // GET: /Service/Edit/5
- 
+
         public ActionResult Edit(int id)
         {
             Service service = db.Services.Find(id);
@@ -81,7 +81,7 @@ namespace service_tracker_mvc.Controllers
 
         //
         // GET: /Service/Delete/5
- 
+
         public ActionResult Delete(int id)
         {
             if (db.InvoiceItems.Any(i => i.ServiceId == id))

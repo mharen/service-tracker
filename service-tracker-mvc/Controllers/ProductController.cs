@@ -9,7 +9,7 @@ using service_tracker_mvc.Models;
 using service_tracker_mvc.Data;
 
 namespace service_tracker_mvc.Controllers
-{ 
+{
     public class ProductController : Controller
     {
         private DataContext db = new DataContext();
@@ -19,7 +19,7 @@ namespace service_tracker_mvc.Controllers
 
         public ViewResult Index()
         {
-            return View(db.Products.ToList());
+            return View(db.Products.OrderBy(p => p.Manufacturer).ThenBy(p => p.Description).ToList());
         }
 
         //
@@ -37,7 +37,7 @@ namespace service_tracker_mvc.Controllers
         public ActionResult Create()
         {
             return View();
-        } 
+        }
 
         //
         // POST: /Product/Create
@@ -49,15 +49,15 @@ namespace service_tracker_mvc.Controllers
             {
                 db.Products.Add(product);
                 db.SaveChanges();
-                return RedirectToAction("Index");  
+                return RedirectToAction("Index");
             }
 
             return View(product);
         }
-        
+
         //
         // GET: /Product/Edit/5
- 
+
         public ActionResult Edit(int id)
         {
             Product product = db.Products.Find(id);
@@ -81,7 +81,7 @@ namespace service_tracker_mvc.Controllers
 
         //
         // GET: /Product/Delete/5
- 
+
         public ActionResult Delete(int id)
         {
             if (db.InvoiceItems.Any(i => i.ProductId == id))
