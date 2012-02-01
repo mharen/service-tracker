@@ -40,9 +40,9 @@
     <Reference Include="DotNetOpenAuth">
       <HintPath>..\packages\DotNetOpenAuth.3.4.7.11121\lib\DotNetOpenAuth.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+    <Reference Include="EntityFramework, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.4.2.0.0\lib\net40\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.4.3.0-beta1\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="ExcelGenerator">
       <HintPath>..\packages\ExcelGenerator.1.2\lib\ExcelGenerator.dll</HintPath>
@@ -84,6 +84,7 @@
     <Compile Include="ActionResults\ExcelResult.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="ExcelResult.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\RoleType.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="MvcExtensions.cs" />
