@@ -91,7 +91,7 @@ else
             <th class='ui-state-default'>PO</th>
             <th class='ui-state-default number'>Items</th>
             <th class='ui-state-default number'>Total</th>
-            <th class='ui-state-default'></th>
+            <th class='ui-state-default number'></th>
         </tr>
         @foreach (var item in Model.Invoices)
         {
@@ -120,7 +120,7 @@ else
                 <td class='ui-widget-content number'>
                     @Html.DisplayFor(modelItem => item.Total)
                 </td>
-                <td class='ui-widget-content'>
+                <td class='ui-widget-content number'>
                     @Html.ActionLink("Details", "Details", new { id = item.InvoiceId }) |
                     @Html.ActionLink("Edit", "Edit", new { id = item.InvoiceId, from = "index" })
                 </td>
