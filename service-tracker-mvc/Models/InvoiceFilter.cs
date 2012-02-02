@@ -16,7 +16,7 @@ namespace service_tracker_mvc.Models
         public DateTime? EndDate { get; set; }
         [DisplayName("Employee")]
         public int ServicerId { get; set; }
-        [DisplayName("Customer")]
+        [DisplayName("Store")]
         public int CustomerId { get; set; }
         [DisplayName("Key Rec")]
         public string KeyRec { get; set; }

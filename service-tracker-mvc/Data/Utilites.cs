@@ -14,9 +14,9 @@ namespace service_tracker_mvc.Data
             {
                 if (!DB.Customers.Any())
                 {
-                    DB.Customers.Add(new Customer() { Name = "Customer A", Address = "123 Main Street", VendorNumber = "123abc" });
-                    DB.Customers.Add(new Customer() { Name = "Customer B", Address = "456 High Street", VendorNumber = "456def" });
-                    DB.Customers.Add(new Customer() { Name = "Customer C", Address = "789 North Street", VendorNumber = "789ghi" });
+                    DB.Customers.Add(new Customer() { Name = "Store A", Address = "123 Main Street", VendorNumber = "123abc" });
+                    DB.Customers.Add(new Customer() { Name = "Store B", Address = "456 High Street", VendorNumber = "456def" });
+                    DB.Customers.Add(new Customer() { Name = "Store C", Address = "789 North Street", VendorNumber = "789ghi" });
                 }
 
                 if (!DB.Products.Any())

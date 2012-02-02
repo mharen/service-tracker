@@ -99,7 +99,7 @@ namespace service_tracker_mvc.Controllers
             Worksheet worksheet = new Worksheet(Title);
 
             // add header row
-            var Columns = new string[] { "Service Date", "Customer/Site", "Servicer", "FRT Bill", "Key REC", "PO", "Invoice Total", 
+            var Columns = new string[] { "Service Date", "Store", "Employee", "FRT Bill", "Key REC", "PO", "Invoice Total", 
                                          "Product", "Comment", "Service", "SKU", "Quantity", "Unit Price", "Total Line Item Price" };
 
             Row HeaderRow = new Row();

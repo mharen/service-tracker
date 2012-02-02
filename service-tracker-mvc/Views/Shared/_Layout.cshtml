@@ -40,7 +40,7 @@
             <div id="menucontainer">
                 <ul id="menu">
                     <li class="ui-state-default ui-corner-top @Html.ActiveTab("Home")">@Html.ActionLink("About", "About", "Home")</li>
-                    <li class="ui-state-default ui-corner-top @Html.ActiveTab("Setting") @Html.ActiveTab("customer") @Html.ActiveTab("Product") @Html.ActiveTab("service") @Html.ActiveTab("servicer")">@Html.ActionLink("Settings", "Index", "Setting")</li>
+                    <li class="ui-state-default ui-corner-top @Html.ActiveTab("Setting") @Html.ActiveTab("Customer") @Html.ActiveTab("Product") @Html.ActiveTab("Service") @Html.ActiveTab("Servicer")">@Html.ActionLink("Settings", "Index", "Setting")</li>
                     <li class="ui-state-default ui-corner-top @Html.ActiveTab("Invoice", new string[] { "Index", "Edit", "Details", "Delete", "Report" })">@Html.ActionLink("Invoices", "Index", "Invoice")</li>
                     <li class="ui-state-default ui-corner-top @Html.ActiveTab("Invoice", new string[] { "Create" })">@Html.ActionLink("New Invoice", "Create", "Invoice")</li>
                 </ul>
