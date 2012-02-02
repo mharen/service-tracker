@@ -3,6 +3,7 @@
     ViewBag.Title = "Invoice " + Model.InvoiceId + " - Details";
 }
 <h2>Invoice @Model.InvoiceId</h2>
+<div class="clearfix">
     <div class='pair'>
         <div class="display-label">
             @Html.LabelFor(model => model.ServiceDate)</div>
@@ -31,35 +32,35 @@
             @Html.DisplayFor(model => model.PurchaseOrder)
         </div>
     </div>
-    <div class='clear' >&nbsp;</div>
-    <table class='data-table'>
+    </div>
+    <table class='data-table ui-widget'>
         <tr>
-            <th>Product</th>
-            <th>Comment</th>
-            <th>Service</th>
-            <th>SKU</th>
-            <th class='number'>Quantity</th>
-            <th class='number'>Unit Price</th>
-            <th class='number'>Total</th>
+            <th class='ui-state-default'>Product</th>
+            <th class='ui-state-default'>Comment</th>
+            <th class='ui-state-default'>Service</th>
+            <th class='ui-state-default'>SKU</th>
+            <th class='ui-state-default number'>Quantity</th>
+            <th class='ui-state-default number'>Unit Price</th>
+            <th class='ui-state-default number'>Total</th>
         </tr>
         @foreach (var Item in Model.Items)
         {
             <tr>
-                <td>@Item.Product.Manufacturer - @Item.Product.Description</td>
-                <td>@Item.Comment</td>
-                <td>@Item.Service.Description</td>
-                <td>@Item.Service.Sku</td>
-                <td class='number'>@Item.Quantity</td>
-                <td class='number'>@Html.DisplayFor(model => Item.Service.Cost)</td>
-                <td class='number'>@Html.DisplayFor(model => Item.Total)</td>
+                <td class='ui-widget-content'>@Item.Product.Manufacturer - @Item.Product.Description</td>
+                <td class='ui-widget-content'>@Item.Comment</td>
+                <td class='ui-widget-content'>@Item.Service.Description</td>
+                <td class='ui-widget-content'>@Item.Service.Sku</td>
+                <td class='ui-widget-content number'>@Item.Quantity</td>
+                <td class='ui-widget-content number'>@Html.DisplayFor(model => Item.Service.Cost)</td>
+                <td class='ui-widget-content number'>@Html.DisplayFor(model => Item.Total)</td>
             </tr>
         }
         <tr>
-            <th class='number' colspan="5">@Html.DisplayFor(model=>model.Quantity)</th>
-            <th class='number' colspan="2">@Html.DisplayFor(model => model.Total)</th>
+            <th class='ui-widget-content number' colspan="5">@Html.DisplayFor(model=>model.Quantity)</th>
+            <th class='ui-widget-content number' colspan="2">@Html.DisplayFor(model => model.Total)</th>
         </tr>
     </table>
-<p style='margin-top:15px'>
+<div class="actions">
     @Html.ActionLink("Back to List", "Index") |
     @Html.ActionLink("Edit", "Edit", new { id = Model.InvoiceId, from = "details" })
-</p>
+</div>
