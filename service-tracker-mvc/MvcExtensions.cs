@@ -9,6 +9,19 @@ namespace service_tracker_mvc
 {
     public static class MvcExtensions
     {
+        public static string ActiveTab(this HtmlHelper helper, string activeController, string[] activeActions = null, string cssClass = "ui-state-active")
+        {
+            string currentAction = helper.ViewContext.Controller.
+            ValueProvider.GetValue("action").RawValue.ToString();
+            string currentController = helper.ViewContext.Controller.
+            ValueProvider.GetValue("controller").RawValue.ToString();
+            string cssClassToUse = currentController == activeController &&
+                                   (activeActions == null || activeActions.Contains(currentAction))
+                                   ? cssClass
+                                   : string.Empty;
+            return cssClassToUse;
+        } 
+
         public static SelectList ToSelectList<T>(string selectedValue)
         {
             return new SelectList(

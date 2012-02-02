@@ -2,126 +2,129 @@
 @{
     ViewBag.Title = "Index";
 }
-<h2>Invoices</h2>
 @using (Html.BeginForm(null, null, FormMethod.Get, htmlAttributes: new { id = "search-form" }))
 {
-    <div class='pair'>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.InvoiceFilter.StartDate)
+    <div class="clearfix">
+        <div class='pair'>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.InvoiceFilter.StartDate)
+            </div>
+            <div class="editor-field date">
+                @Html.EditorFor(model => model.InvoiceFilter.StartDate)
+                @Html.ValidationMessageFor(model => model.InvoiceFilter.StartDate)
+                -
+                @Html.EditorFor(model => model.InvoiceFilter.EndDate)
+                @Html.ValidationMessageFor(model => model.InvoiceFilter.EndDate)
+            </div>
         </div>
-        <div class="editor-field date">
-            @Html.EditorFor(model => model.InvoiceFilter.StartDate)
-            @Html.ValidationMessageFor(model => model.InvoiceFilter.StartDate)
-            -
-            @Html.EditorFor(model => model.InvoiceFilter.EndDate)
-            @Html.ValidationMessageFor(model => model.InvoiceFilter.EndDate)
+        <div class='pair'>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.InvoiceFilter.ServicerId)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.InvoiceFilter.ServicerId, (IEnumerable<SelectListItem>)ViewBag.Servicers)
+                @Html.ValidationMessageFor(model => model.InvoiceFilter.ServicerId)
+            </div>
         </div>
-    </div>
-    <div class='pair'>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.InvoiceFilter.ServicerId)
+        <div class='pair'>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.InvoiceFilter.CustomerId)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.InvoiceFilter.CustomerId, (IEnumerable<SelectListItem>)ViewBag.Customers)
+                @Html.ValidationMessageFor(model => model.InvoiceFilter.CustomerId)
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.InvoiceFilter.ServicerId, (IEnumerable<SelectListItem>)ViewBag.Servicers)
-            @Html.ValidationMessageFor(model => model.InvoiceFilter.ServicerId)
+        <div class='pair'>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.InvoiceFilter.KeyRec)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.InvoiceFilter.KeyRec)
+                @Html.ValidationMessageFor(model => model.InvoiceFilter.KeyRec)
+            </div>
         </div>
-    </div>    
-    <div class='pair'>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.InvoiceFilter.CustomerId)
+        <div class='pair'>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.InvoiceFilter.FrtBill)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.InvoiceFilter.FrtBill)
+                @Html.ValidationMessageFor(model => model.InvoiceFilter.FrtBill)
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.InvoiceFilter.CustomerId, (IEnumerable<SelectListItem>)ViewBag.Customers)
-            @Html.ValidationMessageFor(model => model.InvoiceFilter.CustomerId)
+        <div class='pair'>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.InvoiceFilter.PurchaseOrder)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.InvoiceFilter.PurchaseOrder)
+                @Html.ValidationMessageFor(model => model.InvoiceFilter.PurchaseOrder)
+            </div>
         </div>
-    </div>    
-    <div class='pair'>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.InvoiceFilter.KeyRec)
+        <div class='pair' style="padding-left: 15px;">
+            <div class="editor-field">
+                <input type='submit' name='Button' value='Filter' />
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.InvoiceFilter.KeyRec)
-            @Html.ValidationMessageFor(model => model.InvoiceFilter.KeyRec)
-        </div>
-    </div>    
-    <div class='pair'>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.InvoiceFilter.FrtBill)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.InvoiceFilter.FrtBill)
-            @Html.ValidationMessageFor(model => model.InvoiceFilter.FrtBill)
-        </div>
-    </div>    
-    <div class='pair'>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.InvoiceFilter.PurchaseOrder)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.InvoiceFilter.PurchaseOrder)
-            @Html.ValidationMessageFor(model => model.InvoiceFilter.PurchaseOrder)
-        </div>
-    </div>    
-    <div class='pair'>
-        <div class="editor-label">
-            &nbsp;
-        </div>
-        <div class="editor-field">
-            <input type='submit' name='Button' value='Filter' />
-        </div>
-    </div>
-    <div class='pair' style='margin-right: 0; margin-bottom: 15px;'>
-        <div class="editor-label">
-            &nbsp;
-        </div>
-        <div class="editor-field">
-            <input type='submit' name='Button' value='Export' />
+        <div class='pair' style='margin-right: 0; margin-bottom: 15px;'>
+            <div class="editor-field">
+                <input type='submit' name='Button' value='Export' />
+            </div>
         </div>
     </div>
 }
-<table style='margin-top: 10px;' class='clear data-table'>
-    <tr>
-        <th>Service Date</th>
-        <th>Customer</th>
-        <th>Servicer</th>
-        <th>FRT Bill</th>
-        <th>Key Rec</th>
-        <th>PO</th>
-        <th>Items</th>
-        <th>Total</th>
-        <th></th>
-    </tr>
-    @foreach (var item in Model.Invoices)
-    {
+@if (!Model.Invoices.Any())
+{
+    <div style="text-align: center; font-style: italic">
+        No invoices were found</div>
+}
+else
+{
+    <table class='data-table ui-widget'>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Servicer.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FrtBill)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KeyRec)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchaseOrder)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Total)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", new { id = item.InvoiceId }) |
-                @Html.ActionLink("Edit", "Edit", new { id = item.InvoiceId, from = "index" })
-            </td>
+            <th class='ui-state-default'>Service Date</th>
+            <th class='ui-state-default'>Customer</th>
+            <th class='ui-state-default'>Servicer</th>
+            <th class='ui-state-default'>FRT Bill</th>
+            <th class='ui-state-default'>Key Rec</th>
+            <th class='ui-state-default'>PO</th>
+            <th class='ui-state-default number'>Items</th>
+            <th class='ui-state-default number'>Total</th>
+            <th class='ui-state-default'></th>
         </tr>
-    }
-</table>
+        @foreach (var item in Model.Invoices)
+        {
+            <tr>
+                <td class='ui-widget-content'>
+                    @Html.DisplayFor(modelItem => item.ServiceDate)
+                </td>
+                <td class='ui-widget-content'>
+                    @Html.DisplayFor(modelItem => item.Customer.Name)
+                </td>
+                <td class='ui-widget-content'>
+                    @Html.DisplayFor(modelItem => item.Servicer.Name)
+                </td>
+                <td class='ui-widget-content'>
+                    @Html.DisplayFor(modelItem => item.FrtBill)
+                </td>
+                <td class='ui-widget-content'>
+                    @Html.DisplayFor(modelItem => item.KeyRec)
+                </td>
+                <td class='ui-widget-content'>
+                    @Html.DisplayFor(modelItem => item.PurchaseOrder)
+                </td>
+                <td class='ui-widget-content number'>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td class='ui-widget-content number'>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td class='ui-widget-content'>
+                    @Html.ActionLink("Details", "Details", new { id = item.InvoiceId }) |
+                    @Html.ActionLink("Edit", "Edit", new { id = item.InvoiceId, from = "index" })
+                </td>
+            </tr>
+        }
+    </table>
+}

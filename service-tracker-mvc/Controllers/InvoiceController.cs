@@ -279,7 +279,6 @@ namespace service_tracker_mvc.Controllers
                 foreach (var Item in invoice.Items)
                 {
                     db.Entry(Item).State = ExistingItemIds.Contains(Item.InvoiceItemId) ? EntityState.Modified : EntityState.Added;
-                    // should i set the item.invoiceid prop, too?
                 }
                 db.SaveChanges();
 

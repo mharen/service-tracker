@@ -9,50 +9,50 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="data-table">
+<table class="data-table ui-widget">
     <tr>
-        <th>
+        <th class='ui-state-default'>
             ID
         </th>
-        <th>
+        <th class='ui-state-default'>
             Email
         </th>
-        <th>
+        <th class='ui-state-default'>
             Role
         </th>
-        <th>
+        <th class='ui-state-default'>
             First Login (UTC)
         </th>
-        <th>
+        <th class='ui-state-default'>
             Last Login (UTC)
         </th>
-        <th>
+        <th class='ui-state-default number'>
             Login Count
         </th>
-        <th></th>
+        <th class='ui-state-default number'></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td title="@Html.AttributeEncode(item.ClaimedIdentifier)">
+        <td class='ui-widget-content' title="@Html.AttributeEncode(item.ClaimedIdentifier)">
             @item.ClaimedIdentifier.Left(15)
         </td>
-        <td>
+        <td class='ui-widget-content'>
             @Html.DisplayFor(modelItem => item.Email)
         </td>
-        <td>
+        <td class='ui-widget-content'>
             @((service_tracker_mvc.Models.RoleType)item.RoleId)
         </td>
-        <td>
+        <td class='ui-widget-content'>
             @Html.DisplayFor(modelItem => item.FirstLogin)
         </td>
-        <td>
+        <td class='ui-widget-content'>
             @Html.DisplayFor(modelItem => item.LastLogin)
         </td>
-        <td>
+        <td class='ui-widget-content number'>
             @Html.DisplayFor(modelItem => item.LoginCount)
         </td>
-        <td>
+        <td class='ui-widget-content number'>
             @Html.ActionLink("Edit", "Edit", new { id=item.UserId }) 
         </td>
     </tr>

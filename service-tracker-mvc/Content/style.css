@@ -1,11 +1,11 @@
 /*
 http://kuler.adobe.com/#themeID/1725919
-2F3837 bright gray
-C5C7B6 off white
-DEE0CD in between
-FFF8D3 white 
-4C493E gray
-222028 gray blue 363340 (brighter)
+222 gray blue 363340 (brighter)
+333 bright gray
+555 gray
+eee C5C7B6 off white
+efefef in between
+fff FFF8D3 white 
 */
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -37,7 +37,7 @@ mark { background-color: #ff9; color: #000; font-style: italic; font-weight: bol
 del { text-decoration: line-through; }
 abbr[title], dfn[title] { border-bottom: 1px dotted; cursor: help; }
 table { border-collapse: collapse; border-spacing: 0; }
-hr { display: block; height: 1px; border: 0; border-top: 1px solid #4C493E; margin: 1em 0; padding: 0; }
+hr { display: block; height: 1px; border: 0; border-top: 1px solid #444; margin: 1em 0; padding: 0; }
 input, select { vertical-align: middle; }
 body { font:13px/1.231 sans-serif; *font-size:small; } 
 select, input, textarea, button { font:99% sans-serif; }
@@ -88,7 +88,6 @@ to use a different color start by replacing all instances of
 ----------------------------------------------------------*/
 body
 {
-    background-color: #C5C7B6;
     font-size: 75%;
     font-family: Verdana, Tahoma, Arial, "Helvetica Neue", Helvetica, Sans-Serif;
     margin: 0;
@@ -183,19 +182,17 @@ header
 header h1
 {
     font-weight: bold;
-    padding: 5px 0;
     margin: 0;
     color: #222028;
     border: none;
-    line-height: 2em;
     font-size: 32px !important;
 }
 
 #main
 {
-    padding: 30px 30px 15px 30px;
-    background-color: #FFF8D3;
-    margin-bottom: 30px;
+    border-top:1px solid #FBD850;
+    border-bottom:1px solid #FBD850;
+    padding: 15px 0;
     _height: 1px; /* only IE6 applies CSS properties starting with an underscore */
 }
 
@@ -206,37 +203,32 @@ footer
     line-height: normal;
     margin: 0;
     font-size: .9em;
+    color: #999;
 }
 
 /* TAB MENU   
 ----------------------------------------------------------*/
 ul#menu
 {
-    border-bottom: 1px #222028 solid;
-    padding: 0 0 2px;
+    padding-right: 15px;   
     position: relative;
     margin: 0;
-    text-align: right;
 }
 
 ul#menu li
 {
-    display: inline;
+    float:right;
     list-style: none;
+    margin:0 2px;
+    border-bottom: none;
 }
 
 ul#menu li a
 {
-    padding: 10px 20px;
-    font-weight: bold;
+    display: block;
     text-decoration: none;
-    line-height: 2.8em;
-    color: #222028;
-    background-color: #C5C7B6;
-}
-ul#menu li a:hover
-{
-    background-color: #FFF8D3;
+    padding: 7px 20px;
+    margin:0 2px;
 }
 
 /* FORM LAYOUT ELEMENTS   
@@ -268,32 +260,11 @@ input[type="password"]
     padding: 1;
 }
 
-/* TABLE
-----------------------------------------------------------*/
+table.data-table { margin-top: 10px; width: 100%; }
+table.data-table td,table.data-table th{ padding: 3px 5px; border-left: none; border-right: none }
+table.data-table.ui-widget .ui-widget-content.ui-state-hover { font-weight: normal; }
 
-table.data-table 
-{
-  border: solid 1px #C5C7B6;
-  border-collapse: collapse;
-  width:100%;
-}
-
-table td 
-{
-  padding: 5px;   
-}
-
-table th
-{
-  padding: 6px 5px;
-  text-align: left;
-  background-color: #C5C7B6; 
-}
-
-table.data-table tr:hover { background-color: #DEE0CD }
-
-/* MISC  
-----------------------------------------------------------*/
+input[type="submit"] + a { padding-left: 15px; }
 .clear
 {
     clear: both;
@@ -304,16 +275,16 @@ table.data-table tr:hover { background-color: #DEE0CD }
     color:Red;
 }
 
-#menucontainer
-{
-    margin-top:40px;
-}
 
 div#title
 {
     display:block;
     float:left;
     text-align:left;
+}
+header h1
+{
+    padding-bottom: 0;
 }
 div#title a
 {
@@ -362,7 +333,14 @@ div#title a
 .display-label,
 .editor-label
 {
-    margin: 1em 0 0 0;
+    margin-top:10px;
+    font-weight: bold; 
+}
+
+.pair .display-label,
+.pair .editor-label
+{
+    margin-top:0;
     font-weight: bold; 
 }
 
@@ -380,7 +358,7 @@ div#title a
 {
     width: 6em;
 }
-
+td,th{ text-align: left; }
 td.number, th.number, td.number > input, th.number > input
 {
     text-align: right;
@@ -405,7 +383,7 @@ input[type=date]
 
 .actions
 {
-    padding-top:10px;
+    padding-top:20px;
 }
 
 

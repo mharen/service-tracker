@@ -9,26 +9,26 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="data-table">
+<table class="data-table ui-widget">
     <tr>
-        <th>
+        <th class='ui-state-default'>
             Manufacturer
         </th>
-        <th>
+        <th class='ui-state-default'>
             Description
         </th>
-        <th></th>
+        <th class='ui-state-default'></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        <td class='ui-widget-content'>
             @Html.DisplayFor(modelItem => item.Manufacturer)
         </td>
-        <td>
+        <td class='ui-widget-content'>
             @Html.DisplayFor(modelItem => item.Description)
         </td>
-        <td>
+        <td class='ui-widget-content number'>
             @Html.ActionLink("Edit", "Edit", new { id=item.ProductId }) |
             @Html.ActionLink("Details", "Details", new { id=item.ProductId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.ProductId })

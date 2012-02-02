@@ -9,20 +9,20 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="data-table">
+<table class="data-table ui-widget">
     <tr>
-        <th>
+        <th class='ui-state-default'>
             Name
         </th>
-        <th></th>
+        <th class='ui-state-default number'></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        <td class='ui-widget-content'>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
-        <td>
+        <td class='ui-widget-content number'>
             @Html.ActionLink("Edit", "Edit", new { id=item.ServicerId }) |
             @Html.ActionLink("Details", "Details", new { id=item.ServicerId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.ServicerId })

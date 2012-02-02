@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = Model.InvoiceId > 0 ? "Invoice " + Model.InvoiceId + " - Edit" : "Invoice - New - ";
 }
-<h2>@(Model.InvoiceId > 0? "Edit Invoice" : "New Invoice")</h2>
 <script src="@Url.VersionedContent("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.VersionedContent("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 <script>
@@ -40,88 +39,96 @@
         });
     });
 </script>
-
 @using (Html.BeginForm(null, null, FormMethod.Post, htmlAttributes: new { id = "edit-form" }))
 {
     @Html.ValidationSummary(true)
     @Html.HiddenFor(model => model.InvoiceId)
-    <div class='pair'>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ServiceDate)
+    <div class="clearfix">
+        <div class='pair'>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ServiceDate)
+            </div>
+            <div class="editor-field date">
+                @Html.EditorFor(model => model.ServiceDate)
+                @Html.ValidationMessageFor(model => model.ServiceDate)
+            </div>
         </div>
-        <div class="editor-field date">
-            @Html.EditorFor(model => model.ServiceDate)
-            @Html.ValidationMessageFor(model => model.ServiceDate)
+        <div class='pair'>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ServicerId)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.ServicerId, (IEnumerable<SelectListItem>)ViewBag.Servicers)
+                @Html.ValidationMessageFor(model => model.ServicerId)
+            </div>
         </div>
-    </div>    
-    <div class='pair'>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ServicerId)
+        <div class='pair'>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.CustomerId)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.CustomerId, (IEnumerable<SelectListItem>)ViewBag.Customers)
+                @Html.ValidationMessageFor(model => model.CustomerId)
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.ServicerId, (IEnumerable<SelectListItem>)ViewBag.Servicers)
-            @Html.ValidationMessageFor(model => model.ServicerId)
+        <div class='pair'>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.KeyRec)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.KeyRec)
+                @Html.ValidationMessageFor(model => model.KeyRec)
+            </div>
         </div>
-    </div>    
-    <div class='pair'>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.CustomerId)
+        <div class='pair'>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.FrtBill)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.FrtBill)
+                @Html.ValidationMessageFor(model => model.FrtBill)
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.CustomerId, (IEnumerable<SelectListItem>)ViewBag.Customers)
-            @Html.ValidationMessageFor(model => model.CustomerId)
+        <div class='pair' style='margin-right: 0'>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.PurchaseOrder)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.PurchaseOrder)
+                @Html.ValidationMessageFor(model => model.PurchaseOrder)
+            </div>
         </div>
-    </div>    
-    <div class='pair'>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.KeyRec)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.KeyRec)
-            @Html.ValidationMessageFor(model => model.KeyRec)
-        </div>
-    </div>    
-    <div class='pair'>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.FrtBill)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.FrtBill)
-            @Html.ValidationMessageFor(model => model.FrtBill)
-        </div>
-    </div>    
-    <div class='pair' style='margin-right:0'>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.PurchaseOrder)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.PurchaseOrder)
-            @Html.ValidationMessageFor(model => model.PurchaseOrder)
-        </div>
-    </div>    
-    <hr style="clear:both; padding:10px 0px; color:#fff; border-color: transparent"/>
-    <table class='clear data-table'>
+    </div>
+    <table class='data-table ui-widget'>
         <tr>
-            <th>Product</th>
-            <th>Comment</th>
-            <th>Service</th>
-            <th class='number'>Quantity</th>
-            <th class='number'>Unit Price</th>
-            <th class='number'>Total</th>
+            <th class='ui-state-default'>Product</th>
+            <th class='ui-state-default'>Comment</th>
+            <th class='ui-state-default'>Service</th>
+            <th class='ui-state-default number'>Quantity</th>
+            <th class='ui-state-default number'>Unit Price</th>
+            <th class='ui-state-default number'>Total</th>
         </tr>
         @for (int i = 0; i < Model.Items.Count; ++i)
         {
             var index = i;
             <tr>
-                <td>@Html.Hidden("Items.Index", index.ToString())
+                <td class='ui-widget-content'>@Html.Hidden("Items.Index", index.ToString())
                     @Html.HiddenFor(m => m.Items[index].InvoiceId)
                     @Html.HiddenFor(m => m.Items[index].InvoiceItemId)
-                    @Html.DropDownListFor(m => m.Items[index].ProductId, new SelectList(ViewBag.Products, "Value", "Text", Model.Items[index].ProductId), "", new { @class = "skip-row-if-missing" })</td>
-                <td>@Html.EditorFor(m => m.Items[index].Comment)</td>
-                <td>@Html.ExtendedDropDownListFor(m => m.Items[index].ServiceId, (IEnumerable<ExtendedSelectListItem>)ViewBag.Services, "", new { @class = "calc-cost affects-calculation" }, Model.Items[index].ServiceId)</td>
-                <td class='number'>@Html.TextBoxFor(m => m.Items[index].Quantity, new { @class = "calc-quantity affects-calculation" })</td>
-                <td class='number'><span class='calc-output-cost'>(cost)</span></td>
-                <td class='number'><span class='calc-output-total'>(total)</span></td>
+                    @Html.DropDownListFor(m => m.Items[index].ProductId, new SelectList(ViewBag.Products, "Value", "Text", Model.Items[index].ProductId), "", new { @class = "skip-row-if-missing" })
+                </td>
+                <td class='ui-widget-content'>@Html.EditorFor(m => m.Items[index].Comment)
+                </td>
+                <td class='ui-widget-content'>@Html.ExtendedDropDownListFor(m => m.Items[index].ServiceId, (IEnumerable<ExtendedSelectListItem>)ViewBag.Services, "", new { @class = "calc-cost affects-calculation" }, Model.Items[index].ServiceId)
+                </td>
+                <td class='ui-widget-content number'>@Html.TextBoxFor(m => m.Items[index].Quantity, new { @class = "calc-quantity affects-calculation" })
+                </td>
+                <td class='ui-widget-content number'>
+                    <span class='calc-output-cost'>(cost)</span>
+                </td>
+                <td class='ui-widget-content number'>
+                    <span class='calc-output-total'>(total)</span>
+                </td>
             </tr>
         }
         <tr>
@@ -130,17 +137,20 @@
         </tr>
     </table>
     <div class='actions'>
-    @switch (Request["from"])
-    {
-        case "details":
-            @Html.ActionLink("Cancel", "Details", new { Id = Model.InvoiceId })
-            break;
-
-        default:   
-            @Html.ActionLink("Cancel", "Index")
-            break;
-    }
-        @Html.ActionLink("Delete", "Delete", new { Id = Model.InvoiceId }, new { style = "float:right" }) |
         <input type="submit" value="Save" />
+        @switch (Request["from"])
+        {
+            case "details":
+            @Html.ActionLink("Cancel", "Details", new { Id = Model.InvoiceId })
+       break;
+
+            default:   
+            @Html.ActionLink("Cancel", "Index")
+       break;
+        }
+        @if (Model.InvoiceId > 0)
+        {
+            @Html.ActionLink("Delete", "Delete", new { Id = Model.InvoiceId }, new { style = "float:right" })
+        }
     </div>
 }
