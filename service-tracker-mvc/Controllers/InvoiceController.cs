@@ -31,7 +31,8 @@ namespace service_tracker_mvc.Controllers
 
             return View(invoiceIndexViewModel);
         }
-
+        private static string InvoiceFilterSessionKey = "InvoiceFilterSessionKey";
+        public static string ResetFiltersRequestKey = "ResetFilters";
         private InvoiceIndexViewModel QueryInvoices(InvoiceIndexViewModel invoiceIndexViewModel)
         {
             if (invoiceIndexViewModel == null)
@@ -39,15 +40,15 @@ namespace service_tracker_mvc.Controllers
                 invoiceIndexViewModel = new InvoiceIndexViewModel();
             }
 
+            if (!string.IsNullOrEmpty(Request[ResetFiltersRequestKey]))
+            {
+                invoiceIndexViewModel.InvoiceFilter = GetDefaultInvoiceFilter();
+            }
+
             if (invoiceIndexViewModel.InvoiceFilter == null)
             {
-                invoiceIndexViewModel.InvoiceFilter = new InvoiceFilter()
-                {
-                    CustomerId = 0,
-                    StartDate = DateTime.UtcNow.Date,
-                    EndDate = DateTime.UtcNow.Date,
-                    ServicerId = 0
-                };
+                var SessionInvoiceFilter = Session[InvoiceFilterSessionKey] as InvoiceFilter;
+                invoiceIndexViewModel.InvoiceFilter =  SessionInvoiceFilter ?? GetDefaultInvoiceFilter();
             }
 
             var Filter = invoiceIndexViewModel.InvoiceFilter;
@@ -56,14 +57,29 @@ namespace service_tracker_mvc.Controllers
                                                 .Where(i => i.ServiceDate >= Filter.StartDate)
                                                 .Where(i => i.ServiceDate <= Filter.EndDate)
                                                 .Where(i => i.CustomerId == Filter.CustomerId || Filter.CustomerId == 0)
-                                                .Where(i => i.CustomerId == Filter.ServicerId || Filter.ServicerId == 0)
+                                                .Where(i => i.ServicerId == Filter.ServicerId || Filter.ServicerId == 0)
                                                 .Where(i => i.KeyRec.Contains(Filter.KeyRec) || Filter.KeyRec == null || Filter.KeyRec == "")
-                                                .Where(i => i.KeyRec.Contains(Filter.FrtBill) || Filter.FrtBill == null || Filter.FrtBill == "")
-                                                .Where(i => i.KeyRec.Contains(Filter.PurchaseOrder) || Filter.PurchaseOrder == null || Filter.PurchaseOrder == "")
+                                                .Where(i => i.FrtBill.Contains(Filter.FrtBill) || Filter.FrtBill == null || Filter.FrtBill == "")
+                                                .Where(i => i.PurchaseOrder.Contains(Filter.PurchaseOrder) || Filter.PurchaseOrder == null || Filter.PurchaseOrder == "")
                                                 .OrderBy(i => i.ServiceDate)
                                                 .ThenBy(i => i.InvoiceId)
                                                 .ToList();
+
+            //save the filter for future use
+            Session[InvoiceFilterSessionKey] = invoiceIndexViewModel.InvoiceFilter;
+
             return invoiceIndexViewModel;
+        }
+
+        private static InvoiceFilter GetDefaultInvoiceFilter()
+        {
+            return  new InvoiceFilter()
+            {
+                CustomerId = 0,
+                StartDate = DateTime.UtcNow.Date.AddDays(-7),
+                EndDate = DateTime.UtcNow.Date,
+                ServicerId = 0
+            };
         }
 
         public ActionResult Excel(InvoiceIndexViewModel invoiceIndexViewModel)

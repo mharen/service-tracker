@@ -244,7 +244,8 @@ input[type="password"]
     padding: 1;
 }
 
-table.data-table { margin-top: 10px; width: 100%; }
+table.data-table,.no-data { margin-top: 10px; width: 100%; }
+.no-data{ text-align: center; font-style: italic; }
 table.data-table td,table.data-table th{ padding: 3px 5px; border-left: none; border-right: none }
 table.data-table.ui-widget .ui-widget-content.ui-state-hover { font-weight: normal; }
 

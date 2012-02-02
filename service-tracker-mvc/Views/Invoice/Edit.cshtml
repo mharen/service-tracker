@@ -55,20 +55,20 @@
         </div>
         <div class='pair'>
             <div class="editor-label">
-                @Html.LabelFor(model => model.ServicerId)
-            </div>
-            <div class="editor-field">
-                @Html.DropDownListFor(model => model.ServicerId, (IEnumerable<SelectListItem>)ViewBag.Servicers)
-                @Html.ValidationMessageFor(model => model.ServicerId)
-            </div>
-        </div>
-        <div class='pair'>
-            <div class="editor-label">
                 @Html.LabelFor(model => model.CustomerId)
             </div>
             <div class="editor-field">
                 @Html.DropDownListFor(model => model.CustomerId, (IEnumerable<SelectListItem>)ViewBag.Customers)
                 @Html.ValidationMessageFor(model => model.CustomerId)
+            </div>
+        </div>
+        <div class='pair'>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ServicerId)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.ServicerId, (IEnumerable<SelectListItem>)ViewBag.Servicers)
+                @Html.ValidationMessageFor(model => model.ServicerId)
             </div>
         </div>
         <div class='pair'>
