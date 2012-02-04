@@ -47,6 +47,7 @@ namespace service_tracker_mvc.Controllers
                         var fetch = new FetchRequest();
                         fetch.Attributes.AddRequired(WellKnownAttributes.Contact.Email);
                         openIdRequest.AddExtension(fetch);
+                        openIdRequest.AddCallbackArguments("returnUrl", returnUrl);
 
                         return openIdRequest.RedirectingResponse.AsActionResult();
                     }
@@ -133,11 +134,13 @@ namespace service_tracker_mvc.Controllers
             db.SaveChanges();
         }
 
+        [Authorize(Roles = "Manager")]
         public ViewResult Index()
         {
             return View(db.Users.OrderBy(u => u.Email).ToList());
         }
 
+        [Authorize(Roles = "Manager")]
         public ActionResult Edit(int id)
         {
             User user = db.Users.Find(id);
@@ -145,6 +148,7 @@ namespace service_tracker_mvc.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Manager")]
         public ActionResult Edit(int userId, int roleId)
         {
             db.Users.Single(u => u.UserId == userId).RoleId = roleId;
@@ -152,6 +156,7 @@ namespace service_tracker_mvc.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Manager")]
         public ActionResult Delete(int id)
         {
             User user = db.Users.Find(id);
@@ -159,6 +164,7 @@ namespace service_tracker_mvc.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Manager")]
         public ActionResult DeleteConfirmed(int id)
         {
             User user = db.Users.Find(id);

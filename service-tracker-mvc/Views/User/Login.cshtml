@@ -4,7 +4,9 @@
 <script src="@Url.VersionedContent("~/Scripts/jquery.openid.js")" type="text/javascript"></script>
 <script>
     $(function () {
-        $('#openid').empty().openid({ img_path: '@Url.Content("~/Content")' });
+        $('#openid')
+            .children(":not([name=ReturnUrl])").remove().end()
+            .openid({ img_path: '@Url.Content("~/Content")' });
     });
 </script>
 <h2>Welcome!</h2>
@@ -17,7 +19,7 @@
 <p>You must log in before entering the Members Area: </p>
 @using (Html.BeginForm("Authenticate", "User", FormMethod.Post, new { id = "openid" }))
 {
-    @Html.Hidden("ReturnUrl")
+    @Html.Hidden("ReturnUrl", Request["ReturnUrl"])
     <input id="openid_identifier" name="openid_identifier" />
     <input type="submit" value="Login" />
 }

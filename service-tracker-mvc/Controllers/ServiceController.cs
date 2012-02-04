@@ -10,6 +10,7 @@ using service_tracker_mvc.Data;
 
 namespace service_tracker_mvc.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class ServiceController : Controller
     {
         private DataContext db = new DataContext();
