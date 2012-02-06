@@ -52,6 +52,12 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="MvcMiniProfiler">
+      <HintPath>..\packages\MiniProfiler.1.9\lib\net40\MvcMiniProfiler.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcMiniProfiler.EntityFramework">
+      <HintPath>..\packages\MiniProfiler.EF.1.9.1\lib\net40\MvcMiniProfiler.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -83,6 +89,7 @@
   <ItemGroup>
     <Compile Include="ActionResults\ExcelResult.cs" />
     <Compile Include="App_Start\MagicalUnicornCustomErrorHandling.cs" />
+    <Compile Include="App_Start\MiniProfiler.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="ExcelResult.cs" />
@@ -284,6 +291,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Error\Unauthorized.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_MINIPROFILER UPDATED Layout.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -55,7 +55,7 @@ namespace service_tracker_mvc.Controllers
 
             var Filter = invoiceIndexViewModel.InvoiceFilter;
 
-            invoiceIndexViewModel.Invoices = db.Invoices
+            invoiceIndexViewModel.Invoices = db.Invoices.Include("Items")
                                                 .Where(i => i.ServiceDate >= Filter.StartDate)
                                                 .Where(i => i.ServiceDate <= Filter.EndDate)
                                                 .Where(i => i.CustomerId == Filter.CustomerId || Filter.CustomerId == 0)

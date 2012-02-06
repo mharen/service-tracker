@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using service_tracker_mvc.Data;
+using service_tracker_mvc.Models;
 
 namespace service_tracker_mvc
 {
@@ -45,21 +46,41 @@ namespace service_tracker_mvc
             return string.Format(FormatString, UrlPath, Version);
         }
 
+        public static string GetUserMaximumRole(this HttpContext context)
+        {
+            if (!context.Items.Contains(UserMaximumRoleKey))
+            {
+                LoadCachedUserDetails(context);
+            }
+            return ((RoleType)context.Items[UserMaximumRoleKey]).ToString();
+        }
+
         public static string GetUserDisplayName(this HttpContext context)
         {
             // load the name from the database if it doesn't exist already
             if (!context.Items.Contains(UserDisplayNameKey))
             {
-                using (var db = new DataContext())
-                {
-                    context.Items[UserDisplayNameKey]
-                        = db.Users.Single(u => u.ClaimedIdentifier == context.User.Identity.Name).Email;
-                }
+                LoadCachedUserDetails(context);
             }
 
             return context.Items[UserDisplayNameKey].ToString();
         }
+
+        private static void LoadCachedUserDetails(HttpContext context)
+        {
+            using (var db = new DataContext())
+            {
+                var User = db.Users.Where(u => u.ClaimedIdentifier == context.User.Identity.Name)
+                                   .Select(u => new { u.Email, u.RoleId, u.UserId })
+                                   .Single();
+
+                context.Items[UserDisplayNameKey] = User.Email;
+                context.Items[UserMaximumRoleKey] = User.RoleId;
+            }
+        }
+
         public const string UserDisplayNameKey = "UserDisplayName";
+        public const string UserMaximumRoleKey = "UserMaximumRole";
         public const string UserRole = "UserRole";
 
         public static string Left(this string s, int maxLength)
