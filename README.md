@@ -24,7 +24,7 @@ As soon as I actually get around to implementing auth I'll post a public link.
 # Why
 
 My dad own's a company and he needed some tracking software. It didn't exist
-([as far as I know](http://webapps.stackexchange.com/q/22649/694) so I wrote it myself.
+([as far as I know](http://webapps.stackexchange.com/q/22649/694)) so I wrote it myself.
 
 # How
 
