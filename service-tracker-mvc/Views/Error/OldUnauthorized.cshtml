@@ -1,0 +1,7 @@
+﻿@{
+    ViewBag.Title = "Unauthorized";
+}
+<h2>Unauthorized</h2>
+<p>Whoops! Unless you're trying to be sneaky, you really shouldn't see this. If you
+    think you should have access@(ViewBag.ReturnUrl!=null? " to '"+ViewBag.ReturnUrl+"' ":"")
+    ask your manager for help.</p>

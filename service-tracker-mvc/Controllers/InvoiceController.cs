@@ -13,11 +13,13 @@ using ExcelGenerator.SpreadSheet.Styles;
 
 namespace service_tracker_mvc.Controllers
 {
-    //[Authorize(Roles="Manager")]
+
+    [RequiresAuthorizationAttribute(true, "Manager")]
     public class InvoiceController : Controller
     {
         private DataContext db = new DataContext();
 
+        [RequiresAuthorization(true, "Guest")]
         public ActionResult Index(InvoiceIndexViewModel invoiceIndexViewModel, string button)
         {
             invoiceIndexViewModel = QueryInvoices(invoiceIndexViewModel);
@@ -82,6 +84,7 @@ namespace service_tracker_mvc.Controllers
             };
         }
 
+        [RequiresAuthorization(true, "Guest")]
         public ActionResult Excel(InvoiceIndexViewModel invoiceIndexViewModel)
         {
             //get the invoices
@@ -150,6 +153,7 @@ namespace service_tracker_mvc.Controllers
             yield return new Cell(item.Total.ToString("0.00"));
         }
 
+        [RequiresAuthorization(true, "Guest")]
         public ViewResult Details(int id)
         {
             Invoice invoice = db.Invoices.Include(x => x.Items)
@@ -162,6 +166,7 @@ namespace service_tracker_mvc.Controllers
         //
         // GET: /Invoice/Create
 
+        [Authorize(Roles="Employee")]
         public ActionResult Create()
         {
             // initialize invoice with defaults

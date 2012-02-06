@@ -127,8 +127,10 @@ else
                     @Html.DisplayFor(modelItem => item.Total)
                 </td>
                 <td class='ui-widget-content number'>
-                    @Html.ActionLink("Details", "Details", new { id = item.InvoiceId }) |
-                    @Html.ActionLink("Edit", "Edit", new { id = item.InvoiceId, from = "index" })
+                    @Html.ActionLink("Details", "Details", new { id = item.InvoiceId }) 
+                    @if(User.IsInRole("Manager")){
+                        <text>|</text> @Html.ActionLink("Edit", "Edit", new { id = item.InvoiceId, from = "index" })
+                    }
                 </td>
             </tr>
         }

@@ -1,0 +1,15 @@
+<configuration>
+    <system.web>
+        <customErrors mode="On" defaultRedirect="/ServerError">
+          <error statusCode="404" redirect="/NotFound" />
+        </customErrors>
+    </system.web>
+    <system.webServer>
+        <httpErrors errorMode="Custom">
+          <remove statusCode="404" subStatusCode="-1" />
+          <error statusCode="404" path="/NotFound" responseMode="ExecuteURL" />
+          <remove statusCode="500" subStatusCode="-1" />
+          <error statusCode="500" path="/ServerError" responseMode="ExecuteURL" />
+        </httpErrors>
+    </system.webServer>
+</configuration>

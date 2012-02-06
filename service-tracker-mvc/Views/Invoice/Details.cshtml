@@ -61,6 +61,8 @@
         </tr>
     </table>
 <div class="actions">
-    @Html.ActionLink("Back to List", "Index") |
-    @Html.ActionLink("Edit", "Edit", new { id = Model.InvoiceId, from = "details" })
+    @Html.ActionLink("Back to List", "Index")
+    @if(User.IsInRole("Manager")){
+        <text>|</text> @Html.ActionLink("Edit", "Edit", new { id = Model.InvoiceId, from = "details" })
+    }
 </div>

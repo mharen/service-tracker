@@ -1,8 +1,29 @@
 ﻿@{
     ViewBag.Title = "About Us";
 }
-
 <h2>About</h2>
-<p>
-     TBD
-</p>
+<p>This tracking tool is licensed and used with permission of its owner. </p>
+<p>It is built with the following amazing libraries (listed in random):</p>
+@{
+    var Rand = new Random();
+    var Tools = new string[]{ 
+        "ASP.NET MVC",
+        "SQL Server",
+        "jQuery",
+        "jQuery UI",
+        "jQuery Validation Plugin",
+        "jQuery Open ID Real Selector",
+        "Entity Framework + Code First + Create-Tables-Only",
+        "HTML5 Boilerplate",
+        "DotNetOpenAuth",
+        "Magical Unicorn MVC Error Toolkit",
+        "WebActivator"
+    }.OrderBy(item => Rand.Next());
+}
+<ul>
+@foreach (var Tool in Tools)
+{
+    <li>@Tool</li>
+}
+</ul>
+<p>Considering that this app evolved very quickly, it's possible I missed one...please know any ommissions are accidental!</p>

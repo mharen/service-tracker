@@ -27,6 +27,13 @@ namespace service_tracker_mvc.Controllers
 
         public ActionResult Login()
         {
+            // if the user IS logged in, they probably have come here after trying to get to a page they 
+            // aren't allowed to see
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Unauthorized", "Error", new { ReturnUrl = Request["returnUrl"] });
+            }
+
             // Stage 1: display login form to user
             return View("Login");
         }
@@ -44,9 +51,11 @@ namespace service_tracker_mvc.Controllers
                     try
                     {
                         var openIdRequest = openid.CreateRequest(Request.Form["openid_identifier"]);
+                        
                         var fetch = new FetchRequest();
                         fetch.Attributes.AddRequired(WellKnownAttributes.Contact.Email);
                         openIdRequest.AddExtension(fetch);
+
                         openIdRequest.AddCallbackArguments("returnUrl", returnUrl);
 
                         return openIdRequest.RedirectingResponse.AsActionResult();
