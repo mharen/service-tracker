@@ -19,9 +19,13 @@ namespace service_tracker_mvc
             _minimumRole = "Manager";
         }
 
-        public RequiresAuthorizationAttribute(bool authorize, string minimumRole = "Manager")
+        public RequiresAuthorizationAttribute(bool authorize):base()
         {
             _authorize = authorize;
+        }
+        
+        public RequiresAuthorizationAttribute(string minimumRole = "Manager"):base()
+        {
             _minimumRole = minimumRole;
         }
 

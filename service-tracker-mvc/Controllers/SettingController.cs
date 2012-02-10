@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace service_tracker_mvc.Controllers
 {
-    [Authorize(Roles = "Manager")]
+    [RequiresAuthorizationAttribute("Manager")]
     public class SettingController : Controller
     {
         public ActionResult Index()

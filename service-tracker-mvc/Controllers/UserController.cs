@@ -14,7 +14,7 @@ using System.Data;
 
 namespace service_tracker_mvc.Controllers
 {
-    [RequiresAuthorizationAttribute(true, "Manager")]
+    [RequiresAuthorizationAttribute("Manager")]
     public class UserController : Controller
     {
         private static OpenIdRelyingParty openid = new OpenIdRelyingParty();
