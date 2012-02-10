@@ -689,6 +689,24 @@
             Represents an error that occurs when an automatic migration would result in data loss.
             </summary>
         </member>
+        <member name="T:System.Data.Entity.Migrations.Infrastructure.MigrationsException">
+            <summary>
+            Represents errors that occur inside the Code First Migrations pipeline.
+            </summary>
+        </member>
+        <member name="M:System.Data.Entity.Migrations.Infrastructure.MigrationsException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the MigrationsException class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:System.Data.Entity.Migrations.Infrastructure.MigrationsException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the MigrationsException class with serialized data.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
+        </member>
         <member name="M:System.Data.Entity.Migrations.Infrastructure.AutomaticDataLossException.#ctor(System.String)">
             <summary>
             Initializes a new instance of the AutomaticDataLossException class.
@@ -1738,98 +1756,106 @@
         </member>
         <member name="T:System.Data.Entity.Migrations.Design.ToolingFacade">
             <summary>
-            Helper class that is used by design time tools to run migrations related  
-            commands that need to interact with an application that is being edited
-            in Visual Studio.
+                Helper class that is used by design time tools to run migrations related  
+                commands that need to interact with an application that is being edited
+                in Visual Studio.
             
-            Because the application is being edited the assemblies need to
-            be loaded in a separate AppDomain to ensure the latest version
-            is always loaded.
+                Because the application is being edited the assemblies need to
+                be loaded in a separate AppDomain to ensure the latest version
+                is always loaded.
             
-            The App/Web.config file from the startup project is also copied
-            to ensure that any configuration is applied.
+                The App/Web.config file from the startup project is also copied
+                to ensure that any configuration is applied.
             </summary>
         </member>
         <member name="M:System.Data.Entity.Migrations.Design.ToolingFacade.#ctor(System.String,System.String,System.String,System.String,System.String,System.Data.Entity.Infrastructure.DbConnectionInfo)">
             <summary>
-            Initializes a new instance of the ToolingFacade class.
+                Initializes a new instance of the ToolingFacade class.
             </summary>
-            <param name="assemblyName">
-            The name of the assembly that contains the migrations configuration to be used.
+            <param name = "assemblyName">
+                The name of the assembly that contains the migrations configuration to be used.
             </param>
-            <param name="configurationTypeName">
-            The namespace qualified name of migrations configuration to be used.
+            <param name = "configurationTypeName">
+                The namespace qualified name of migrations configuration to be used.
             </param>
-            <param name="workingDirectory">
-            The working directory containing the compiled assemblies.
+            <param name = "workingDirectory">
+                The working directory containing the compiled assemblies.
             </param>
-            <param name="configurationFilePath">
-            The path of the config file from the startup project.
+            <param name = "configurationFilePath">
+                The path of the config file from the startup project.
             </param>
-            <param name="dataDirectory">
-            The path of the application data directory from the startup project.
-            Typically the App_Data directory for web applications or the working directory for executables.
+            <param name = "dataDirectory">
+                The path of the application data directory from the startup project.
+                Typically the App_Data directory for web applications or the working directory for executables.
             </param>
-            <param name="connectionStringInfo">
-            The connection to the database to be migrated.
-            If null is supplied, the default connection for the context will be used.
+            <param name = "connectionStringInfo">
+                The connection to the database to be migrated.
+                If null is supplied, the default connection for the context will be used.
             </param>
         </member>
         <member name="M:System.Data.Entity.Migrations.Design.ToolingFacade.Finalize">
             <summary>
-            Releases all unmanaged resources used by the facade.
+                Releases all unmanaged resources used by the facade.
             </summary>
         </member>
         <member name="M:System.Data.Entity.Migrations.Design.ToolingFacade.GetContextTypes">
             <summary>
-            Gets the fully qualified name of all types deriving from <see cref="T:System.Data.Entity.DbContext"/>.
+                Gets the fully qualified name of all types deriving from <see cref="T:System.Data.Entity.DbContext"/>.
             </summary>
             <returns>All context types found.</returns>
         </member>
         <member name="M:System.Data.Entity.Migrations.Design.ToolingFacade.GetDatabaseMigrations">
             <summary>
-            Gets a list of all migrations that have been applied to the database.
+                Gets a list of all migrations that have been applied to the database.
             </summary>
             <returns>Ids of applied migrations.</returns>
         </member>
         <member name="M:System.Data.Entity.Migrations.Design.ToolingFacade.GetPendingMigrations">
             <summary>
-            Gets a list of all migrations that have not been applied to the database.
+                Gets a list of all migrations that have not been applied to the database.
             </summary>
             <returns>Ids of pending migrations.</returns>
         </member>
         <member name="M:System.Data.Entity.Migrations.Design.ToolingFacade.Update(System.String,System.Boolean)">
             <summary>
-            Updates the database to the specified migration.
+                Updates the database to the specified migration.
             </summary>
-            <param name="targetMigration">
-            The Id of the migration to migrate to.
-            If null is supplied, the database will be updated to the latest migration.
+            <param name = "targetMigration">
+                The Id of the migration to migrate to.
+                If null is supplied, the database will be updated to the latest migration.
             </param>
-            <param name="force">Value indicating if data loss during automatic migration is acceptable.</param>
+            <param name = "force">Value indicating if data loss during automatic migration is acceptable.</param>
         </member>
         <member name="M:System.Data.Entity.Migrations.Design.ToolingFacade.ScriptUpdate(System.String,System.String,System.Boolean)">
             <summary>
-            Generates a SQL script to migrate between two migrations.
+                Generates a SQL script to migrate between two migrations.
             </summary>
-            <param name="sourceMigration">
-            The migration to update from. 
-            If null is supplied, a script to update the current database will be produced.
+            <param name = "sourceMigration">
+                The migration to update from. 
+                If null is supplied, a script to update the current database will be produced.
             </param>
-            <param name="targetMigration">
-            The migration to update to.
-            If null is supplied, a script to update to the latest migration will be produced.
+            <param name = "targetMigration">
+                The migration to update to.
+                If null is supplied, a script to update to the latest migration will be produced.
             </param>
-            <param name="force">Value indicating if data loss during automatic migration is acceptable.</param>
+            <param name = "force">Value indicating if data loss during automatic migration is acceptable.</param>
             <returns>The generated SQL script.</returns>
         </member>
         <member name="M:System.Data.Entity.Migrations.Design.ToolingFacade.Scaffold(System.String,System.String,System.String)">
             <summary>
-            Scaffolds a code-based migration to apply any pending model changes.
+                Scaffolds a code-based migration to apply any pending model changes.
             </summary>
-            <param name="migrationName">The name for the generated migration.</param>
-            <param name="language">The programming language of the generated migration.</param>
-            <param name="rootNamespace">The root namespace of the project the migration will be added to.</param>
+            <param name = "migrationName">The name for the generated migration.</param>
+            <param name = "language">The programming language of the generated migration.</param>
+            <param name = "rootNamespace">The root namespace of the project the migration will be added to.</param>
+            <returns>The scaffolded migration.</returns>
+        </member>
+        <member name="M:System.Data.Entity.Migrations.Design.ToolingFacade.ScaffoldInitialCreate(System.String,System.String)">
+            <summary>
+                Scaffolds the initial code-based migration corresponding to a previously run database initializer.
+            </summary>
+            <param name = "language">The programming language of the generated migration.</param>
+            <param name = "rootNamespace">The root namespace of the project the migration will be added to.</param>
             <returns>The scaffolded migration.</returns>
         </member>
         <member name="M:System.Data.Entity.Migrations.Design.ToolingFacade.Dispose">
@@ -1837,25 +1863,25 @@
         </member>
         <member name="M:System.Data.Entity.Migrations.Design.ToolingFacade.Dispose(System.Boolean)">
             <summary>
-            Releases all resources used by the facade.
+                Releases all resources used by the facade.
             </summary>
             <param name = "disposing">
-            <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
+                <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
             </param>
         </member>
         <member name="P:System.Data.Entity.Migrations.Design.ToolingFacade.LogInfoDelegate">
             <summary>
-            Gets or sets an action to be run to log information.
+                Gets or sets an action to be run to log information.
             </summary>
         </member>
         <member name="P:System.Data.Entity.Migrations.Design.ToolingFacade.LogWarningDelegate">
             <summary>
-            Gets or sets an action to be run to log warnings.
+                Gets or sets an action to be run to log warnings.
             </summary>
         </member>
         <member name="P:System.Data.Entity.Migrations.Design.ToolingFacade.LogVerboseDelegate">
             <summary>
-            Gets or sets an action to be run to log verbose information.
+                Gets or sets an action to be run to log verbose information.
             </summary>
         </member>
         <member name="T:System.Data.Entity.Migrations.Infrastructure.MigrationsLogger">
@@ -1880,31 +1906,6 @@
             Logs some additional information that should only be presented to the user if they request verbose output.
             </summary>
             <param name="message">The message to be logged.</param>
-        </member>
-        <member name="T:System.Data.Entity.Migrations.DbSetExtensions">
-            <summary>
-            A set of extension methods for <see cref="T:System.Data.Entity.DbSet"/>
-            </summary>
-        </member>
-        <member name="M:System.Data.Entity.Migrations.DbSetExtensions.AddOrUpdate``1(System.Data.Entity.DbSet{``0},``0[])">
-            <summary>
-                Adds or updates entities by key when SaveChanges is called. Equivalent to an "upsert" operation
-                from database terminology. 
-                This method can useful when seeding data using Migrations.
-            </summary>
-            <param name = "entities">The entities to add or update.</param>
-        </member>
-        <member name="M:System.Data.Entity.Migrations.DbSetExtensions.AddOrUpdate``1(System.Data.Entity.DbSet{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Object}},``0[])">
-            <summary>
-                Adds or updates entities by a custom identification expression when SaveChanges is called.
-                Equivalent to an "upsert" operation from database terminology.
-                This method can useful when seeding data using Migrations.
-            </summary>
-            <param name = "identifierExpression">
-                An expression specifying the properties that should be used when determining
-                whether an Add or Update operation should be performed.
-            </param>
-            <param name = "entities">The entities to add or update.</param>
         </member>
         <member name="T:System.Data.Entity.Validation.DbUnexpectedValidationException">
             <summary>
@@ -3067,37 +3068,37 @@
         </member>
         <member name="T:System.Data.Entity.Migrations.Model.PrimaryKeyOperation">
             <summary>
-            Common base class to represent operations affecting primary keys.
+                Common base class to represent operations affecting primary keys.
             </summary>
         </member>
         <member name="M:System.Data.Entity.Migrations.Model.PrimaryKeyOperation.#ctor(System.Object)">
             <summary>
-            Initializes a new instance of the PrimaryKeyOperation class.
+                Initializes a new instance of the PrimaryKeyOperation class.
             </summary>
-            <param name="anonymousArguments">
-            Additional arguments that may be processed by providers. 
-            Use anonymous type syntax to specify arguments e.g. 'new { SampleArgument = "MyValue" }'.
+            <param name = "anonymousArguments">
+                Additional arguments that may be processed by providers. 
+                Use anonymous type syntax to specify arguments e.g. 'new { SampleArgument = "MyValue" }'.
             </param>
         </member>
         <member name="P:System.Data.Entity.Migrations.Model.PrimaryKeyOperation.Table">
             <summary>
-            Gets or sets the name of the table that contains the primary key.
+                Gets or sets the name of the table that contains the primary key.
             </summary>
         </member>
         <member name="P:System.Data.Entity.Migrations.Model.PrimaryKeyOperation.Columns">
             <summary>
-            Gets the column(s) that make up the primary key.
+                Gets the column(s) that make up the primary key.
             </summary>
         </member>
         <member name="P:System.Data.Entity.Migrations.Model.PrimaryKeyOperation.HasDefaultName">
             <summary>
-            Gets a value indicating if a specific name has been supplied for this primary key.
+                Gets a value indicating if a specific name has been supplied for this primary key.
             </summary>
         </member>
         <member name="P:System.Data.Entity.Migrations.Model.PrimaryKeyOperation.Name">
             <summary>
-            Gets or sets the name of this primary key.
-            If no name is supplied, a default name will be calculated.
+                Gets or sets the name of this primary key.
+                If no name is supplied, a default name will be calculated.
             </summary>
         </member>
         <member name="P:System.Data.Entity.Migrations.Model.PrimaryKeyOperation.IsDestructiveChange">
@@ -4362,42 +4363,42 @@
         </member>
         <member name="T:System.Data.Entity.Migrations.Model.ForeignKeyOperation">
             <summary>
-            Base class for changes that affect foreign key constraints.
+                Base class for changes that affect foreign key constraints.
             </summary>
         </member>
         <member name="M:System.Data.Entity.Migrations.Model.ForeignKeyOperation.#ctor(System.Object)">
             <summary>
-            Initializes a new instance of the ForeignKeyOperation class.
+                Initializes a new instance of the ForeignKeyOperation class.
             </summary>
-            <param name="anonymousArguments">
-            Additional arguments that may be processed by providers. 
-            Use anonymous type syntax to specify arguments e.g. 'new { SampleArgument = "MyValue" }'.
+            <param name = "anonymousArguments">
+                Additional arguments that may be processed by providers. 
+                Use anonymous type syntax to specify arguments e.g. 'new { SampleArgument = "MyValue" }'.
             </param>
         </member>
         <member name="P:System.Data.Entity.Migrations.Model.ForeignKeyOperation.PrincipalTable">
             <summary>
-            Gets or sets the name of the table that the foreign key constraint targets.
+                Gets or sets the name of the table that the foreign key constraint targets.
             </summary>
         </member>
         <member name="P:System.Data.Entity.Migrations.Model.ForeignKeyOperation.DependentTable">
             <summary>
-            Gets or sets the name of the table that the foreign key columns exist in.
+                Gets or sets the name of the table that the foreign key columns exist in.
             </summary>
         </member>
         <member name="P:System.Data.Entity.Migrations.Model.ForeignKeyOperation.DependentColumns">
             <summary>
-            The names of the foreign key column(s).
+                The names of the foreign key column(s).
             </summary>
         </member>
         <member name="P:System.Data.Entity.Migrations.Model.ForeignKeyOperation.HasDefaultName">
             <summary>
-            Gets a value indicating if a specific name has been supplied for this foreign key constraint.
+                Gets a value indicating if a specific name has been supplied for this foreign key constraint.
             </summary>
         </member>
         <member name="P:System.Data.Entity.Migrations.Model.ForeignKeyOperation.Name">
             <summary>
-            Gets or sets the name of this foreign key constraint.
-            If no name is supplied, a default name will be calculated.
+                Gets or sets the name of this foreign key constraint.
+                If no name is supplied, a default name will be calculated.
             </summary>
         </member>
         <member name="M:System.Data.Entity.Migrations.Model.AddForeignKeyOperation.#ctor(System.Object)">
@@ -4450,6 +4451,12 @@
             Scaffolds a code based migration to apply any pending model changes to the database.
             </summary>
             <param name="migrationName">The name to use for the scaffolded migration.</param>
+            <returns>The scaffolded migration.</returns>
+        </member>
+        <member name="M:System.Data.Entity.Migrations.Design.MigrationScaffolder.ScaffoldInitialCreate">
+            <summary>
+            Scaffolds the initial code-based migration corresponding to a previously run database initializer.
+            </summary>
             <returns>The scaffolded migration.</returns>
         </member>
         <member name="P:System.Data.Entity.Migrations.Design.MigrationScaffolder.Namespace">
@@ -10424,6 +10431,39 @@
             </param>
             <returns>A configuration object that can be used to further configure the relationship.</returns>
         </member>
+        <member name="T:System.Data.Entity.Migrations.IDbSetExtensions">
+            <summary>
+                A set of extension methods for <see cref="T:System.Data.Entity.IDbSet`1"/>
+            </summary>
+        </member>
+        <member name="M:System.Data.Entity.Migrations.IDbSetExtensions.AddOrUpdate``1(System.Data.Entity.IDbSet{``0},``0[])">
+            <summary>
+                Adds or updates entities by key when SaveChanges is called. Equivalent to an "upsert" operation
+                from database terminology. 
+                This method can useful when seeding data using Migrations.
+            </summary>
+            <param name = "entities">The entities to add or update.</param>
+            <remarks>
+                When the <param name="set"/> parameter is a custom or fake IDbSet implementation, this method will
+                attempt to locate and invoke a public, instance method with the same signature as this extension method.
+            </remarks>
+        </member>
+        <member name="M:System.Data.Entity.Migrations.IDbSetExtensions.AddOrUpdate``1(System.Data.Entity.IDbSet{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Object}},``0[])">
+            <summary>
+                Adds or updates entities by a custom identification expression when SaveChanges is called.
+                Equivalent to an "upsert" operation from database terminology.
+                This method can useful when seeding data using Migrations.
+            </summary>
+            <param name = "identifierExpression">
+                An expression specifying the properties that should be used when determining
+                whether an Add or Update operation should be performed.
+            </param>
+            <param name = "entities">The entities to add or update.</param>
+            <remarks>
+                When the <param name="set"/> parameter is a custom or fake IDbSet implementation, this method will
+                attempt to locate and invoke a public, instance method with the same signature as this extension method.
+            </remarks>
+        </member>
         <member name="T:System.Data.Entity.ModelConfiguration.Conventions.ComplexTypeAttributeConvention">
             <summary>
                 Convention to process instances of <see cref="T:System.ComponentModel.DataAnnotations.ComplexTypeAttribute"/> found on types in the model.
@@ -11681,9 +11721,9 @@
                 To scaffold migrations based on changes to your model use <see cref="T:System.Data.Entity.Migrations.Design.MigrationScaffolder"/>
             </summary>
         </member>
-        <member name="F:System.Data.Entity.Migrations.DbMigrator.EmptyMigrationId">
+        <member name="F:System.Data.Entity.Migrations.DbMigrator.InitialDatabase">
             <summary>
-            Migration Id representing the state of the database before any migrations are applied.
+                Migration Id representing the state of the database before any migrations are applied.
             </summary>
         </member>
         <member name="M:System.Data.Entity.Migrations.DbMigrator.#ctor(System.Data.Entity.Migrations.DbMigrationsConfiguration)">
@@ -14837,7 +14877,12 @@
         </member>
         <member name="M:System.Data.Entity.Resources.Strings.LoggingTargetDatabase(System.Object)">
             <summary>
-            A string like "Target database connection string: '{0}'."
+            A string like "Target database is: {0}."
+            </summary>
+        </member>
+        <member name="M:System.Data.Entity.Resources.Strings.LoggingTargetDatabaseFormat(System.Object,System.Object,System.Object,System.Object)">
+            <summary>
+            A string like "'{1}' (DataSource: {0}, Provider: {2}, Origin: {3})"
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Strings.MigrationNotFound(System.Object)">
@@ -14853,6 +14898,11 @@
         <member name="M:System.Data.Entity.Resources.Strings.AutoNotValidTarget(System.Object)">
             <summary>
             A string like "'{0}' is not a valid target migration. When targeting a previously applied automatic migration, use the full migration id including timestamp."
+            </summary>
+        </member>
+        <member name="M:System.Data.Entity.Resources.Strings.AutoNotValidForScriptWindows(System.Object)">
+            <summary>
+            A string like "'{0}' is not a valid migration. Explicit migrations must be used for both source and target when scripting the upgrade between them."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Strings.ContextNotConstructible(System.Object)">
@@ -14877,7 +14927,7 @@
         </member>
         <member name="M:System.Data.Entity.Resources.Strings.AssemblyMigrator_NoConfiguration(System.Object)">
             <summary>
-            A string like "No migrations configuration type was found in the assembly '{0}'."
+            A string like "No migrations configuration type was found in the assembly '{0}'. (In Visual Studio you can use the Enable-Migrations command from Package Manager Console to add a migrations configuration)."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Strings.AssemblyMigrator_MultipleConfigurations(System.Object)">
@@ -14910,6 +14960,7 @@
             A string like "In VB.NET projects, the migrations namespace '{0}' must be under the root namespace '{1}'. Update the migrations project's root namespace to allow classes under the migrations namespace to be added."
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Data.Entity.Resources.Strings.UnableToDispatchAddOrUpdate(System.Object)" -->
         <member name="M:System.Data.Entity.Resources.Strings.ArgumentIsNullOrWhitespace(System.Object)">
             <summary>
             A string like "The argument '{0}' cannot be null, empty or contain only white space."
@@ -15687,6 +15738,11 @@
             A string like "No pending explicit migrations."
             </summary>
         </member>
+        <member name="P:System.Data.Entity.Resources.Strings.LoggingExplicit">
+            <summary>
+            A string like "Explicit"
+            </summary>
+        </member>
         <member name="P:System.Data.Entity.Resources.Strings.UpgradingHistoryTable">
             <summary>
             A string like "Upgrading history table."
@@ -15694,17 +15750,17 @@
         </member>
         <member name="P:System.Data.Entity.Resources.Strings.MetadataOutOfDate">
             <summary>
-            A string like "Migrations are disabled for the target database because it is incompatible with the current model. To enable migrations, ensure the current model is compatible with the target database and execute the Update command."
+            A string like "Cannot scaffold the next migration because the target database was created with a version of Code First earlier than EF 4.3 and does not contain the migrations history table. To start using migrations against this database, ensure the current model is compatible with the target database and execute the migrations Update process. (In Visual Studio you can use the Update-Database command from Package Manager Console to execute the migrations Update process)."
             </summary>
         </member>
         <member name="P:System.Data.Entity.Resources.Strings.AutomaticDisabledException">
             <summary>
-            A string like "Unable to apply pending changes because automatic migration is disabled. To enable automatic migration, ensure that DbMigrationsConfiguration.AutomaticMigrationsEnabled is set to true."
+            A string like "Unable to update database to match the current model because there are pending changes and automatic migration is disabled. Either write the pending model changes to a code-based migration or enable automatic migration. Set DbMigrationsConfiguration.AutomaticMigrationsEnabled to true to enable automatic migration."
             </summary>
         </member>
-        <member name="P:System.Data.Entity.Resources.Strings.ScriptingDownsNotSupported">
+        <member name="P:System.Data.Entity.Resources.Strings.DownScriptWindowsNotSupported">
             <summary>
-            A string like "Scripting the downgrade between two arbitrary migrations is currently not supported."
+            A string like "Scripting the downgrade between two specified migrations is not supported."
             </summary>
         </member>
         <member name="P:System.Data.Entity.Resources.Strings.SqlCeColumnRenameNotSupported">
@@ -15954,94 +16010,100 @@
         </member>
         <member name="M:System.Data.Entity.Resources.Error.MetadataOutOfDate">
             <summary>
-            InvalidOperationException with message like "Migrations are disabled for the target database because it is incompatible with the current model. To enable migrations, ensure the current model is compatible with the target database and execute the Update command."
+            Migrations.Infrastructure.MigrationsException with message like "Cannot scaffold the next migration because the target database was created with a version of Code First earlier than EF 4.3 and does not contain the migrations history table. To start using migrations against this database, ensure the current model is compatible with the target database and execute the migrations Update process. (In Visual Studio you can use the Update-Database command from Package Manager Console to execute the migrations Update process)."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Error.MigrationNotFound(System.Object)">
             <summary>
-            InvalidOperationException with message like "The specified target migration '{0}' does not exist. Ensure that target migration refers to an existing migration id."
+            Migrations.Infrastructure.MigrationsException with message like "The specified target migration '{0}' does not exist. Ensure that target migration refers to an existing migration id."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Error.PartialFkOperation(System.Object,System.Object)">
             <summary>
-            InvalidOperationException with message like "The Foreign Key on table '{0}' with columns '{1}' could not be created because the principal key columns could not be determined. Use the AddForeignKey fluent API to fully specify the Foreign Key."
+            Migrations.Infrastructure.MigrationsException with message like "The Foreign Key on table '{0}' with columns '{1}' could not be created because the principal key columns could not be determined. Use the AddForeignKey fluent API to fully specify the Foreign Key."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Error.AutoNotValidTarget(System.Object)">
             <summary>
-            InvalidOperationException with message like "'{0}' is not a valid target migration. When targeting a previously applied automatic migration, use the full migration id including timestamp."
+            Migrations.Infrastructure.MigrationsException with message like "'{0}' is not a valid target migration. When targeting a previously applied automatic migration, use the full migration id including timestamp."
+            </summary>
+        </member>
+        <member name="M:System.Data.Entity.Resources.Error.AutoNotValidForScriptWindows(System.Object)">
+            <summary>
+            Migrations.Infrastructure.MigrationsException with message like "'{0}' is not a valid migration. Explicit migrations must be used for both source and target when scripting the upgrade between them."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Error.ContextNotConstructible(System.Object)">
             <summary>
-            InvalidOperationException with message like "The target context '{0}' is not constructible. Add a default constructor or provide an implementation of IDbContextFactory."
+            Migrations.Infrastructure.MigrationsException with message like "The target context '{0}' is not constructible. Add a default constructor or provide an implementation of IDbContextFactory."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Error.AmbiguousMigrationName(System.Object)">
             <summary>
-            InvalidOperationException with message like "The specified migration name '{0}' is ambiguous. Specify the full migration id including timestamp instead."
+            Migrations.Infrastructure.MigrationsException with message like "The specified migration name '{0}' is ambiguous. Specify the full migration id including timestamp instead."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Error.AutomaticDisabledException">
             <summary>
-            Migrations.Infrastructure.AutomaticMigrationsDisabledException with message like "Unable to apply pending changes because automatic migration is disabled. To enable automatic migration, ensure that DbMigrationsConfiguration.AutomaticMigrationsEnabled is set to true."
+            Migrations.Infrastructure.AutomaticMigrationsDisabledException with message like "Unable to update database to match the current model because there are pending changes and automatic migration is disabled. Either write the pending model changes to a code-based migration or enable automatic migration. Set DbMigrationsConfiguration.AutomaticMigrationsEnabled to true to enable automatic migration."
             </summary>
         </member>
-        <member name="M:System.Data.Entity.Resources.Error.ScriptingDownsNotSupported">
+        <member name="M:System.Data.Entity.Resources.Error.DownScriptWindowsNotSupported">
             <summary>
-            InvalidOperationException with message like "Scripting the downgrade between two arbitrary migrations is currently not supported."
+            Migrations.Infrastructure.MigrationsException with message like "Scripting the downgrade between two specified migrations is not supported."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Error.AssemblyMigrator_NoConfigurationWithName(System.Object,System.Object)">
             <summary>
-            InvalidOperationException with message like "The migrations configuration type '{0}' was not be found in the assembly '{1}'."
+            Migrations.Infrastructure.MigrationsException with message like "The migrations configuration type '{0}' was not be found in the assembly '{1}'."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Error.AssemblyMigrator_MultipleConfigurationsWithName(System.Object,System.Object)">
             <summary>
-            InvalidOperationException with message like "More than one migrations configuration type '{0}' was found in the assembly '{1}'. Specify the fully qualified name of the one to use."
+            Migrations.Infrastructure.MigrationsException with message like "More than one migrations configuration type '{0}' was found in the assembly '{1}'. Specify the fully qualified name of the one to use."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Error.AssemblyMigrator_NoConfiguration(System.Object)">
             <summary>
-            InvalidOperationException with message like "No migrations configuration type was found in the assembly '{0}'."
+            Migrations.Infrastructure.MigrationsException with message like "No migrations configuration type was found in the assembly '{0}'. (In Visual Studio you can use the Enable-Migrations command from Package Manager Console to add a migrations configuration)."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Error.AssemblyMigrator_MultipleConfigurations(System.Object)">
             <summary>
-            InvalidOperationException with message like "More than one migrations configuration type was found in the assembly '{0}'. Specify the name of the one to use."
+            Migrations.Infrastructure.MigrationsException with message like "More than one migrations configuration type was found in the assembly '{0}'. Specify the name of the one to use."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Error.AssemblyMigrator_NonConfigurationType(System.Object)">
             <summary>
-            InvalidOperationException with message like "The type '{0}' is not a migrations configuration type."
+            Migrations.Infrastructure.MigrationsException with message like "The type '{0}' is not a migrations configuration type."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Error.AssemblyMigrator_NoDefaultConstructor(System.Object)">
             <summary>
-            InvalidOperationException with message like "The migrations configuration type '{0}' must have a public default constructor."
+            Migrations.Infrastructure.MigrationsException with message like "The migrations configuration type '{0}' must have a public default constructor."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Error.AssemblyMigrator_AbstractConfigurationType(System.Object)">
             <summary>
-            InvalidOperationException with message like "The migrations configuration type '{0}' must not be abstract."
+            Migrations.Infrastructure.MigrationsException with message like "The migrations configuration type '{0}' must not be abstract."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Error.AssemblyMigrator_GenericConfigurationType(System.Object)">
             <summary>
-            InvalidOperationException with message like "The migrations configuration type '{0}' must not be generic."
+            Migrations.Infrastructure.MigrationsException with message like "The migrations configuration type '{0}' must not be generic."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Error.SqlCeColumnRenameNotSupported">
             <summary>
-            NotSupportedException with message like "Direct column renaming is not supported by SQL Server Compact. To rename a column in SQL Server Compact, you will need to recreate it."
+            Migrations.Infrastructure.MigrationsException with message like "Direct column renaming is not supported by SQL Server Compact. To rename a column in SQL Server Compact, you will need to recreate it."
             </summary>
         </member>
         <member name="M:System.Data.Entity.Resources.Error.MigrationsNamespaceNotUnderRootNamespace(System.Object,System.Object)">
             <summary>
-            InvalidOperationException with message like "In VB.NET projects, the migrations namespace '{0}' must be under the root namespace '{1}'. Update the migrations project's root namespace to allow classes under the migrations namespace to be added."
+            Migrations.Infrastructure.MigrationsException with message like "In VB.NET projects, the migrations namespace '{0}' must be under the root namespace '{1}'. Update the migrations project's root namespace to allow classes under the migrations namespace to be added."
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:System.Data.Entity.Resources.Error.UnableToDispatchAddOrUpdate(System.Object)" -->
         <member name="M:System.Data.Entity.Resources.Error.ArgumentIsNullOrWhitespace(System.Object)">
             <summary>
             ArgumentException with message like "The argument '{0}' cannot be null, empty or contain only white space."

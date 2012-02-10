@@ -10,7 +10,7 @@ namespace service_tracker_mvc.App_Start
     {
         public static void Start()
         {
-            Database.SetInitializer(new CreateDatabaseIfNotExists<DataContext>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataContext, Migrations.Configuration>());
             Utilites.SeedData();
         }
     }

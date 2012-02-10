@@ -9,13 +9,9 @@ namespace service_tracker_mvc.Controllers
     [Authorize(Roles = "Manager")]
     public class SettingController : Controller
     {
-        //
-        // GET: /Setting/
-
         public ActionResult Index()
         {
             return View();
         }
-
     }
 }

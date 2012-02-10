@@ -1,39 +1,69 @@
 # Copyright (c) Microsoft Corporation.  All rights reserved.
 
-$EmptyMigration = '0'
+$InitialDatabase = '0'
 
 $installPath = $args[0]
+$knownExceptions = @(
+    'System.Data.Entity.Migrations.Infrastructure.MigrationsException',
+    'System.Data.Entity.Migrations.Infrastructure.AutomaticMigrationsDisabledException',
+    'System.Data.Entity.Migrations.Infrastructure.AutomaticDataLossException'
+)
 
 <#
 .SYNOPSIS
-    Enables Code First Migrations in the a project.
+    Enables Code First Migrations in a project.
 
 .DESCRIPTION
-    Enables Migrations by scaffolding a migrations configuration class in the project.
+    Enables Migrations by scaffolding a migrations configuration class in the project. If the
+    target database was created by an initializer, an initial migration will be created (unless
+    automatic migrations are enabled via the EnableAutomaticMigrations parameter).
+
+.PARAMETER EnableAutomaticMigrations
+    Specifies whether automatic migrations will be enabled in the scaffolded migrations configuration.
+    If ommitted, automatic migrations will be disabled.
 
 .PARAMETER ProjectName
     Specifies the project that the scaffolded migrations configuration class will
     be added to. If omitted, the default project selected in package manager
     console is used.
+
+.PARAMETER Force
+    Specifies that the migrations configuration be overwritten when running more
+	than once for a given project.
 #>
 function Enable-Migrations
 {
-    [CmdletBinding()] 
-    param ([string] $ProjectName)
+    [CmdletBinding(DefaultParameterSetName = 'ProjectName')] 
+    param (
+        [alias("Auto")]
+        [switch] $EnableAutomaticMigrations,
+        [string] $ProjectName,
+		[switch] $Force
+    )
 
     try
     {
         $commands = New-MigrationsCommandsNoConfiguration $ProjectName
-        $commands.EnableMigrations()
+        $commands.EnableMigrations($EnableAutomaticMigrations, $Force)
     }
     catch [Exception]
     {
-        if ($_.Exception.GetType().FullName -ne 'System.Data.Entity.Migrations.ProjectTypeNotSupportedException')
+        $exception = $_.Exception
+        $exceptionType = $exception.GetType()
+        
+        if ($exceptionType.FullName -eq 'System.Data.Entity.Migrations.Design.ToolingException')
         {
-            Write-Host $_.Exception
+            if ($knownExceptions -notcontains $exception.InnerType)
+            {
+                Write-Host $exception.InnerStackTrace
+            }
         }
-
-        throw $_.Exception.Message
+        elseif (!(Test-TypeInherits $exceptionType 'System.Data.Entity.Migrations.Infrastructure.MigrationsException'))
+        {
+            Write-Host $exception
+        }
+        
+        throw $exception.Message
     }
 }
 
@@ -103,20 +133,22 @@ function Add-Migration
     }
     catch [Exception]
     {
-        $exceptionType = $_.Exception.GetType().FullName
-
-        if ($exceptionType -eq 'System.Data.Entity.Migrations.Design.ToolingException')
+        $exception = $_.Exception
+        $exceptionType = $exception.GetType()
+        
+        if ($exceptionType.FullName -eq 'System.Data.Entity.Migrations.Design.ToolingException')
         {
-            Write-Host $_.Exception.InnerStackTrace
-
-            throw $_.Exception.Message
+            if ($knownExceptions -notcontains $exception.InnerType)
+            {
+                Write-Host $exception.InnerStackTrace
+            }
         }
-        elseif (@( 'System.Data.Entity.Migrations.MigrationsPendingException', 'System.Data.Entity.Migrations.ProjectTypeNotSupportedException' ) -notcontains $exceptionType)
+        elseif (!(Test-TypeInherits $exceptionType 'System.Data.Entity.Migrations.Infrastructure.MigrationsException'))
         {
-            Write-Host $_.Exception
+            Write-Host $exception
         }
-
-        throw $_.Exception.Message
+        
+        throw $exception.Message
     }
 }
 
@@ -201,23 +233,22 @@ function Update-Database
     }
     catch [Exception]
     {
-        $exceptionType = $_.Exception.GetType().FullName
+        $exception = $_.Exception
+        $exceptionType = $exception.GetType()
         
-        if ($exceptionType -eq 'System.Data.Entity.Migrations.Design.ToolingException')
+        if ($exceptionType.FullName -eq 'System.Data.Entity.Migrations.Design.ToolingException')
         {
-            if (@( 'System.Data.Entity.Migrations.Infrastructure.AutomaticDataLossException', 'System.Data.Entity.Migrations.Infrastructure.AutomaticMigrationsDisabledException' ) -notcontains $_.Exception.InnerType)
+            if ($knownExceptions -notcontains $exception.InnerType)
             {
-                Write-Host $_.Exception.InnerStackTrace
+                Write-Host $exception.InnerStackTrace
             }
-
-            throw $_.Exception.Message
         }
-        elseif ($exceptionType -ne 'System.Data.Entity.Migrations.ProjectTypeNotSupportedException')
+        elseif (!(Test-TypeInherits $exceptionType 'System.Data.Entity.Migrations.Infrastructure.MigrationsException'))
         {
-            Write-Host $_.Exception
+            Write-Host $exception
         }
-
-        throw $_.Exception.Message
+        
+        throw $exception.Message
     }
 }
 
@@ -276,20 +307,22 @@ function Get-Migrations
     }
     catch [Exception]
     {
-        $exceptionType = $_.Exception.GetType().FullName
-
-        if ($exceptionType -eq 'System.Data.Entity.Migrations.Design.ToolingException')
+        $exception = $_.Exception
+        $exceptionType = $exception.GetType()
+        
+        if ($exceptionType.FullName -eq 'System.Data.Entity.Migrations.Design.ToolingException')
         {
-            Write-Host $_.Exception.InnerStackTrace
-
-            throw $_.Exception.Message
+            if ($knownExceptions -notcontains $exception.InnerType)
+            {
+                Write-Host $exception.InnerStackTrace
+            }
         }
-        elseif ($exceptionType -ne 'System.Data.Entity.Migrations.ProjectTypeNotSupportedException')
+        elseif (!(Test-TypeInherits $exceptionType 'System.Data.Entity.Migrations.Infrastructure.MigrationsException'))
         {
-            Write-Host $_.Exception
+            Write-Host $exception
         }
-
-        throw $_.Exception.Message
+        
+        throw $exception.Message
     }
 }
 
@@ -388,7 +421,7 @@ function Get-MigrationsStartUpProject($name)
     $startupProject = $DTE.Solution.Projects | ?{
         $fullName = $_.FullName
 
-        if ($fullName.EndsWith('\'))
+        if ($fullName -and $fullName.EndsWith('\'))
         {
             $fullName = $fullName.Substring(0, $fullName.Length - 1)
         }
@@ -432,4 +465,21 @@ function Build-Project($project)
     }
 }
 
-Export-ModuleMember @( 'Enable-Migrations', 'Add-Migration', 'Update-Database', 'Get-Migrations' ) -Variable 'EmptyMigration'
+function Test-TypeInherits($type, $baseTypeName)
+{
+    if ($type.FullName -eq $baseTypeName)
+    {
+        return $true
+    }
+    
+    $baseType = $type.BaseType
+    
+    if ($baseType)
+    {
+        return Test-TypeInherits $baseType $baseTypeName
+    }
+    
+    return $false
+}
+
+Export-ModuleMember @( 'Enable-Migrations', 'Add-Migration', 'Update-Database', 'Get-Migrations' ) -Variable 'InitialDatabase'
