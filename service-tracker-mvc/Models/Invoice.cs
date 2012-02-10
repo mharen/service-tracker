@@ -26,12 +26,15 @@ namespace service_tracker_mvc.Models
         public DateTime ServiceDate { get; set; }
 
         [Display(Name = "FRT Bill")]
+        [MaxLength(50)]
         public string FrtBill { get; set; }
 
         [Display(Name = "Key Rec")]
+        [MaxLength(50)]
         public string KeyRec { get; set; }
 
         [Display(Name = "PO No.")]
+        [MaxLength(50)]
         public string PurchaseOrder { get; set; }
 
         public virtual List<InvoiceItem> Items { get; set; }

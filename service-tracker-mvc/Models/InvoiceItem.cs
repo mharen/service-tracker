@@ -25,6 +25,7 @@ namespace service_tracker_mvc.Models
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }
 
+        [MaxLength(250)]
         public string Comment { get; set; }
 
         [NotMapped]

@@ -11,7 +11,10 @@ namespace service_tracker_mvc.Models
         [Key]
         public int UserId { get; set; }
 
+        [MaxLength(2048), Required]
         public string ClaimedIdentifier { get; set; }
+
+        [MaxLength(254)]
         public string Email { get; set; }
 
         public int RoleId { get; set; }

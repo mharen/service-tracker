@@ -15,9 +15,12 @@ namespace service_tracker_mvc.Models
     public class Customer
     {
         public int CustomerId { get; set; }
+        [MaxLength(50)]
         public string Name { get; set; }
         [DataType(DataType.MultilineText)]
+        [MaxLength(250)]
         public string Address { get; set; }
+        [MaxLength(50)]
         public string VendorNumber { get; set; }
     }
 }

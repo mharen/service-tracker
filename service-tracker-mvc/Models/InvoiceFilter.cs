@@ -19,10 +19,13 @@ namespace service_tracker_mvc.Models
         [DisplayName("Store")]
         public int CustomerId { get; set; }
         [DisplayName("Key Rec")]
+        [MaxLength(50)]
         public string KeyRec { get; set; }
         [DisplayName("FRT Bill")]
+        [MaxLength(50)]
         public string FrtBill { get; set; }
         [DisplayName("PO")]
+        [MaxLength(50)]
         public string PurchaseOrder { get; set; }
     }
 }
