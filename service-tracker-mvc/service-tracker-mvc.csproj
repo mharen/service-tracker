@@ -93,6 +93,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="ExcelResult.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Profile.cs" />
     <Compile Include="Models\RoleType.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="MvcExtensions.cs" />

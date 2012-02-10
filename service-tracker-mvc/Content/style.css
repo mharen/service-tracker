@@ -275,16 +275,19 @@ div#title a
 {
     text-decoration: none;
 }
-
 #logindisplay
 {
-    font-size:1.1em;
     display:block;
     text-align:right;
     margin-top: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 20px;    
+    font-size:1.1em;
 }
-
+#slug
+{
+    font-style:italic;    
+    float:left;
+}
 /* Styles for validation helpers
 -----------------------------------------------------------*/
 .field-validation-error

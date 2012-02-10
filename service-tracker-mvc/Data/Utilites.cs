@@ -12,6 +12,11 @@ namespace service_tracker_mvc.Data
         {
             using (var DB = new DataContext())
             {
+                if (!DB.Profiles.Any())
+                {
+                    DB.Profiles.Add(new Profile() { Name = "Super Acme Store, LLC", AboutUrl = "http://blog.wassupy.com" });
+                }
+
                 if (!DB.Customers.Any())
                 {
                     DB.Customers.Add(new Customer() { Name = "Store A", Address = "123 Main Street", VendorNumber = "123abc" });

@@ -23,5 +23,6 @@ namespace service_tracker_mvc.Data
         public DbSet<Service> Services { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Profile> Profiles { get; set; }
     }
 }
