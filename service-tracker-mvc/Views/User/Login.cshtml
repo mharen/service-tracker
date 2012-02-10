@@ -16,7 +16,7 @@
         @ViewData["Message"].ToString()
     </div>
 }
-<p>You must log in before entering the Members Area: </p>
+<p>Please log in:</p>
 @using (Html.BeginForm("Authenticate", "User", FormMethod.Post, new { id = "openid" }))
 {
     @Html.Hidden("ReturnUrl", Request["ReturnUrl"])

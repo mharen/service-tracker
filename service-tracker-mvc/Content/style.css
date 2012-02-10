@@ -488,3 +488,4 @@ a.openid_large_btn:focus {
   -moz-outline-style: none;
 }
 #openid_inputarea{ clear: both; padding-top:10px; }
+#openid_inputarea span.oidlabel { vertical-align:middle; margin-right: 5px; }

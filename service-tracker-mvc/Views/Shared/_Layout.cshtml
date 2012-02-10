@@ -46,7 +46,9 @@
                     <li class="ui-state-default ui-corner-top @Html.ActiveTab("Setting") @Html.ActiveTab("Customer") @Html.ActiveTab("Product") @Html.ActiveTab("Service") @Html.ActiveTab("Servicer")">@Html.ActionLink("Settings", "Index", "Setting")</li>
                     <li class="ui-state-default ui-corner-top @Html.ActiveTab("Invoice", new string[] { "Create" })">@Html.ActionLink("New Invoice", "Create", "Invoice")</li>
                     }
+                    @if (User.IsInRole("Customer")) { 
                     <li class="ui-state-default ui-corner-top @Html.ActiveTab("Invoice", new string[] { "Index", "Edit", "Details", "Delete", "Report" })">@Html.ActionLink("Invoices", "Index", "Invoice")</li>
+                    }
                 </ul>
             </div>
 		</header>
