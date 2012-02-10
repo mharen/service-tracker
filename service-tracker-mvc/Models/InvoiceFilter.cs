@@ -21,7 +21,7 @@ namespace service_tracker_mvc.Models
         [DisplayName("Key Rec")]
         [MaxLength(50)]
         public string KeyRec { get; set; }
-        [DisplayName("FRT Bill")]
+        [DisplayName("Invoice")]
         [MaxLength(50)]
         public string FrtBill { get; set; }
         [DisplayName("PO")]

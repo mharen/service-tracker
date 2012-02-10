@@ -25,7 +25,7 @@ namespace service_tracker_mvc.Models
         [DisplayName("Date")]
         public DateTime ServiceDate { get; set; }
 
-        [Display(Name = "FRT Bill")]
+        [Display(Name = "Invoice")]
         [MaxLength(50)]
         public string FrtBill { get; set; }
 
