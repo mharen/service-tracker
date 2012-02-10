@@ -14,17 +14,20 @@ using System.Data;
 
 namespace service_tracker_mvc.Controllers
 {
+    [RequiresAuthorizationAttribute(true, "Manager")]
     public class UserController : Controller
     {
         private static OpenIdRelyingParty openid = new OpenIdRelyingParty();
         private DataContext db = new DataContext();
 
+        [RequiresAuthorization(false)]
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
             return Redirect("~/Home");
         }
 
+        [RequiresAuthorization(false)]
         public ActionResult Login()
         {
             // if the user IS logged in, they probably have come here after trying to get to a page they 
@@ -38,6 +41,7 @@ namespace service_tracker_mvc.Controllers
             return View("Login");
         }
 
+        [RequiresAuthorization(false)]
         [ValidateInput(false)]
         public ActionResult Authenticate(string returnUrl)
         {
@@ -143,13 +147,11 @@ namespace service_tracker_mvc.Controllers
             db.SaveChanges();
         }
 
-        [Authorize(Roles = "Manager")]
         public ViewResult Index()
         {
             return View(db.Users.OrderBy(u => u.Email).ToList());
         }
 
-        [Authorize(Roles = "Manager")]
         public ActionResult Edit(int id)
         {
             User user = db.Users.Find(id);
@@ -157,7 +159,6 @@ namespace service_tracker_mvc.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Manager")]
         public ActionResult Edit(int userId, int roleId)
         {
             db.Users.Single(u => u.UserId == userId).RoleId = roleId;
@@ -165,7 +166,6 @@ namespace service_tracker_mvc.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Roles = "Manager")]
         public ActionResult Delete(int id)
         {
             User user = db.Users.Find(id);
@@ -173,7 +173,6 @@ namespace service_tracker_mvc.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Manager")]
         public ActionResult DeleteConfirmed(int id)
         {
             User user = db.Users.Find(id);

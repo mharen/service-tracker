@@ -33,8 +33,10 @@ namespace service_tracker_mvc.Controllers
 
             return View(invoiceIndexViewModel);
         }
+
         private static string InvoiceFilterSessionKey = "InvoiceFilterSessionKey";
         public static string ResetFiltersRequestKey = "ResetFilters";
+
         private InvoiceIndexViewModel QueryInvoices(InvoiceIndexViewModel invoiceIndexViewModel)
         {
             if (invoiceIndexViewModel == null)
@@ -163,10 +165,6 @@ namespace service_tracker_mvc.Controllers
             return View(invoice);
         }
 
-        //
-        // GET: /Invoice/Create
-
-        [Authorize(Roles="Employee")]
         public ActionResult Create()
         {
             // initialize invoice with defaults
@@ -182,17 +180,11 @@ namespace service_tracker_mvc.Controllers
             return View("Edit", Invoice);
         }
 
-        //
-        // POST: /Invoice/Create
-
         [HttpPost]
         public ActionResult Create(Invoice invoice)
         {
             return Edit(invoice);
         }
-
-        //
-        // GET: /Invoice/Edit/5
 
         public ActionResult Edit(int id)
         {
@@ -274,9 +266,6 @@ namespace service_tracker_mvc.Controllers
                                 ).ToList();
         }
 
-        //
-        // POST: /Invoice/Edit/5
-
         [HttpPost]
         public ActionResult Edit(Invoice invoice)
         {
@@ -309,17 +298,11 @@ namespace service_tracker_mvc.Controllers
             return View(invoice);
         }
 
-        //
-        // GET: /Invoice/Delete/5
-
         public ActionResult Delete(int id)
         {
             Invoice invoice = db.Invoices.Find(id);
             return View(invoice);
         }
-
-        //
-        // POST: /Invoice/Delete/5
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)

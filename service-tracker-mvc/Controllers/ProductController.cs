@@ -15,16 +15,10 @@ namespace service_tracker_mvc.Controllers
     {
         private DataContext db = new DataContext();
 
-        //
-        // GET: /Product/
-
         public ViewResult Index()
         {
             return View(db.Products.OrderBy(p => p.Manufacturer).ThenBy(p => p.Description).ToList());
         }
-
-        //
-        // GET: /Product/Details/5
 
         public ViewResult Details(int id)
         {
@@ -32,16 +26,10 @@ namespace service_tracker_mvc.Controllers
             return View(product);
         }
 
-        //
-        // GET: /Product/Create
-
         public ActionResult Create()
         {
             return View();
         }
-
-        //
-        // POST: /Product/Create
 
         [HttpPost]
         public ActionResult Create(Product product)
@@ -56,17 +44,11 @@ namespace service_tracker_mvc.Controllers
             return View(product);
         }
 
-        //
-        // GET: /Product/Edit/5
-
         public ActionResult Edit(int id)
         {
             Product product = db.Products.Find(id);
             return View(product);
         }
-
-        //
-        // POST: /Product/Edit/5
 
         [HttpPost]
         public ActionResult Edit(Product product)
@@ -80,9 +62,6 @@ namespace service_tracker_mvc.Controllers
             return View(product);
         }
 
-        //
-        // GET: /Product/Delete/5
-
         public ActionResult Delete(int id)
         {
             if (db.InvoiceItems.Any(i => i.ProductId == id))
@@ -92,9 +71,6 @@ namespace service_tracker_mvc.Controllers
             Product product = db.Products.Find(id);
             return View(product);
         }
-
-        //
-        // POST: /Product/Delete/5
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)

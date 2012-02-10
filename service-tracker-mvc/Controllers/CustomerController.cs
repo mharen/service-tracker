@@ -15,16 +15,10 @@ namespace service_tracker_mvc.Controllers
     {
         private DataContext db = new DataContext();
 
-        //
-        // GET: /Customers/
-
         public ViewResult Index()
         {
             return View(db.Customers.OrderBy(c => c.Name).ToList());
         }
-
-        //
-        // GET: /Customers/Details/5
 
         public ViewResult Details(int id)
         {
@@ -32,16 +26,10 @@ namespace service_tracker_mvc.Controllers
             return View(customer);
         }
 
-        //
-        // GET: /Customers/Create
-
         public ActionResult Create()
         {
             return View();
         }
-
-        //
-        // POST: /Customers/Create
 
         [HttpPost]
         public ActionResult Create(Customer customer)
@@ -56,17 +44,11 @@ namespace service_tracker_mvc.Controllers
             return View(customer);
         }
 
-        //
-        // GET: /Customers/Edit/5
-
         public ActionResult Edit(int id)
         {
             Customer customer = db.Customers.Find(id);
             return View(customer);
         }
-
-        //
-        // POST: /Customers/Edit/5
 
         [HttpPost]
         public ActionResult Edit(Customer customer)
@@ -80,9 +62,6 @@ namespace service_tracker_mvc.Controllers
             return View(customer);
         }
 
-        //
-        // GET: /Customers/Delete/5
-
         public ActionResult Delete(int id)
         {
             if (db.Invoices.Any(i => i.CustomerId == id))
@@ -93,9 +72,6 @@ namespace service_tracker_mvc.Controllers
             Customer customer = db.Customers.Find(id);
             return View(customer);
         }
-
-        //
-        // POST: /Customers/Delete/5
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
