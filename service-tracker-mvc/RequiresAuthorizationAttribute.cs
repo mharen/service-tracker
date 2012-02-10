@@ -10,21 +10,18 @@ namespace service_tracker_mvc
     // via http://stackoverflow.com/a/876581/29
     public class RequiresAuthorizationAttribute : ActionFilterAttribute
     {
-        private readonly bool _authorize;
-        private readonly string _minimumRole;
+        // defaults...
+        private readonly bool _authorize = true;
+        private readonly string _minimumRole = "Manager";
 
-        public RequiresAuthorizationAttribute()
-        {
-            _authorize = true;
-            _minimumRole = "Manager";
-        }
+        public RequiresAuthorizationAttribute() { }
 
-        public RequiresAuthorizationAttribute(bool authorize):base()
+        public RequiresAuthorizationAttribute(bool authorize)
         {
             _authorize = authorize;
         }
         
-        public RequiresAuthorizationAttribute(string minimumRole = "Manager"):base()
+        public RequiresAuthorizationAttribute(string minimumRole)
         {
             _minimumRole = minimumRole;
         }
