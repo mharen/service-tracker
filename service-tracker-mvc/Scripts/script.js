@@ -6,7 +6,9 @@ function formatMoney(n) {
 }
 
 $(function () {
-    $("input[type=date]").datepicker();
+    if (!Modernizr.inputtypes.date) {
+        $("input[type=date]").datepicker();
+    }
 
     $("input[type='submit'].confirm-no-undo").click(function () {
         return confirm("Are you sure? There is no undo!");
