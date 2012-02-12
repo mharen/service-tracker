@@ -126,11 +126,7 @@
     <Compile Include="SimpleRoleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="apple-touch-icon-114x114-precomposed.png" />
-    <Content Include="apple-touch-icon-57x57-precomposed.png" />
-    <Content Include="apple-touch-icon-72x72-precomposed.png" />
-    <Content Include="apple-touch-icon-precomposed.png" />
-    <Content Include="apple-touch-icon.png" />
+    <Content Include="Content\apple-touch-icon.png" />
     <Content Include="Content\balloon.png" />
     <Content Include="Content\handheld.css" />
     <Content Include="Content\Images\Error\NotFound.jpg" />
@@ -138,7 +134,7 @@
     <Content Include="Content\indicator.gif" />
     <Content Include="Content\openid-icons.png" />
     <Content Include="Content\style.css" />
-    <Content Include="favicon.ico" />
+    <Content Include="Content\favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="README.jQuery.vsdoc.txt" />
     <Content Include="robots.txt" />
