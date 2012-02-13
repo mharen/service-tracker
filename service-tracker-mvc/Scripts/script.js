@@ -18,7 +18,12 @@ $(function () {
         function () { $(this).children('td').addClass('ui-state-hover'); },
         function () { $(this).children('td').removeClass('ui-state-hover'); }
     )
-    .click(function () { $(this).children('td').toggleClass('ui-state-highlight'); });
+    .click(function (e) {
+        if ($(e.target).is('input,textarea,select')) {
+            return; 
+        }
+        $(this).children('td').toggleClass('ui-state-highlight'); 
+    });
 
     $('#menu li').hover(function () { $(this).addClass('ui-state-hover'); }, function () { $(this).removeClass('ui-state-hover'); });
 
