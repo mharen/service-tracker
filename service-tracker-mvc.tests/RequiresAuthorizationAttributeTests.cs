@@ -31,8 +31,8 @@ namespace MvcAuthorize.Tests
         [TestMethod]
         public void VerifyGuestCannotSeeManagerAction_Test()
         {
-            //Assert.Fail();
             // TODO
+            // Perhaps this can help: http://joelabrahamsson.com/entry/performing-and-testing-redirects-with-aspnet-web-forms-mvp
         }
     }
 }
