@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace service_tracker_mvc
+namespace service_tracker_mvc.Filters
 {
     // via http://stackoverflow.com/a/876581/29
     public class RequiresAuthorizationAttribute : ActionFilterAttribute

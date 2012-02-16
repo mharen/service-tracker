@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
-using service_tracker_mvc.Data;
-using service_tracker_mvc.Models;
-using System.Data.Entity;
-using Devtalk.EF.CodeFirst;
 
 namespace service_tracker_mvc
 {
