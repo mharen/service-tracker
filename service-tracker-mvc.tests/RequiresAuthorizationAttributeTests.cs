@@ -31,6 +31,7 @@ namespace MvcAuthorize.Tests
         [TestMethod]
         public void VerifyGuestCannotSeeManagerAction_Test()
         {
+            Assert.Fail();
             // TODO
         }
     }
