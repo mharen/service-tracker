@@ -19,10 +19,10 @@ namespace service_tracker_mvc.Models
 
         public decimal Quantity { get; set; }
 
-        public int ServiceId { get; set; }
+        public int? ServiceId { get; set; }
         public virtual Service Service { get; set; }
 
-        public int ProductId { get; set; }
+        public int? ProductId { get; set; }
         public virtual Product Product { get; set; }
 
         [MaxLength(250)]
@@ -30,6 +30,6 @@ namespace service_tracker_mvc.Models
 
         [NotMapped]
         [DisplayFormat(DataFormatString = "{0:C}")]
-        public decimal Total { get { return Service == null ? 0 : Service.Cost * Quantity; } }
+        public decimal Total { get { return (Service == null || Quantity == 0)? 0 : Service.Cost * Quantity; } }
     }
 }

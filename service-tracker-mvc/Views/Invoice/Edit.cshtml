@@ -29,14 +29,6 @@
         };
         UpdateGrandTotals();
         $('.affects-calculation').change(UpdateGrandTotals);
-
-        $('#edit-form').submit(function () {
-            // remove incomplete items
-            $(this).find('tr')
-                   .has('select.skip-row-if-missing option[value=]:selected')
-                   .find('input,select,textarea')
-                     .attr('disabled', 'disabled');
-        });
     });
 </script>
 @using (Html.BeginForm(null, null, FormMethod.Post, htmlAttributes: new { id = "edit-form" }))
@@ -115,7 +107,7 @@
                 <td class='ui-widget-content'>@Html.Hidden("Items.Index", index.ToString())
                     @Html.HiddenFor(m => m.Items[index].InvoiceId)
                     @Html.HiddenFor(m => m.Items[index].InvoiceItemId)
-                    @Html.DropDownListFor(m => m.Items[index].ProductId, new SelectList(ViewBag.Products, "Value", "Text", Model.Items[index].ProductId), "", new { @class = "skip-row-if-missing" })
+                    @Html.DropDownListFor(m => m.Items[index].ProductId, new SelectList(ViewBag.Products, "Value", "Text", Model.Items[index].ProductId), "")
                 </td>
                 <td class='ui-widget-content'>@Html.EditorFor(m => m.Items[index].Comment)
                 </td>

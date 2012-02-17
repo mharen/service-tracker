@@ -89,6 +89,10 @@ namespace service_tracker_mvc
                 }
                 selectList = newSelectList;
             }
+            else
+            {
+                selectList.Where(li => li.Selected).ToList().ForEach(li => li.Selected = false);
+            }
 
             // Convert each ListItem to an <option> tag
             StringBuilder listItemBuilder = new StringBuilder();

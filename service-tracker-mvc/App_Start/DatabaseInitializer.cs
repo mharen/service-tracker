@@ -1,12 +1,11 @@
 using System.Data.Entity;
-using Devtalk.EF.CodeFirst;
 using service_tracker_mvc.Data;
 
-[assembly: WebActivator.PreApplicationStartMethod(typeof(service_tracker_mvc.App_Start.DontDropDbJustCreateTablesIfModelChangedStart), "Start")]
+[assembly: WebActivator.PreApplicationStartMethod(typeof(service_tracker_mvc.App_Start.DatabaseInitializer), "Start")]
 
 namespace service_tracker_mvc.App_Start
 {
-    public static class DontDropDbJustCreateTablesIfModelChangedStart
+    public static class DatabaseInitializer
     {
         public static void Start()
         {
