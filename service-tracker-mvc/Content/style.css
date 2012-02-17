@@ -219,9 +219,9 @@ ul#menu li,ul#menu li a,
 ul#menu li.ui-state-hover, ul#menu li.ui-state-hover a,
 .ui-button, .ui-button.ui-state-hover
 {
-  -moz-transition-property: all;
-  -o-transition-property: all;
-  -webkit-transition-property: all;
+  -moz-transition-property: color, text-shadow, background, background-image, border-color;
+  -o-transition-property: color, text-shadow, background, background-image, border;
+  -webkit-transition-property: color, text-shadow, background, background-image, border;
   -moz-transition-duration: 400ms;
   -o-transition-duration: 400ms;
   -webkit-transition-duration: 400ms;
