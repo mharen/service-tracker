@@ -53,7 +53,7 @@ namespace service_tracker_mvc.Controllers
             if (invoiceIndexViewModel.InvoiceFilter == null)
             {
                 var SessionInvoiceFilter = Session[InvoiceFilterSessionKey] as InvoiceFilter;
-                invoiceIndexViewModel.InvoiceFilter =  SessionInvoiceFilter ?? GetDefaultInvoiceFilter();
+                invoiceIndexViewModel.InvoiceFilter = SessionInvoiceFilter ?? GetDefaultInvoiceFilter();
             }
 
             var Filter = invoiceIndexViewModel.InvoiceFilter;
@@ -78,7 +78,7 @@ namespace service_tracker_mvc.Controllers
 
         private static InvoiceFilter GetDefaultInvoiceFilter()
         {
-            return  new InvoiceFilter()
+            return new InvoiceFilter()
             {
                 CustomerId = 0,
                 StartDate = DateTime.UtcNow.Date.AddDays(-7),
@@ -147,12 +147,12 @@ namespace service_tracker_mvc.Controllers
 
         private IEnumerable<Cell> GetInvoiceItemCells(InvoiceItem item)
         {
-            yield return new Cell(item.Product.Description);
+            yield return new Cell(item.Product == null ? "" : item.Product.Description);
             yield return new Cell(item.Comment);
-            yield return new Cell(item.Service.Description);
-            yield return new Cell(item.Service.Sku);
+            yield return new Cell(item.Service == null ? "" : item.Service.Description);
+            yield return new Cell(item.Service == null ? "" : item.Service.Sku);
             yield return new Cell(item.Quantity.ToString("0.00"));
-            yield return new Cell(item.Service.Cost.ToString("0.00"));
+            yield return new Cell(item.Service == null ? "" : item.Service.Cost.ToString("0.00"));
             yield return new Cell(item.Total.ToString("0.00"));
         }
 
@@ -256,7 +256,7 @@ namespace service_tracker_mvc.Controllers
                                           })
                                          .Union(
                                             db.Services
-                                              .OrderBy(s=>s.Sku)
+                                              .OrderBy(s => s.Sku)
                                               .ToList()
                                               .Select(s => new ExtendedSelectListItem()
                                               {
@@ -276,8 +276,7 @@ namespace service_tracker_mvc.Controllers
             }
             else
             {
-                // remove incomplete Items
-                invoice.Items.RemoveAll(item => item.ProductId <= 0);
+                invoice.Items.RemoveAll(item => item.IsEmpty);
             }
 
             if (ModelState.IsValid)

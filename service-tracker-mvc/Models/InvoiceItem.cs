@@ -31,5 +31,17 @@ namespace service_tracker_mvc.Models
         [NotMapped]
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Total { get { return (Service == null || Quantity == 0)? 0 : Service.Cost * Quantity; } }
+
+        [NotMapped]
+        public bool IsEmpty
+        {
+            get
+            {
+                return string.IsNullOrEmpty(Comment)
+                    && (ProductId ?? 0) == 0
+                    && Quantity == 0
+                    && (ServiceId ?? 0) == 0;
+            }
+        }
     }
 }
