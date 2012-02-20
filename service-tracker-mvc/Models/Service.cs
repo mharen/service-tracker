@@ -15,5 +15,9 @@ namespace service_tracker_mvc.Models
         public string Description { get; set; }
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Cost { get; set; }
+        public override string ToString()
+        {
+            return string.Format("{0}{1}{2} ({3:c})", Sku, !(string.IsNullOrEmpty(Sku) || string.IsNullOrEmpty(Description)) ? " - " : "", Description, Cost);
+        }
     }
 }

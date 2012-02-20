@@ -215,7 +215,7 @@ namespace service_tracker_mvc.Controllers
                                           .ToList()
                                           .Select(p => new SelectListItem()
                                           {
-                                              Text = string.Format("{0} - {1}", p.Name, p.VendorNumber),
+                                              Text = p.ToString(),
                                               Value = p.CustomerId.ToString()
                                           })
                                 ).ToList();
@@ -243,7 +243,7 @@ namespace service_tracker_mvc.Controllers
                                               .ToList()
                                               .Select(p => new
                                               {
-                                                  Text = string.Format("{0} - {1}", p.Manufacturer, p.Description),
+                                                  Text = p.ToString(),
                                                   Value = p.ProductId.ToString()
                                               })
                                 ).ToList();
@@ -260,7 +260,7 @@ namespace service_tracker_mvc.Controllers
                                               .ToList()
                                               .Select(s => new ExtendedSelectListItem()
                                               {
-                                                  Text = string.Format("{0} - {1} ({2:c})", s.Sku, s.Description, s.Cost),
+                                                  Text = s.ToString(),
                                                   Value = s.ServiceId.ToString(),
                                                   htmlAttributes = new { data_cost = s.Cost }
                                               })

@@ -46,23 +46,24 @@
         @foreach (var Item in Model.Items)
         {
             <tr>
-                <td class='ui-widget-content'>@Item.Product.Manufacturer - @Item.Product.Description</td>
+                <td class='ui-widget-content'>@if(Item.Product != null){ <text>@Item.Product.Manufacturer - @Item.Product.Description</text> }</td>
                 <td class='ui-widget-content'>@Item.Comment</td>
-                <td class='ui-widget-content'>@Item.Service.Description</td>
-                <td class='ui-widget-content'>@Item.Service.Sku</td>
+                <td class='ui-widget-content'>@if (Item.Service != null) { <text>@Item.Service.Description</text> }</td>
+                <td class='ui-widget-content'>@if (Item.Service != null) { <text>@Item.Service.Sku</text> }</td>
                 <td class='ui-widget-content number'>@Item.Quantity</td>
-                <td class='ui-widget-content number'>@Html.DisplayFor(model => Item.Service.Cost)</td>
+                <td class='ui-widget-content number'>@if (Item.Service != null) { <text>@Html.DisplayFor(model => Item.Service.Cost)</text> }</td>
                 <td class='ui-widget-content number'>@Html.DisplayFor(model => Item.Total)</td>
             </tr>
         }
         <tr>
-            <th class='ui-widget-content number' colspan="5">@Html.DisplayFor(model=>model.Quantity)</th>
+            <th class='ui-widget-content number' colspan="5">@Html.DisplayFor(model => model.Quantity)</th>
             <th class='ui-widget-content number' colspan="2">@Html.DisplayFor(model => model.Total)</th>
         </tr>
     </table>
 <div class="actions">
     @Html.ActionLink("Back to List", "Index")
-    @if(User.IsInRole("Manager")){
+    @if (User.IsInRole("Manager"))
+    {
         <text>|</text> @Html.ActionLink("Edit", "Edit", new { id = Model.InvoiceId, from = "details" })
     }
 </div>

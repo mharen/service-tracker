@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace service_tracker_mvc.Models
 {
@@ -22,5 +23,9 @@ namespace service_tracker_mvc.Models
         public string Address { get; set; }
         [MaxLength(50)]
         public string VendorNumber { get; set; }
+        public override string ToString()
+        {
+            return string.Format("{0}{1}{2}", Name, !(string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(VendorNumber)) ? " - " : "", VendorNumber);
+        }
     }
 }
