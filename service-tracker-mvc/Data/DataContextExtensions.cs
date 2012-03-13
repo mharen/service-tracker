@@ -56,7 +56,7 @@ namespace service_tracker_mvc.Data
         {
             return ToSelectListItems(
                 set: servicers,
-                orderBySelector: o => o.Name,
+                orderBySelector: o => o.ToString(),
                 selectListItemTextSelector: o => o.Name,
                 selectListItemValueSelector: o => o.ServicerId.ToString(),
                 includeAllOption: includeAllOption
@@ -68,7 +68,7 @@ namespace service_tracker_mvc.Data
             return ToSelectListItems(
                 set: sites,
                 orderBySelector: o => o.Name,
-                selectListItemTextSelector: o => o.Name,
+                selectListItemTextSelector: o => o.ToString(),
                 selectListItemValueSelector: o => o.SiteId.ToString(),
                 includeAllOption: includeAllOption
             );
@@ -76,19 +76,20 @@ namespace service_tracker_mvc.Data
 
         private static IEnumerable<SelectListItem> ToSelectListItems<T>(
             DbSet<T> set,
-            Expression<Func<T, string>> orderBySelector,
+            Func<T, string> orderBySelector,
             Func<T, string> selectListItemTextSelector,
             Func<T, string> selectListItemValueSelector,
             bool includeAllOption) where T : class
         {
-            var options = set.OrderBy(orderBySelector)
-                                .ToList() // must call this so EF doesn't try to do the "new SelectListItem" stuff in SQL
-                                .Select(t => new SelectListItem()
-                                {
-                                    Text = selectListItemTextSelector(t),
-                                    Value = selectListItemValueSelector(t)
-                                })
-                                .ToList();
+            var options = set
+                            .ToList() // must call this so EF doesn't try to do this stuff in SQL
+                            .OrderBy(orderBySelector)
+                            .Select(t => new SelectListItem()
+                            {
+                                Text = selectListItemTextSelector(t),
+                                Value = selectListItemValueSelector(t)
+                            })
+                            .ToList();
 
             if (includeAllOption)
             {
