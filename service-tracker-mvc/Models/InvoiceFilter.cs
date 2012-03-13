@@ -12,18 +12,27 @@ namespace service_tracker_mvc.Models
     {
         [DisplayName("Service Date Range")]
         public DateTime? StartDate { get; set; }
+
         [DisplayName("Service Date Range")]
         public DateTime? EndDate { get; set; }
+        
         [DisplayName("Employee")]
         public int ServicerId { get; set; }
+
+        [DisplayName("Organization")]
+        public int OrganizationId { get; set; }
+
         [DisplayName("Store")]
-        public int CustomerId { get; set; }
+        public int SiteId { get; set; }
+        
         [DisplayName("Key Rec")]
         [MaxLength(50)]
         public string KeyRec { get; set; }
+        
         [DisplayName("Invoice")]
         [MaxLength(50)]
         public string FrtBill { get; set; }
+        
         [DisplayName("PO")]
         [MaxLength(50)]
         public string PurchaseOrder { get; set; }

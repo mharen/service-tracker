@@ -50,8 +50,8 @@
                 @Html.LabelFor(model => model.CustomerId)
             </div>
             <div class="editor-field">
-                @Html.DropDownListFor(model => model.CustomerId, (IEnumerable<SelectListItem>)ViewBag.Customers)
-                @Html.ValidationMessageFor(model => model.CustomerId)
+                @Html.DropDownListFor(model => model.SiteId, (IEnumerable<SelectListItem>)ViewBag.Sites)
+                @Html.ValidationMessageFor(model => model.SiteId)
             </div>
         </div>
         <div class='pair'>

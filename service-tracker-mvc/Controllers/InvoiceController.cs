@@ -61,7 +61,7 @@ namespace service_tracker_mvc.Controllers
             invoiceIndexViewModel.Invoices = db.Invoices.Include("Items")
                                                 .Where(i => i.ServiceDate >= Filter.StartDate)
                                                 .Where(i => i.ServiceDate <= Filter.EndDate)
-                                                .Where(i => i.CustomerId == Filter.CustomerId || Filter.CustomerId == 0)
+                                                .Where(i => i.SiteId == Filter.SiteId || Filter.SiteId == 0)
                                                 .Where(i => i.ServicerId == Filter.ServicerId || Filter.ServicerId == 0)
                                                 .Where(i => i.KeyRec.Contains(Filter.KeyRec) || Filter.KeyRec == null || Filter.KeyRec == "")
                                                 .Where(i => i.FrtBill.Contains(Filter.FrtBill) || Filter.FrtBill == null || Filter.FrtBill == "")
@@ -80,7 +80,7 @@ namespace service_tracker_mvc.Controllers
         {
             return new InvoiceFilter()
             {
-                CustomerId = 0,
+                SiteId = 0,
                 StartDate = DateTime.UtcNow.Date.AddDays(-7),
                 EndDate = DateTime.UtcNow.Date,
                 ServicerId = 0
@@ -137,7 +137,7 @@ namespace service_tracker_mvc.Controllers
         private IEnumerable<Cell> GetInvoiceCells(Invoice invoice)
         {
             yield return new Cell(invoice.ServiceDate.ToShortDateString());
-            yield return new Cell(invoice.Customer.Name);
+            yield return new Cell(invoice.Site.Name);
             yield return new Cell(invoice.Servicer.Name);
             yield return new Cell(invoice.FrtBill);
             yield return new Cell(invoice.KeyRec);
@@ -160,7 +160,7 @@ namespace service_tracker_mvc.Controllers
         public ViewResult Details(int id)
         {
             Invoice invoice = db.Invoices.Include(x => x.Items)
-                                         .Include(x => x.Customer)
+                                         .Include(x => x.Site)
                                          .Include(x => x.Servicer)
                                          .Single(x => x.InvoiceId == id);
             return View(invoice);
@@ -209,14 +209,14 @@ namespace service_tracker_mvc.Controllers
                 ? new SelectListItem[] { new SelectListItem { Text = "All", Value = "0" } }
                 : new SelectListItem[] { };
 
-            ViewBag.Customers = AllOptions.Union(
-                                    db.Customers
+            ViewBag.Sites = AllOptions.Union(
+                                    db.Sites
                                           .OrderBy(c => c.Name)
                                           .ToList()
                                           .Select(p => new SelectListItem()
                                           {
                                               Text = p.ToString(),
-                                              Value = p.CustomerId.ToString()
+                                              Value = p.SiteId.ToString()
                                           })
                                 ).ToList();
 

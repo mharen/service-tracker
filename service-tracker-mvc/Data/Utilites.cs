@@ -17,11 +17,11 @@ namespace service_tracker_mvc.Data
                     DB.Profiles.Add(new Profile() { Name = "Super Acme Store, LLC", AboutUrl = "http://blog.wassupy.com" });
                 }
 
-                if (!DB.Customers.Any())
+                if (!DB.Sites.Any())
                 {
-                    DB.Customers.Add(new Customer() { Name = "Store A", Address = "123 Main Street", VendorNumber = "123abc" });
-                    DB.Customers.Add(new Customer() { Name = "Store B", Address = "456 High Street", VendorNumber = "456def" });
-                    DB.Customers.Add(new Customer() { Name = "Store C", Address = "789 North Street", VendorNumber = "789ghi" });
+                    DB.Sites.Add(new Site() { Name = "Store A", Address = "123 Main Street" });
+                    DB.Sites.Add(new Site() { Name = "Store B", Address = "456 High Street" });
+                    DB.Sites.Add(new Site() { Name = "Store C", Address = "789 North Street" });
                 }
 
                 if (!DB.Products.Any())
@@ -51,7 +51,7 @@ namespace service_tracker_mvc.Data
                 {
                     DB.Invoices.Add(new Invoice()
                     {
-                        CustomerId = 1,
+                        SiteId = 1,
                         FrtBill = "frtbill 1  3",
                         KeyRec = "Key Rec  b c",
                         PurchaseOrder = "PO 123 abc",
@@ -60,7 +60,7 @@ namespace service_tracker_mvc.Data
                     });
                     DB.Invoices.Add(new Invoice()
                     {
-                        CustomerId = 1,
+                        SiteId = 1,
                         FrtBill = "frtbill 1 2  4",
                         KeyRec = "Key a b d",
                         PurchaseOrder = " 123 abcd",
@@ -69,7 +69,7 @@ namespace service_tracker_mvc.Data
                     });
                     DB.Invoices.Add(new Invoice()
                     {
-                        CustomerId = 1,
+                        SiteId = 1,
                         FrtBill = "frtbill  2 3",
                         KeyRec = "Key Rec a ",
                         PurchaseOrder = "PO 123 ",
@@ -78,7 +78,7 @@ namespace service_tracker_mvc.Data
                     });
                     DB.Invoices.Add(new Invoice()
                     {
-                        CustomerId = 1,
+                        SiteId = 1,
                         KeyRec = " Rec  c",
                         PurchaseOrder = "PO  abc",
                         ServiceDate = DateTime.UtcNow.Date.AddDays(-3),

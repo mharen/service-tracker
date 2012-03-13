@@ -1,4 +1,5 @@
-﻿@model service_tracker_mvc.Models.Customer
+﻿@model service_tracker_mvc.Models.Organization
+
 @{
     ViewBag.Title = "Delete";
 }
@@ -11,19 +12,20 @@
 else
 {
     <h3>Are you sure you want to delete this?</h3>
-    <fieldset><legend>Store</legend>
-        <div class="display-label">
-            Name</div>
+    <fieldset>
+        <legend>Organization</legend>
+
+        <div class="display-label">Name</div>
         <div class="display-field">
             @Html.DisplayFor(model => model.Name)
         </div>
-        <div class="display-label">
-            Address</div>
+
+        <div class="display-label">Code</div>
         <div class="display-field">
-            @Html.DisplayFor(model => model.Address)
+            @Html.DisplayFor(model => model.Code)
         </div>
-        <div class="display-label">
-            VendorNumber</div>
+
+        <div class="display-label">VendorNumber</div>
         <div class="display-field">
             @Html.DisplayFor(model => model.VendorNumber)
         </div>

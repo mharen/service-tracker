@@ -1,4 +1,4 @@
-﻿@model IEnumerable<service_tracker_mvc.Models.Customer>
+﻿@model IEnumerable<service_tracker_mvc.Models.Site>
 
 @{
     ViewBag.Title = "Index";
@@ -35,9 +35,9 @@
             @Html.DisplayFor(modelItem => item.VendorNumber)
         </td>
         <td class='ui-widget-content number'>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CustomerId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CustomerId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CustomerId })
+            @Html.ActionLink("Edit", "Edit", new { id=item.SiteId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.SiteId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.SiteId })
         </td>
     </tr>
 }

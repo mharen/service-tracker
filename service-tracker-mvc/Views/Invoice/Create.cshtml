@@ -16,11 +16,11 @@
             @Html.ValidationMessageFor(model => model.ServiceDate)
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => model.CustomerId)
+            @Html.LabelFor(model => model.SiteId)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.CustomerId, (IEnumerable<SelectListItem>)ViewBag.Customers)
-            @Html.ValidationMessageFor(model => model.CustomerId)
+            @Html.DropDownListFor(model => model.SiteId, (IEnumerable<SelectListItem>)ViewBag.Sites)
+            @Html.ValidationMessageFor(model => model.SiteId)
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.ServicerId)

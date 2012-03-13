@@ -12,19 +12,19 @@ using service_tracker_mvc.Filters;
 namespace service_tracker_mvc.Controllers
 {
     [RequiresAuthorizationAttribute("Manager")]
-    public class CustomerController : Controller
+    public class SiteController : Controller
     {
         private DataContext db = new DataContext();
 
         public ViewResult Index()
         {
-            return View(db.Customers.OrderBy(c => c.Name).ToList());
+            return View(db.Sites.OrderBy(c => c.Name).ToList());
         }
 
         public ViewResult Details(int id)
         {
-            Customer customer = db.Customers.Find(id);
-            return View(customer);
+            Site site = db.Sites.Find(id);
+            return View(site);
         }
 
         public ActionResult Create()
@@ -33,56 +33,56 @@ namespace service_tracker_mvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Customer customer)
+        public ActionResult Create(Site site)
         {
             if (ModelState.IsValid)
             {
-                db.Customers.Add(customer);
+                db.Sites.Add(site);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(customer);
+            return View(site);
         }
 
         public ActionResult Edit(int id)
         {
-            Customer customer = db.Customers.Find(id);
-            return View(customer);
+            Site site = db.Sites.Find(id);
+            return View(site);
         }
 
         [HttpPost]
-        public ActionResult Edit(Customer customer)
+        public ActionResult Edit(Site site)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customer).State = EntityState.Modified;
+                db.Entry(site).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(customer);
+            return View(site);
         }
 
         public ActionResult Delete(int id)
         {
-            if (db.Invoices.Any(i => i.CustomerId == id))
+            if (db.Invoices.Any(i => i.SiteId == id))
             {
                 ViewBag.DeleteError = "You cannot delete this store because it is tied to existing invoices. You must change the existing invoices to use a different store first";
             }
 
-            Customer customer = db.Customers.Find(id);
-            return View(customer);
+            Site site = db.Sites.Find(id);
+            return View(site);
         }
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            if (db.Invoices.Any(i => i.CustomerId == id))
+            Site site = db.Sites.Find(id);
+            if (site.Invoices.Any())
             {
                 throw new InvalidOperationException("You cannot delete this store because it is tied to existing invoices. You must change the existing invoices to use a different store first");
             }
-            Customer customer = db.Customers.Find(id);
-            db.Customers.Remove(customer);
+            db.Sites.Remove(site);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -12,8 +12,8 @@ namespace service_tracker_mvc.Models
         public int InvoiceId { get; set; }
 
         [Display(Name = "Store")]
-        public int CustomerId { get; set; }
-        public virtual Customer Customer { get; set; }
+        public int SiteId { get; set; }
+        public virtual Site Site { get; set; }
 
         [Display(Name = "Employee")]
         public int ServicerId { get; set; }

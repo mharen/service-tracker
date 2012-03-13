@@ -1,4 +1,4 @@
-﻿@model service_tracker_mvc.Models.Customer
+﻿@model service_tracker_mvc.Models.Organization
 
 @{
     ViewBag.Title = "Details";
@@ -7,16 +7,16 @@
 <h2>Details</h2>
 
 <fieldset>
-    <legend>Store</legend>
+    <legend>Organization</legend>
 
     <div class="display-label">Name</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Name)
     </div>
 
-    <div class="display-label">Address</div>
+    <div class="display-label">Code</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Address)
+        @Html.DisplayFor(model => model.Code)
     </div>
 
     <div class="display-label">VendorNumber</div>
@@ -25,6 +25,6 @@
     </div>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.CustomerId }) |
+    @Html.ActionLink("Edit", "Edit", new { id=Model.OrganizationId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

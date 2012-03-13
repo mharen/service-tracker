@@ -17,14 +17,22 @@
                 @Html.ValidationMessageFor(model => model.InvoiceFilter.EndDate)
             </div>
         </div>
- 
         <div class='pair'>
             <div class="editor-label">
-                @Html.LabelFor(model => model.InvoiceFilter.CustomerId)
+                @Html.LabelFor(model => model.InvoiceFilter.OrganizationId)
             </div>
             <div class="editor-field">
-                @Html.DropDownListFor(model => model.InvoiceFilter.CustomerId, (IEnumerable<SelectListItem>)ViewBag.Customers)
-                @Html.ValidationMessageFor(model => model.InvoiceFilter.CustomerId)
+                @Html.DropDownListFor(model => model.InvoiceFilter.OrganizationId, (IEnumerable<SelectListItem>)ViewBag.Organizations)
+                @Html.ValidationMessageFor(model => model.InvoiceFilter.OrganizationId)
+            </div>
+        </div>       
+        <div class='pair'>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.InvoiceFilter.SiteId)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.InvoiceFilter.SiteId, (IEnumerable<SelectListItem>)ViewBag.Sites)
+                @Html.ValidationMessageFor(model => model.InvoiceFilter.SiteId)
             </div>
         </div>       
         <div class='pair'>
@@ -106,7 +114,7 @@ else
                     @Html.DisplayFor(modelItem => item.ServiceDate)
                 </td>
                 <td class='ui-widget-content'>
-                    @Html.DisplayFor(modelItem => item.Customer.Name)
+                    @Html.DisplayFor(modelItem => item.Site.Name)
                 </td>
                 <td class='ui-widget-content'>
                     @Html.DisplayFor(modelItem => item.Servicer.Name)

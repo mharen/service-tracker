@@ -37,8 +37,9 @@
     <Reference Include="DotNetOpenAuth">
       <HintPath>..\packages\DotNetOpenAuth.3.4.7.11121\lib\DotNetOpenAuth.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.4.3.0\lib\net40\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="ExcelGenerator">
       <HintPath>..\packages\ExcelGenerator.1.2\lib\ExcelGenerator.dll</HintPath>
@@ -87,8 +88,13 @@
     <Compile Include="App_Start\MagicalUnicornCustomErrorHandling.cs" />
     <Compile Include="App_Start\MiniProfiler.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="ExcelResult.cs" />
+    <Compile Include="Migrations\201203130319445_SplitCustomerIntoOrganizationAndSite.cs" />
+    <Compile Include="Migrations\201203130319445_SplitCustomerIntoOrganizationAndSite.Designer.cs">
+      <DependentUpon>201203130319445_SplitCustomerIntoOrganizationAndSite.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\Profile.cs" />
@@ -97,7 +103,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="MvcExtensions.cs" />
     <Compile Include="App_Start\DatabaseInitializer.cs" />
-    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -112,7 +118,6 @@
     <Compile Include="HtmlHelperExtensions.cs" />
     <Compile Include="LogEvent.cs" />
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\InvoiceFilter.cs" />
     <Compile Include="Models\InvoiceIndexViewModel.cs" />
@@ -188,19 +193,19 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Site\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Customer\Details.cshtml" />
+    <Content Include="Views\Site\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Customer\Create.cshtml" />
+    <Content Include="Views\Site\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Customer\Edit.cshtml" />
+    <Content Include="Views\Site\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Customer\Delete.cshtml" />
+    <Content Include="Views\Site\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Servicer\Index.cshtml" />
@@ -286,6 +291,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Error\Unauthorized.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Organization\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Organization\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Organization\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Organization\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Organization\Delete.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
