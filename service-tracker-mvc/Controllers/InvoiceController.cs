@@ -58,7 +58,9 @@ namespace service_tracker_mvc.Controllers
 
             var Filter = invoiceIndexViewModel.InvoiceFilter;
 
-            invoiceIndexViewModel.Invoices = db.Invoices.Include(i => i.Items)
+            invoiceIndexViewModel.Invoices = db.Invoices
+                                                .Include(i => i.Items)
+                                                .Include(i => i.Site.Organization)
                                                 .Where(i => i.ServiceDate >= Filter.StartDate)
                                                 .Where(i => i.ServiceDate <= Filter.EndDate)
                                                 .Where(i => i.SiteId == Filter.SiteId || Filter.SiteId == 0)
@@ -137,7 +139,7 @@ namespace service_tracker_mvc.Controllers
         private IEnumerable<Cell> GetInvoiceCells(Invoice invoice)
         {
             yield return new Cell(invoice.ServiceDate.ToShortDateString());
-            yield return new Cell(invoice.Site.Name);
+            yield return new Cell(invoice.Site.ToString());
             yield return new Cell(invoice.Servicer.Name);
             yield return new Cell(invoice.FrtBill);
             yield return new Cell(invoice.KeyRec);
