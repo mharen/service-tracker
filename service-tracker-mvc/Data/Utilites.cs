@@ -24,13 +24,6 @@ namespace service_tracker_mvc.Data
                     DB.Sites.Add(new Site() { Name = "Store C", Address = "789 North Street" });
                 }
 
-                if (!DB.Products.Any())
-                {
-                    DB.Products.Add(new Product() { Manufacturer = "Mfg A", Description = "Product A" });
-                    DB.Products.Add(new Product() { Manufacturer = "Mfg A", Description = "Product B" });
-                    DB.Products.Add(new Product() { Manufacturer = "Mfg B", Description = "Product C" });
-                }
-
                 if (!DB.Services.Any())
                 {
                     DB.Services.Add(new Service() { Sku = "123456789", Description = "Service A", Cost = 100m });
@@ -91,7 +84,6 @@ namespace service_tracker_mvc.Data
                     {
                         InvoiceId = 1,
                         InvoiceItemId = 1,
-                        ProductId = 1,
                         ServiceId = 1,
                         Quantity = 2m
                     });
@@ -99,7 +91,6 @@ namespace service_tracker_mvc.Data
                     {
                         InvoiceId = 1,
                         InvoiceItemId = 2,
-                        ProductId = 1,
                         ServiceId = 1,
                         Quantity = 2m,
                         Comment = "Repairs needed"
@@ -108,7 +99,6 @@ namespace service_tracker_mvc.Data
                     {
                         InvoiceId = 1,
                         InvoiceItemId = 3,
-                        ProductId = 2,
                         ServiceId = 1,
                         Quantity = 3m,
                         Comment = "Low on stock"
@@ -117,7 +107,6 @@ namespace service_tracker_mvc.Data
                     {
                         InvoiceId = 1,
                         InvoiceItemId = 4,
-                        ProductId = 1,
                         ServiceId = 2,
                         Quantity = 4m,
                     });
@@ -125,7 +114,6 @@ namespace service_tracker_mvc.Data
                     {
                         InvoiceId = 1,
                         InvoiceItemId = 5,
-                        ProductId = 2,
                         ServiceId = 2,
                         Quantity = 5m
                     });

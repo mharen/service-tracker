@@ -22,15 +22,15 @@ namespace service_tracker_mvc.tests
         }
 
         [TestMethod]
-        public void CustomerIndexRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Customer/Index", new { controller = "Customer", action = "Index" }); }
+        public void SiteIndexRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Site/Index", new { controller = "Site", action = "Index" }); }
         [TestMethod]
-        public void CustomerDetailsRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Customer/Details", new { controller = "Customer", action = "Details" }); }
+        public void SiteDetailsRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Site/Details", new { controller = "Site", action = "Details" }); }
         [TestMethod]
-        public void CustomerCreateRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Customer/Create", new { controller = "Customer", action = "Create" }); }
+        public void SiteCreateRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Site/Create", new { controller = "Site", action = "Create" }); }
         [TestMethod]
-        public void CustomerEditRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Customer/Edit", new { controller = "Customer", action = "Edit" }); }
+        public void SiteEditRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Site/Edit", new { controller = "Site", action = "Edit" }); }
         [TestMethod]
-        public void CustomerDeleteRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Customer/Delete", new { controller = "Customer", action = "Delete" }); }
+        public void SiteDeleteRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Site/Delete", new { controller = "Site", action = "Delete" }); }
 
         [TestMethod]
         public void InvoiceIndexRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Invoice/Index", new { controller = "Invoice", action = "Index" }); }
@@ -46,15 +46,15 @@ namespace service_tracker_mvc.tests
         public void InvoiceDeleteRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Invoice/Delete", new { controller = "Invoice", action = "Delete" }); }
 
         [TestMethod]
-        public void ProductIndexRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Product/Index", new { controller = "Product", action = "Index" }); }
+        public void OrganizationIndexRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Organization/Index", new { controller = "Organization", action = "Index" }); }
         [TestMethod]
-        public void ProductDetailsRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Product/Details", new { controller = "Product", action = "Details" }); }
+        public void OrganizationDetailsRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Organization/Details", new { controller = "Organization", action = "Details" }); }
         [TestMethod]
-        public void ProductCreateRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Product/Create", new { controller = "Product", action = "Create" }); }
+        public void OrganizationCreateRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Organization/Create", new { controller = "Organization", action = "Create" }); }
         [TestMethod]
-        public void ProductEditRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Product/Edit", new { controller = "Product", action = "Edit" }); }
+        public void OrganizationEditRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Organization/Edit", new { controller = "Organization", action = "Edit" }); }
         [TestMethod]
-        public void ProductDeleteRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Product/Delete", new { controller = "Product", action = "Delete" }); }
+        public void OrganizationDeleteRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Organization/Delete", new { controller = "Organization", action = "Delete" }); }
 
         [TestMethod]
         public void ServiceIndexRoute_Test() { AssertHelpers.AssertRoute(Routes, "~/Service/Index", new { controller = "Service", action = "Index" }); }

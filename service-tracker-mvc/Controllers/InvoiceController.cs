@@ -106,7 +106,7 @@ namespace service_tracker_mvc.Controllers
 
             // add header row
             var Columns = new string[] { "Service Date", "Store", "Employee", "Invoice", "Key REC", "PO", "Invoice Total", 
-                                         "Product", "Comment", "Service", "SKU", "Quantity", "Unit Price", "Total Line Item Price" };
+                                         "Comment", "SKU", "Service", "Quantity", "Unit Price", "Total Line Item Price" };
 
             Row HeaderRow = new Row();
             foreach (var CellName in Columns)
@@ -147,10 +147,9 @@ namespace service_tracker_mvc.Controllers
 
         private IEnumerable<Cell> GetInvoiceItemCells(InvoiceItem item)
         {
-            yield return new Cell(item.Product == null ? "" : item.Product.Description);
             yield return new Cell(item.Comment);
-            yield return new Cell(item.Service == null ? "" : item.Service.Description);
             yield return new Cell(item.Service == null ? "" : item.Service.Sku);
+            yield return new Cell(item.Service == null ? "" : item.Service.Description);
             yield return new Cell(item.Quantity.ToString("0.00"));
             yield return new Cell(item.Service == null ? "" : item.Service.Cost.ToString("0.00"));
             yield return new Cell(item.Total.ToString("0.00"));
@@ -206,8 +205,6 @@ namespace service_tracker_mvc.Controllers
         private void PopulateEditViewBagProperties(bool includeAllOptionsWhenAppropriate)
         {
             ViewBag.Organizations = db.Organizations.ToSelectListItems(includeAllOption: includeAllOptionsWhenAppropriate);
-
-            ViewBag.Products = db.Products.ToSelectListItems(includeAllOption: false);
 
             ViewBag.Services = db.Services.ToSelectListItems(includeAllOption: false);
 

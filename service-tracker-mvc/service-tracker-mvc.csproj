@@ -104,6 +104,10 @@
     <Compile Include="Migrations\201203131650086_MarkingSiteNameRequired.Designer.cs">
       <DependentUpon>201203131650086_MarkingSiteNameRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201203132232122_DroppingProductAltogether.cs" />
+    <Compile Include="Migrations\201203132232122_DroppingProductAltogether.Designer.cs">
+      <DependentUpon>201203132232122_DroppingProductAltogether.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\Profile.cs" />
@@ -115,7 +119,6 @@
     <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
-    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\ServicerController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
@@ -131,7 +134,6 @@
     <Compile Include="Models\InvoiceFilter.cs" />
     <Compile Include="Models\InvoiceIndexViewModel.cs" />
     <Compile Include="Models\InvoiceItem.cs" />
-    <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Service.cs" />
     <Compile Include="Models\Servicer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -274,21 +276,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Service\Delete.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Product\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Product\Details.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Product\Create.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Product\Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Product\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />

@@ -24,17 +24,6 @@ namespace service_tracker_mvc.Data
             );
         }
 
-        public static IEnumerable<SelectListItem> ToSelectListItems(this DbSet<Product> products, bool includeAllOption = false)
-        {
-            return ToSelectListItems(
-                set: products,
-                orderBySelector: o => o.Manufacturer,
-                selectListItemTextSelector: o => o.ToString(),
-                selectListItemValueSelector: o => o.ProductId.ToString(),
-                includeAllOption: includeAllOption
-            );
-        }
-
         public static IEnumerable<ExtendedSelectListItem> ToSelectListItems(this DbSet<Service> services, bool includeAllOption = false)
         {
             var options = services

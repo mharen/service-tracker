@@ -35,10 +35,9 @@
     </div>
     <table class='data-table ui-widget'>
         <tr>
-            <th class='ui-state-default'>Product</th>
-            <th class='ui-state-default'>Comment</th>
-            <th class='ui-state-default'>Service</th>
             <th class='ui-state-default'>SKU</th>
+            <th class='ui-state-default'>Service</th>
+            <th class='ui-state-default'>Comment</th>
             <th class='ui-state-default number'>Quantity</th>
             <th class='ui-state-default number'>Unit Price</th>
             <th class='ui-state-default number'>Total</th>
@@ -46,10 +45,9 @@
         @foreach (var Item in Model.Items)
         {
             <tr>
-                <td class='ui-widget-content'>@if(Item.Product != null){ <text>@Item.Product.Manufacturer - @Item.Product.Description</text> }</td>
-                <td class='ui-widget-content'>@Item.Comment</td>
-                <td class='ui-widget-content'>@if (Item.Service != null) { <text>@Item.Service.Description</text> }</td>
                 <td class='ui-widget-content'>@if (Item.Service != null) { <text>@Item.Service.Sku</text> }</td>
+                <td class='ui-widget-content'>@if (Item.Service != null) { <text>@Item.Service.Description</text> }</td>
+                <td class='ui-widget-content'>@Item.Comment</td>
                 <td class='ui-widget-content number'>@Item.Quantity</td>
                 <td class='ui-widget-content number'>@if (Item.Service != null) { <text>@Html.DisplayFor(model => Item.Service.Cost)</text> }</td>
                 <td class='ui-widget-content number'>@Html.DisplayFor(model => Item.Total)</td>

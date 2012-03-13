@@ -22,9 +22,6 @@ namespace service_tracker_mvc.Models
         public int? ServiceId { get; set; }
         public virtual Service Service { get; set; }
 
-        public int? ProductId { get; set; }
-        public virtual Product Product { get; set; }
-
         [MaxLength(250)]
         public string Comment { get; set; }
 
@@ -38,7 +35,6 @@ namespace service_tracker_mvc.Models
             get
             {
                 return string.IsNullOrEmpty(Comment)
-                    && (ProductId ?? 0) == 0
                     && Quantity == 0
                     && (ServiceId ?? 0) == 0;
             }
