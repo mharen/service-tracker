@@ -192,7 +192,7 @@ namespace service_tracker_mvc
 
         public static string Left(this string s, int maxLength)
         {
-            if (s.Length >= maxLength)
+            if (s != null && s.Length >= maxLength)
             {
                 return s.Substring(0, maxLength) + "…";
             }

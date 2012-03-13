@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace service_tracker_mvc.Models
 {
@@ -24,5 +25,13 @@ namespace service_tracker_mvc.Models
         public DateTime LastLogin { get; set; }
         
         public int LoginCount { get; set; }
+
+        [DisplayName("Associated Employee (optional)")]
+        public int? ServicerId { get; set; }
+        public virtual Servicer Servicer { get; set; }
+
+        [DisplayName("Associated Organization (optional)")]
+        public int? OrganizationId { get; set; }
+        public virtual Organization Organization { get; set; }
     }
 }

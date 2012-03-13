@@ -360,6 +360,7 @@ div#title a
     width: 6em;
 }
 td,th{ text-align: left; }
+th{ vertical-align:bottom; }
 td.number, th.number, td.number > input, th.number > input
 {
     text-align: right;

@@ -1,61 +1,53 @@
 ﻿@model IEnumerable<service_tracker_mvc.Models.User>
-
 @{
     ViewBag.Title = "Index";
 }
-
 <h2>Logins</h2>
-
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="data-table ui-widget">
     <tr>
-        <th class='ui-state-default'>
-            ID
-        </th>
-        <th class='ui-state-default'>
-            Email
-        </th>
-        <th class='ui-state-default'>
-            Role
-        </th>
-        <th class='ui-state-default'>
-            First Login (UTC)
-        </th>
-        <th class='ui-state-default'>
-            Last Login (UTC)
-        </th>
-        <th class='ui-state-default number'>
-            Login Count
-        </th>
+        <th class='ui-state-default'>ID </th>
+        <th class='ui-state-default'>Email </th>
+        <th class='ui-state-default'>Role </th>
+        <th class='ui-state-default'>Employee </th>
+        <th class='ui-state-default'>Organization </th>
+        <th class='ui-state-default'>First Login (UTC) </th>
+        <th class='ui-state-default'>Last Login (UTC) </th>
+        <th class='ui-state-default number'>Login Count </th>
         <th class='ui-state-default number'></th>
     </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td class='ui-widget-content' title="@Html.AttributeEncode(item.ClaimedIdentifier)">
-            @item.ClaimedIdentifier.Left(15)
-        </td>
-        <td class='ui-widget-content'>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td class='ui-widget-content'>
-            @((service_tracker_mvc.Models.RoleType)item.RoleId)
-        </td>
-        <td class='ui-widget-content'>
-            @Html.DisplayFor(modelItem => item.FirstLogin)
-        </td>
-        <td class='ui-widget-content'>
-            @Html.DisplayFor(modelItem => item.LastLogin)
-        </td>
-        <td class='ui-widget-content number'>
-            @Html.DisplayFor(modelItem => item.LoginCount)
-        </td>
-        <td class='ui-widget-content number'>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UserId }) 
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class='ui-widget-content' title="@Html.AttributeEncode(item.ClaimedIdentifier)">
+                @item.ClaimedIdentifier.Replace("https://", "").Replace("http://", "").Replace("www.", "").Left(15)
+            </td>
+            <td class='ui-widget-content'>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td class='ui-widget-content'>
+                @((service_tracker_mvc.Models.RoleType)item.RoleId)
+            </td>
+            <td class='ui-widget-content'>
+                @(item.Servicer == null? "" : item.Servicer.Name.Left(15))
+            </td>
+            <td class='ui-widget-content'>
+                @(item.Organization == null? "" : item.Organization.Name.Left(15))
+            </td>
+            <td class='ui-widget-content'>
+                @Html.DisplayFor(modelItem => item.FirstLogin)
+            </td>
+            <td class='ui-widget-content'>
+                @Html.DisplayFor(modelItem => item.LastLogin)
+            </td>
+            <td class='ui-widget-content number'>
+                @Html.DisplayFor(modelItem => item.LoginCount)
+            </td>
+            <td class='ui-widget-content number'>
+                @Html.ActionLink("Edit", "Edit", new { id = item.UserId })
+            </td>
+        </tr>
+    }
 </table>

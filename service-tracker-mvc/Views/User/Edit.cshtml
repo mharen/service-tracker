@@ -39,7 +39,23 @@
             @Html.ValidationMessageFor(model => model.RoleId)
         </div>
 
-        <p>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ServicerId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.ServicerId, (IEnumerable<SelectListItem>)ViewBag.Servicers, "")
+            @Html.ValidationMessageFor(model => model.ServicerId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OrganizationId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.OrganizationId, (IEnumerable<SelectListItem>)ViewBag.Organizations, "")
+            @Html.ValidationMessageFor(model => model.OrganizationId)
+        </div>
+
+        <p class="actions">
             <input type="submit" value="Save" />
         </p>
     </fieldset>

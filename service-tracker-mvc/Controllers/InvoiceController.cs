@@ -58,7 +58,7 @@ namespace service_tracker_mvc.Controllers
 
             var Filter = invoiceIndexViewModel.InvoiceFilter;
 
-            invoiceIndexViewModel.Invoices = db.Invoices.Include("Items")
+            invoiceIndexViewModel.Invoices = db.Invoices.Include(i => i.Items)
                                                 .Where(i => i.ServiceDate >= Filter.StartDate)
                                                 .Where(i => i.ServiceDate <= Filter.EndDate)
                                                 .Where(i => i.SiteId == Filter.SiteId || Filter.SiteId == 0)
@@ -189,7 +189,7 @@ namespace service_tracker_mvc.Controllers
         public ActionResult Edit(int id)
         {
             PopulateEditViewBagProperties(false);
-            Invoice invoice = db.Invoices.Include("Items").Single(i => i.InvoiceId == id);
+            Invoice invoice = db.Invoices.Include(i => i.Items).Single(i => i.InvoiceId == id);
             PadItemsList(invoice);
             return View(invoice);
         }

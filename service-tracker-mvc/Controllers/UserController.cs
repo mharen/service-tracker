@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId;
-using DotNetOpenAuth.OpenId.RelyingParty;
 using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
+using DotNetOpenAuth.OpenId.RelyingParty;
 using service_tracker_mvc.Data;
-using service_tracker_mvc.Models;
-using System.Data;
 using service_tracker_mvc.Filters;
+using service_tracker_mvc.Models;
+using System.Data.Entity;
 
 namespace service_tracker_mvc.Controllers
 {
@@ -150,19 +148,31 @@ namespace service_tracker_mvc.Controllers
 
         public ViewResult Index()
         {
-            return View(db.Users.OrderBy(u => u.Email).ToList());
+            return View(
+                db.Users
+                  .Include(u => u.Organization)
+                  .Include(u => u.Servicer)
+                .OrderBy(u => u.Email).ToList()
+            );
         }
 
         public ActionResult Edit(int id)
         {
+            ViewBag.Organizations = db.Organizations.ToSelectListItems();
+            ViewBag.Servicers = db.Servicers.ToSelectListItems();
+
             User user = db.Users.Find(id);
             return View(user);
         }
 
         [HttpPost]
-        public ActionResult Edit(int userId, int roleId)
+        public ActionResult Edit(User user)
         {
-            db.Users.Single(u => u.UserId == userId).RoleId = roleId;
+            var existingUser = db.Users.Single(u => u.UserId == user.UserId);
+            existingUser.OrganizationId = user.OrganizationId;
+            existingUser.RoleId = user.RoleId;
+            existingUser.ServicerId = user.ServicerId;
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }
