@@ -12,6 +12,9 @@
     <table class='data-table ui-widget'>
     <tr>
         <th class='ui-state-default'>
+            Organization
+        </th>
+        <th class='ui-state-default'>
             Name
         </th>
         <th class='ui-state-default'>
@@ -22,6 +25,9 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td class='ui-widget-content'>
+            @Html.DisplayFor(modelItem => item.Organization.Name)
+        </td>
         <td class='ui-widget-content'>
             @Html.DisplayFor(modelItem => item.Name)
         </td>

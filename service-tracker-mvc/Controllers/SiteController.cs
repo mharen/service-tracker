@@ -18,7 +18,7 @@ namespace service_tracker_mvc.Controllers
 
         public ViewResult Index()
         {
-            return View(db.Sites.OrderBy(c => c.Name).ToList());
+            return View(db.Sites.Include(s => s.Organization).OrderBy(c => c.Name).ToList());
         }
 
         public ViewResult Details(int id)
