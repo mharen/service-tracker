@@ -30,7 +30,7 @@ namespace service_tracker_mvc.Controllers
                 return Excel(invoiceIndexViewModel);
             }
 
-            PopulateEditViewBagProperties(includeAllOption: true);
+            PopulateEditViewBagProperties(includeAllOptionsWhenAppropriate: true);
 
             return View(invoiceIndexViewModel);
         }
@@ -203,17 +203,17 @@ namespace service_tracker_mvc.Controllers
             }
         }
 
-        private void PopulateEditViewBagProperties(bool includeAllOption)
+        private void PopulateEditViewBagProperties(bool includeAllOptionsWhenAppropriate)
         {
-            ViewBag.Organizations = db.Organizations.ToSelectListItems(includeAllOption: true);
+            ViewBag.Organizations = db.Organizations.ToSelectListItems(includeAllOption: includeAllOptionsWhenAppropriate);
 
             ViewBag.Products = db.Products.ToSelectListItems(includeAllOption: false);
 
             ViewBag.Services = db.Services.ToSelectListItems(includeAllOption: false);
 
-            ViewBag.Servicers = db.Servicers.ToSelectListItems(includeAllOption: true);
+            ViewBag.Servicers = db.Servicers.ToSelectListItems(includeAllOption: includeAllOptionsWhenAppropriate);
 
-            ViewBag.Sites = db.Sites.ToSelectListItems(includeAllOption: true);
+            ViewBag.Sites = db.Sites.ToSelectListItems(includeAllOption: includeAllOptionsWhenAppropriate);
         }
 
         [HttpPost]
