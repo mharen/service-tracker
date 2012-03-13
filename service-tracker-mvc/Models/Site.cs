@@ -24,6 +24,7 @@ namespace service_tracker_mvc.Models
         [MaxLength(250)]
         public string Address { get; set; }
 
+        public int OrganizationId { get; set; }
         public virtual Organization Organization { get; set; }
         
         public virtual List<Invoice> Invoices { get; set; }
