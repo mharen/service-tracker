@@ -1,23 +1,37 @@
-using System.Linq;
+﻿using System;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+using System.Linq;
 using StackExchange.Profiling;
 using StackExchange.Profiling.MVCHelpers;
+using Microsoft.Web.Infrastructure;
+using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+//using System.Data;
+//using System.Data.Entity;
+//using System.Data.Entity.Infrastructure;
+//using StackExchange.Profiling.Data.EntityFramework;
+//using StackExchange.Profiling.Data.Linq2Sql;
 
 [assembly: WebActivator.PreApplicationStartMethod(
-	typeof(service_tracker_mvc.App_Start.MiniProfilerPackage), "PreStart")]
+	typeof($rootnamespace$.App_Start.MiniProfilerPackage), "PreStart")]
 
 [assembly: WebActivator.PostApplicationStartMethod(
-	typeof(service_tracker_mvc.App_Start.MiniProfilerPackage), "PostStart")]
+	typeof($rootnamespace$.App_Start.MiniProfilerPackage), "PostStart")]
 
 
-namespace service_tracker_mvc.App_Start 
+namespace $rootnamespace$.App_Start 
 {
     public static class MiniProfilerPackage
     {
         public static void PreStart()
         {
+
+            // Be sure to restart you ASP.NET Developement server, this code will not run until you do that. 
+
+            //TODO: See - _MINIPROFILER UPDATED Layout.cshtml
+            //      For profiling to display in the UI you will have to include the line @StackExchange.Profiling.MiniProfiler.RenderIncludes() 
+            //      in your master layout
+
             //TODO: Non SQL Server based installs can use other formatters like: new StackExchange.Profiling.SqlFormatters.InlineFormatter()
             MiniProfiler.Settings.SqlFormatter = new StackExchange.Profiling.SqlFormatters.SqlServerFormatter();
 

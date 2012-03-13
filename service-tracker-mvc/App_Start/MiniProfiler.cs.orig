@@ -1,9 +1,16 @@
-using System.Linq;
+using System;
 using System.Web;
 using System.Web.Mvc;
+using System.Linq;
+using MvcMiniProfiler;
+using MvcMiniProfiler.MVCHelpers;
+using Microsoft.Web.Infrastructure;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-using StackExchange.Profiling;
-using StackExchange.Profiling.MVCHelpers;
+//using System.Data;
+//using System.Data.Entity;
+//using System.Data.Entity.Infrastructure;
+//using MvcMiniProfiler.Data.EntityFramework;
+//using MvcMiniProfiler.Data.Linq2Sql;
 
 [assembly: WebActivator.PreApplicationStartMethod(
 	typeof(service_tracker_mvc.App_Start.MiniProfilerPackage), "PreStart")]
@@ -18,34 +25,21 @@ namespace service_tracker_mvc.App_Start
     {
         public static void PreStart()
         {
-            //TODO: Non SQL Server based installs can use other formatters like: new StackExchange.Profiling.SqlFormatters.InlineFormatter()
-            MiniProfiler.Settings.SqlFormatter = new StackExchange.Profiling.SqlFormatters.SqlServerFormatter();
+            //TODO: Non SQL Server based installs can use other formatters like: new MvcMiniProfiler.SqlFormatters.InlineFormatter()
+            MiniProfiler.Settings.SqlFormatter = new MvcMiniProfiler.SqlFormatters.SqlServerFormatter();
 
 			//TODO: To profile a standard DbConnection: 
 			// var profiled = new ProfiledDbConnection(cnn, MiniProfiler.Current);
 
             //TODO: If you are profiling EF code first try: 
-			// MiniProfilerEF.Initialize();
+            // Uncomment this to let out the boom. Waiting for an update to the pkg so I can re-enable the awesomesauce
+			MiniProfilerEF.Initialize();
 
             //Make sure the MiniProfiler handles BeginRequest and EndRequest
             DynamicModuleUtility.RegisterModule(typeof(MiniProfilerStartupModule));
 
             //Setup profiler for Controllers via a Global ActionFilter
             GlobalFilters.Filters.Add(new ProfilingActionFilter());
-
-			// You can use this to check if a request is allowed to view results
-            //MiniProfiler.Settings.Results_Authorize = (request) =>
-            //{
-                // you should implement this if you need to restrict visibility of profiling on a per request basis 
-            //    return !DisableProfilingResults; 
-            //};
-
-            // the list of all sessions in the store is restricted by default, you must return true to alllow it
-            //MiniProfiler.Settings.Results_List_Authorize = (request) =>
-            //{
-                // you may implement this if you need to restrict visibility of profiling lists on a per request basis 
-                //return true; // all requests are kosher
-            //};
         }
 
         public static void PostStart()
@@ -75,15 +69,13 @@ namespace service_tracker_mvc.App_Start
 
 
             // TODO: You can control who sees the profiling information
-            /*
-            context.AuthenticateRequest += (sender, e) =>
-            {
-                if (!CurrentUserIsAllowedToSeeProfiler())
-                {
-                    StackExchange.Profiling.MiniProfiler.Stop(discardResults: true);
-                }
-            };
-            */
+            //context.AuthenticateRequest += (sender, e) =>
+            //{
+            //    if (HttpContext.Current.User == null || !HttpContext.Current.User.IsInRole("Administrator"))
+            //    {
+            //        MvcMiniProfiler.MiniProfiler.Stop(discardResults: true);
+            //    }
+            //};
 
             context.EndRequest += (sender, e) =>
             {
