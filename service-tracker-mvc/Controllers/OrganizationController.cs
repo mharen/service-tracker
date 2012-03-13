@@ -14,16 +14,10 @@ namespace service_tracker_mvc.Controllers
     {
         private DataContext db = new DataContext();
 
-        //
-        // GET: /Organization/
-
         public ViewResult Index()
         {
-            return View(db.Organizations.ToList());
+            return View(db.Organizations.OrderBy(o=>o.Name).ToList());
         }
-
-        //
-        // GET: /Organization/Details/5
 
         public ViewResult Details(int id)
         {
@@ -31,16 +25,10 @@ namespace service_tracker_mvc.Controllers
             return View(organization);
         }
 
-        //
-        // GET: /Organization/Create
-
         public ActionResult Create()
         {
             return View();
         } 
-
-        //
-        // POST: /Organization/Create
 
         [HttpPost]
         public ActionResult Create(Organization organization)
@@ -55,17 +43,11 @@ namespace service_tracker_mvc.Controllers
             return View(organization);
         }
         
-        //
-        // GET: /Organization/Edit/5
- 
         public ActionResult Edit(int id)
         {
             Organization organization = db.Organizations.Find(id);
             return View(organization);
         }
-
-        //
-        // POST: /Organization/Edit/5
 
         [HttpPost]
         public ActionResult Edit(Organization organization)
@@ -79,9 +61,6 @@ namespace service_tracker_mvc.Controllers
             return View(organization);
         }
 
-        //
-        // GET: /Organization/Delete/5
- 
         public ActionResult Delete(int id)
         {
             Organization organization = db.Organizations.Find(id);
@@ -91,9 +70,6 @@ namespace service_tracker_mvc.Controllers
             }
             return View(organization);
         }
-
-        //
-        // POST: /Organization/Delete/5
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
