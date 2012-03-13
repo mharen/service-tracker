@@ -90,6 +90,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Data\DataContextExtensions.cs" />
     <Compile Include="ExcelResult.cs" />
     <Compile Include="Migrations\201203130319445_SplitCustomerIntoOrganizationAndSite.cs" />
     <Compile Include="Migrations\201203130319445_SplitCustomerIntoOrganizationAndSite.Designer.cs">

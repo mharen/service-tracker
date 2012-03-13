@@ -29,6 +29,7 @@ namespace service_tracker_mvc.Controllers
 
         public ActionResult Create()
         {
+            ViewBag.Organizations = db.Organizations.ToSelectListItems(includeAllOption: false);
             return View();
         }
 
@@ -47,6 +48,7 @@ namespace service_tracker_mvc.Controllers
 
         public ActionResult Edit(int id)
         {
+            ViewBag.Organizations = db.Organizations.ToSelectListItems(includeAllOption: false);
             Site site = db.Sites.Find(id);
             return View(site);
         }

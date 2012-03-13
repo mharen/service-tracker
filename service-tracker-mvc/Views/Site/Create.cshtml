@@ -10,6 +10,15 @@
     <div class="clearfix">
         <div class="pair">
             <div class="editor-label">
+                @Html.LabelFor(model => model.OrganizationId)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.OrganizationId, (IEnumerable<SelectListItem>)ViewBag.Organizations)
+                @Html.ValidationMessageFor(model => model.OrganizationId)
+            </div>
+        </div>
+        <div class="pair">
+            <div class="editor-label">
                 @Html.LabelFor(model => model.Name)
             </div>
             <div class="editor-field">
