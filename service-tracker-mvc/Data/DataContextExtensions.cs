@@ -16,10 +16,71 @@ namespace service_tracker_mvc.Data
         public static IEnumerable<SelectListItem> ToSelectListItems(this DbSet<Organization> organizations, bool includeAllOption = false)
         {
             return ToSelectListItems(
-                set: organizations, 
-                orderBySelector: o => o.Name, 
-                selectListItemTextSelector: o => o.Name, 
-                selectListItemValueSelector: o => o.OrganizationId.ToString(), 
+                set: organizations,
+                orderBySelector: o => o.Name,
+                selectListItemTextSelector: o => o.Name,
+                selectListItemValueSelector: o => o.OrganizationId.ToString(),
+                includeAllOption: includeAllOption
+            );
+        }
+
+        public static IEnumerable<SelectListItem> ToSelectListItems(this DbSet<Product> products, bool includeAllOption = false)
+        {
+            return ToSelectListItems(
+                set: products,
+                orderBySelector: o => o.Manufacturer,
+                selectListItemTextSelector: o => o.ToString(),
+                selectListItemValueSelector: o => o.ProductId.ToString(),
+                includeAllOption: includeAllOption
+            );
+        }
+
+        public static IEnumerable<ExtendedSelectListItem> ToSelectListItems(this DbSet<Service> services, bool includeAllOption = false)
+        {
+            var options = services
+                 .OrderBy(s => s.Sku)
+                 .ToList()
+                 .Select(s => new ExtendedSelectListItem()
+                 {
+                     Text = s.ToString(),
+                     Value = s.ServiceId.ToString(),
+                     htmlAttributes = new { data_cost = s.Cost }
+                 })
+                 .ToList();
+
+            if (includeAllOption)
+            {
+                var allOption = new ExtendedSelectListItem()
+                {
+                    Text = AllOption.Text,
+                    Value = AllOption.Value,
+                    htmlAttributes = new { data_cost = 0m }
+                };
+
+                options.Insert(0, allOption);
+            }
+
+            return options;
+        }
+
+        public static IEnumerable<SelectListItem> ToSelectListItems(this DbSet<Servicer> servicers, bool includeAllOption = false)
+        {
+            return ToSelectListItems(
+                set: servicers,
+                orderBySelector: o => o.Name,
+                selectListItemTextSelector: o => o.Name,
+                selectListItemValueSelector: o => o.ServicerId.ToString(),
+                includeAllOption: includeAllOption
+            );
+        }
+
+        public static IEnumerable<SelectListItem> ToSelectListItems(this DbSet<Site> sites, bool includeAllOption = false)
+        {
+            return ToSelectListItems(
+                set: sites,
+                orderBySelector: o => o.Name,
+                selectListItemTextSelector: o => o.Name,
+                selectListItemValueSelector: o => o.SiteId.ToString(),
                 includeAllOption: includeAllOption
             );
         }
@@ -29,7 +90,7 @@ namespace service_tracker_mvc.Data
             Expression<Func<T, string>> orderBySelector,
             Func<T, string> selectListItemTextSelector,
             Func<T, string> selectListItemValueSelector,
-            bool includeAllOption) where T: class
+            bool includeAllOption) where T : class
         {
             var options = set.OrderBy(orderBySelector)
                                 .ToList() // must call this so EF doesn't try to do the "new SelectListItem" stuff in SQL

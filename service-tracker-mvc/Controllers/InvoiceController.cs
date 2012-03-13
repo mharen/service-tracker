@@ -205,68 +205,15 @@ namespace service_tracker_mvc.Controllers
 
         private void PopulateEditViewBagProperties(bool includeAllOption)
         {
-            SelectListItem[] AllOptions = includeAllOption
-                ? new SelectListItem[] { new SelectListItem { Text = "All", Value = "0" } }
-                : new SelectListItem[] { };
-
             ViewBag.Organizations = db.Organizations.ToSelectListItems(includeAllOption: true);
 
-            ViewBag.Sites = AllOptions.Union(
-                                    db.Sites
-                                          .OrderBy(c => c.Name)
-                                          .ToList()
-                                          .Select(p => new SelectListItem()
-                                          {
-                                              Text = p.ToString(),
-                                              Value = p.SiteId.ToString()
-                                          })
-                                ).ToList();
+            ViewBag.Products = db.Products.ToSelectListItems(includeAllOption: false);
 
-            ViewBag.Servicers = AllOptions.Union(
-                                    db.Servicers
-                                          .OrderBy(c => c.Name)
-                                          .ToList()
-                                          .Select(s => new SelectListItem()
-                                          {
-                                              Text = s.Name,
-                                              Value = s.ServicerId.ToString()
-                                          })
-                                ).ToList();
+            ViewBag.Services = db.Services.ToSelectListItems(includeAllOption: false);
 
-            ViewBag.Products = AllOptions.Select(p => new
-                                          {
-                                              Text = p.Text,
-                                              Value = p.Value
-                                          })
-                                         .Union(
-                                            db.Products
-                                              .OrderBy(c => c.Manufacturer)
-                                              .ThenBy(c => c.Description)
-                                              .ToList()
-                                              .Select(p => new
-                                              {
-                                                  Text = p.ToString(),
-                                                  Value = p.ProductId.ToString()
-                                              })
-                                ).ToList();
+            ViewBag.Servicers = db.Servicers.ToSelectListItems(includeAllOption: true);
 
-            ViewBag.Services = AllOptions.Select(p => new ExtendedSelectListItem()
-                                          {
-                                              Text = p.Text,
-                                              Value = p.Value,
-                                              htmlAttributes = new { data_cost = 0m }
-                                          })
-                                         .Union(
-                                            db.Services
-                                              .OrderBy(s => s.Sku)
-                                              .ToList()
-                                              .Select(s => new ExtendedSelectListItem()
-                                              {
-                                                  Text = s.ToString(),
-                                                  Value = s.ServiceId.ToString(),
-                                                  htmlAttributes = new { data_cost = s.Cost }
-                                              })
-                                ).ToList();
+            ViewBag.Sites = db.Sites.ToSelectListItems(includeAllOption: true);
         }
 
         [HttpPost]
