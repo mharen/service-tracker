@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 
 namespace service_tracker_mvc.Models
 {
@@ -20,7 +16,8 @@ namespace service_tracker_mvc.Models
 
         public int OrganizationId { get; set; }
         public virtual Organization Organization { get; set; }
-        public virtual List<Invoice> Invoices { get; set; }
+
+        public virtual ICollection<Invoice> Invoices { get; set; }
 
         public override string ToString()
         {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace service_tracker_mvc.Models
@@ -19,6 +16,6 @@ namespace service_tracker_mvc.Models
         [MaxLength(50)]
         public string VendorNumber { get; set; }
 
-        public virtual List<Site> Sites { get; set; }
+        public virtual ICollection<Site> Sites { get; set; }
     }
 }
