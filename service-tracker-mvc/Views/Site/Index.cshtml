@@ -17,9 +17,6 @@
         <th class='ui-state-default'>
             Address
         </th>
-        <th class='ui-state-default'>
-            Vendor Number
-        </th>
         <th class='ui-state-default number'></th>
     </tr>
 
@@ -30,9 +27,6 @@
         </td>
         <td class='ui-widget-content'>
             @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td class='ui-widget-content'>
-            @Html.DisplayFor(modelItem => item.VendorNumber)
         </td>
         <td class='ui-widget-content number'>
             @Html.ActionLink("Edit", "Edit", new { id=item.SiteId }) |

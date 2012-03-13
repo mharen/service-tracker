@@ -209,6 +209,17 @@ namespace service_tracker_mvc.Controllers
                 ? new SelectListItem[] { new SelectListItem { Text = "All", Value = "0" } }
                 : new SelectListItem[] { };
 
+            ViewBag.Organizations = AllOptions.Union(
+                         db.Organizations
+                               .OrderBy(c => c.Name)
+                               .ToList()
+                               .Select(p => new SelectListItem()
+                               {
+                                   Text = p.Name,
+                                   Value = p.OrganizationId.ToString()
+                               })
+                     ).ToList();
+
             ViewBag.Sites = AllOptions.Union(
                                     db.Sites
                                           .OrderBy(c => c.Name)
