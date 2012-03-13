@@ -7,7 +7,7 @@ namespace service_tracker_mvc.Models
     {
         public int SiteId { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(50), Required]
         public string Name { get; set; }
         
         [DataType(DataType.MultilineText)]

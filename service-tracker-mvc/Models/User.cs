@@ -18,8 +18,11 @@ namespace service_tracker_mvc.Models
         public string Email { get; set; }
 
         public int RoleId { get; set; }
+        
         public DateTime FirstLogin { get; set; }
+        
         public DateTime LastLogin { get; set; }
+        
         public int LoginCount { get; set; }
     }
 }

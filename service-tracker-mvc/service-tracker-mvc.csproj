@@ -100,6 +100,10 @@
     <Compile Include="Migrations\201203131423491_AddOrganizationIdToSites.Designer.cs">
       <DependentUpon>201203131423491_AddOrganizationIdToSites.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201203131650086_MarkingSiteNameRequired.cs" />
+    <Compile Include="Migrations\201203131650086_MarkingSiteNameRequired.Designer.cs">
+      <DependentUpon>201203131650086_MarkingSiteNameRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\Profile.cs" />
