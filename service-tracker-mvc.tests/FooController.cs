@@ -7,7 +7,7 @@ namespace MvcAuthorize.Tests
 	public class FooController : Controller
 	{
         [RequiresAuthorizationAttribute("Guest")]
-        public ActionResult PermisiveAction()
+        public ActionResult PermissiveAction()
 		{
 			return View();
 		}
