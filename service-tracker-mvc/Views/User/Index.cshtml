@@ -8,16 +8,19 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="data-table ui-widget">
-    <tr>
-        <th class='ui-state-default'>ID </th>
-        <th class='ui-state-default'>Email </th>
-        <th class='ui-state-default'>Role </th>
-        <th class='ui-state-default'>Association</th>
-        <th class='ui-state-default'>First Login (UTC) </th>
-        <th class='ui-state-default'>Last Login (UTC) </th>
-        <th class='ui-state-default number'>Login Count </th>
-        <th class='ui-state-default number'></th>
-    </tr>
+    <thead>
+        <tr>
+            <th class='ui-state-default'>ID </th>
+            <th class='ui-state-default'>Email </th>
+            <th class='ui-state-default'>Role </th>
+            <th class='ui-state-default'>Association</th>
+            <th class='ui-state-default'>First Login (UTC) </th>
+            <th class='ui-state-default'>Last Login (UTC) </th>
+            <th class='ui-state-default number'>Login Count </th>
+            <th class='ui-state-default number'></th>
+        </tr>
+    </thead>
+    <tbody>
     @foreach (var item in Model)
     {
         <tr>
@@ -54,4 +57,5 @@
             </td>
         </tr>
     }
+    </tbody>
 </table>
