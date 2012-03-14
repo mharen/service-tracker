@@ -415,11 +415,10 @@ input[type=date]
 }
 
 
-@media print {
-  * { background: transparent !important; color: black !important; text-shadow: none !important; filter:none !important;
-  -ms-filter: none !important; } 
+@media print 
+{
+  * { background: transparent !important; color: black !important; text-shadow: none !important; filter:none !important; -ms-filter: none !important; } 
   a, a:visited { color: #444 !important; text-decoration: underline; }
-  a[href]:after { content: " (" attr(href) ")"; }
   abbr[title]:after { content: " (" attr(title) ")"; }
   .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }  
   pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
@@ -428,6 +427,9 @@ input[type=date]
   @page { margin: 0.5cm; }
   p, h2, h3 { orphans: 3; widows: 3; }
   h2, h3{ page-break-after: avoid; }
+  ul#menu,table a, .ui-button, .no-print,.actions {display:none;}
+  #main{ border-color: #000; }
+  
 }
 
 
