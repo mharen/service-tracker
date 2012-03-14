@@ -18,6 +18,7 @@ namespace service_tracker_mvc.Models
         [MaxLength(254)]
         public string Email { get; set; }
 
+        [DisplayName("Role")]
         public int RoleId { get; set; }
         
         public DateTime FirstLogin { get; set; }
