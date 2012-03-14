@@ -114,7 +114,7 @@ namespace service_tracker_mvc.Data
         private static Func<Servicer, bool> GetServicerFilterForCurrentUser()
         {
             var userMaximumRole = HttpContext.Current.GetUserMaximumRole();
-            Func<Servicer, bool> filter = null;
+            Func<Servicer, bool> filter;
 
             if (userMaximumRole == RoleType.Customer)
             {
@@ -144,7 +144,7 @@ namespace service_tracker_mvc.Data
         private static Func<Site, bool> GetSiteFilterForCurrentUser()
         {
             var userMaximumRole = HttpContext.Current.GetUserMaximumRole();
-            Func<Site, bool> filter = null;
+            Func<Site, bool> filter;
 
             if (userMaximumRole == RoleType.Customer)
             {
@@ -174,7 +174,7 @@ namespace service_tracker_mvc.Data
         public static Func<Invoice, bool> GetInvoiceFilterForCurrentUser()
         {
             var userMaximumRole = HttpContext.Current.GetUserMaximumRole();
-            Func<Invoice, bool> filter = null;
+            Func<Invoice, bool> filter;
 
             if (userMaximumRole == RoleType.Customer)
             {
