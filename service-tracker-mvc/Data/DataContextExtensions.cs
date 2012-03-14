@@ -56,7 +56,7 @@ namespace service_tracker_mvc.Data
         {
             return ToSelectListItems(
                 set: servicers,
-                orderBySelector: o => o.ToString(),
+                orderBySelector: o => o.Name,
                 selectListItemTextSelector: o => o.Name,
                 selectListItemValueSelector: o => o.ServicerId.ToString(),
                 includeAllOption: includeAllOption,
