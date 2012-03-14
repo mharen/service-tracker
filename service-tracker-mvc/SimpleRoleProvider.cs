@@ -51,12 +51,16 @@ namespace service_tracker_mvc
 
         public override string[] GetRolesForUser(string username)
         {
+            // return all roles up to and including the requested role
             using (var db = new DataContext())
             {
                 var RoleId = db.Users.Single(u => u.ClaimedIdentifier == username).RoleId;
 
-                // return all roles up to and including the requested role
-                return Enum.GetNames(typeof(RoleType)).Take(RoleId).ToArray();
+                var roleIds = ((int[])Enum.GetValues(typeof(RoleType)));
+                var roleIdsForUser = roleIds.Where(r => r <= RoleId);
+                var rolesForUser = roleIdsForUser.Select(r => (RoleType)r);
+
+                return rolesForUser.Select(r => r.ToString()).ToArray();
             }
         }
 

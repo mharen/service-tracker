@@ -59,18 +59,21 @@ namespace service_tracker_mvc.Data
                 orderBySelector: o => o.ToString(),
                 selectListItemTextSelector: o => o.Name,
                 selectListItemValueSelector: o => o.ServicerId.ToString(),
-                includeAllOption: includeAllOption
+                includeAllOption: includeAllOption,
+                filter: GetServicerFilterForCurrentUser()
             );
         }
+
 
         public static IEnumerable<SelectListItem> ToSelectListItems(this DbSet<Site> sites, bool includeAllOption = false)
         {
             return ToSelectListItems(
                 set: sites,
-                orderBySelector: o => o.Name,
+                orderBySelector: o => o.ToString(),
                 selectListItemTextSelector: o => o.ToString(),
                 selectListItemValueSelector: o => o.SiteId.ToString(),
-                includeAllOption: includeAllOption
+                includeAllOption: includeAllOption,
+                filter: GetSiteFilterForCurrentUser()
             );
         }
 
@@ -79,10 +82,18 @@ namespace service_tracker_mvc.Data
             Func<T, string> orderBySelector,
             Func<T, string> selectListItemTextSelector,
             Func<T, string> selectListItemValueSelector,
-            bool includeAllOption) where T : class
+            bool includeAllOption,
+            Func<T, bool> filter = null
+            ) where T : class
         {
+            if (filter == null)
+            {
+                filter = new Func<T, bool>(t => true);
+            }
+
             var options = set
                             .ToList() // must call this so EF doesn't try to do this stuff in SQL
+                            .Where(t => filter(t))
                             .OrderBy(orderBySelector)
                             .Select(t => new SelectListItem()
                             {
@@ -97,6 +108,82 @@ namespace service_tracker_mvc.Data
             }
 
             return options;
+        }
+
+
+        private static Func<Servicer, bool> GetServicerFilterForCurrentUser()
+        {
+            var userMaximumRole = HttpContext.Current.GetUserMaximumRole();
+            Func<Servicer, bool> filter = null;
+
+            if (userMaximumRole == RoleType.Customer)
+            {
+                // get all employees that have entered invoices for the given customer
+                var associatedOrganizationId = HttpContext.Current.GetAssociatedOrganizationId() ?? 0;
+                filter = (Servicer s) => s.Invoices.Any(i => i.Site.OrganizationId == associatedOrganizationId);
+            }
+            else if (userMaximumRole == RoleType.Employee)
+            {
+                // just return this one employee
+                var associatedServicerId = HttpContext.Current.GetAssociatedServicerId() ?? 0;
+                filter = (Servicer s) => s.ServicerId == associatedServicerId;
+            }
+            else if (userMaximumRole >= RoleType.Supervisor)
+            {
+                // return everyone
+                filter = (Servicer s) => true;
+            }
+            return filter;
+        }
+
+        private static Func<Site, bool> GetSiteFilterForCurrentUser()
+        {
+            var userMaximumRole = HttpContext.Current.GetUserMaximumRole();
+            Func<Site, bool> filter = null;
+
+            if (userMaximumRole == RoleType.Customer)
+            {
+                // get just this one customer's organization
+                var associatedOrganizationId = HttpContext.Current.GetAssociatedOrganizationId() ?? 0;
+                filter = (Site s) => s.OrganizationId == associatedOrganizationId;
+            }
+            else if (userMaximumRole == RoleType.Employee)
+            {
+                // get all organziations that have invoices for the given employee
+                var associatedServicerId = HttpContext.Current.GetAssociatedServicerId() ?? 0;
+                filter = (Site s) => s.Invoices.Any(i => i.ServicerId == associatedServicerId);
+            }
+            else if (userMaximumRole >= RoleType.Supervisor)
+            {
+                // return all orgs
+                filter = (Site s) => true;
+            }
+            return filter;
+        }
+
+        public static Func<Invoice, bool> GetInvoiceFilterForCurrentUser()
+        {
+            var userMaximumRole = HttpContext.Current.GetUserMaximumRole();
+            Func<Invoice, bool> filter = null;
+
+            if (userMaximumRole == RoleType.Customer)
+            {
+                // get just this one customer's organization's invoices
+                var associatedOrganizationId = HttpContext.Current.GetAssociatedOrganizationId() ?? 0;
+                filter = (Invoice i) => i.Site.OrganizationId == associatedOrganizationId;
+            }
+            else if (userMaximumRole == RoleType.Employee)
+            {
+                // get all invoices for the given employee
+                var associatedServicerId = HttpContext.Current.GetAssociatedServicerId() ?? 0;
+                filter = (Invoice i) => i.ServicerId == associatedServicerId;
+            }
+            else if (userMaximumRole >= RoleType.Supervisor)
+            {
+                // return all invoices
+                filter = (Invoice i) => true;
+            }
+            return filter;
         }
     }
 }

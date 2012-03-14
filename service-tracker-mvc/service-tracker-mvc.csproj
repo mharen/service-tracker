@@ -100,6 +100,10 @@
     <Compile Include="Migrations\201203132232122_DroppingProductAltogether.Designer.cs">
       <DependentUpon>201203132232122_DroppingProductAltogether.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201203141432065_AddSupervisorRoleType.cs" />
+    <Compile Include="Migrations\201203141432065_AddSupervisorRoleType.Designer.cs">
+      <DependentUpon>201203141432065_AddSupervisorRoleType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\Profile.cs" />
