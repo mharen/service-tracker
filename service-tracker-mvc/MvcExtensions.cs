@@ -153,18 +153,17 @@ namespace service_tracker_mvc
             return string.Format(FormatString, UrlPath, Version);
         }
 
-        public static string GetUserMaximumRole(this HttpContext context)
+        public static RoleType GetUserMaximumRole(this HttpContext context)
         {
             if (!context.Items.Contains(UserMaximumRoleKey))
             {
                 LoadCachedUserDetails(context);
             }
-            return ((RoleType)context.Items[UserMaximumRoleKey]).ToString();
+            return (RoleType)context.Items[UserMaximumRoleKey];
         }
 
         public static string GetUserDisplayName(this HttpContext context)
         {
-            // load the name from the database if it doesn't exist already
             if (!context.Items.Contains(UserDisplayNameKey))
             {
                 LoadCachedUserDetails(context);
@@ -173,21 +172,45 @@ namespace service_tracker_mvc
             return context.Items[UserDisplayNameKey].ToString();
         }
 
+        public static int? GetAssociatedServicerId(this HttpContext context)
+        {
+            if (!context.Items.Contains(AssociatedServicerIdKey))
+            {
+                LoadCachedUserDetails(context);
+            }
+
+            return context.Items[AssociatedServicerIdKey] as int?;
+        }
+
+        public static int? GetAssociatedOrganizationId(this HttpContext context)
+        {
+            if (!context.Items.Contains(AssociatedOrganizationIdKey))
+            {
+                LoadCachedUserDetails(context);
+            }
+
+            return context.Items[AssociatedOrganizationIdKey] as int?;
+        }
+
         private static void LoadCachedUserDetails(HttpContext context)
         {
             using (var db = new DataContext())
             {
                 var User = db.Users.Where(u => u.ClaimedIdentifier == context.User.Identity.Name)
-                                   .Select(u => new { u.Email, u.RoleId, u.UserId })
+                                   .Select(u => new { u.Email, u.RoleId, u.UserId, u.OrganizationId, u.ServicerId })
                                    .Single();
 
-                context.Items[UserDisplayNameKey] = User.Email;
                 context.Items[UserMaximumRoleKey] = User.RoleId;
+                context.Items[UserDisplayNameKey] = User.Email;
+                context.Items[AssociatedServicerIdKey] = User.ServicerId;
+                context.Items[AssociatedOrganizationIdKey] = User.OrganizationId;
             }
         }
 
         public const string UserDisplayNameKey = "UserDisplayName";
         public const string UserMaximumRoleKey = "UserMaximumRole";
+        public const string AssociatedServicerIdKey = "AssociatedServicerIdKey";
+        public const string AssociatedOrganizationIdKey = "AssociatedOrganizationIdKey";
         public const string UserRole = "UserRole";
 
         public static string Left(this string s, int maxLength)

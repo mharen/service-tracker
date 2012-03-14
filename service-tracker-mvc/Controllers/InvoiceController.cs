@@ -58,21 +58,40 @@ namespace service_tracker_mvc.Controllers
 
             var Filter = invoiceIndexViewModel.InvoiceFilter;
 
-            invoiceIndexViewModel.Invoices = db.Invoices
-                                                .Include(i => i.Items)
-                                                .Include(i => i.Site.Organization)
-                                                .Where(i => i.ServiceDate >= Filter.StartDate)
-                                                .Where(i => i.ServiceDate <= Filter.EndDate)
-                                                .Where(i => i.SiteId == Filter.SiteId || Filter.SiteId == 0)
-                                                .Where(i => i.ServicerId == Filter.ServicerId || Filter.ServicerId == 0)
-                                                .Where(i => i.KeyRec.Contains(Filter.KeyRec) || Filter.KeyRec == null || Filter.KeyRec == "")
-                                                .Where(i => i.FrtBill.Contains(Filter.FrtBill) || Filter.FrtBill == null || Filter.FrtBill == "")
-                                                .Where(i => i.PurchaseOrder.Contains(Filter.PurchaseOrder) || Filter.PurchaseOrder == null || Filter.PurchaseOrder == "")
+            var query = db.Invoices
+                            .Include(i => i.Items)
+                            .Include(i => i.Site.Organization)
+                            .Where(i => i.ServiceDate >= Filter.StartDate)
+                            .Where(i => i.ServiceDate <= Filter.EndDate)
+                            .Where(i => i.SiteId == Filter.SiteId || Filter.SiteId == 0)
+                            .Where(i => i.ServicerId == Filter.ServicerId || Filter.ServicerId == 0)
+                            .Where(i => i.KeyRec.Contains(Filter.KeyRec) || Filter.KeyRec == null || Filter.KeyRec == "")
+                            .Where(i => i.FrtBill.Contains(Filter.FrtBill) || Filter.FrtBill == null || Filter.FrtBill == "")
+                            .Where(i => i.PurchaseOrder.Contains(Filter.PurchaseOrder) || Filter.PurchaseOrder == null || Filter.PurchaseOrder == "");
+
+            // apply user-specific filtering
+            //if (GetAssociatedServicerIdKey)
+            var context = System.Web.HttpContext.Current;
+            var userMaximumRole = context.GetUserMaximumRole();
+            var associatedOrganizationId = context.GetAssociatedOrganizationId();
+            var associatedServicerId = context.GetAssociatedServicerId();
+
+            query = query.Where(i => 
+                // managers can see everything
+                userMaximumRole >= RoleType.Manager
+                // customers can see everything for their organization
+                || (associatedOrganizationId.HasValue && i.Site.OrganizationId == associatedOrganizationId.Value)
+                // employees can only see their stuff
+                || (associatedServicerId.HasValue && i.ServicerId == associatedServicerId.Value)
+            );
+
+            // execute the query
+            invoiceIndexViewModel.Invoices = query
                                                 .OrderBy(i => i.ServiceDate)
                                                 .ThenBy(i => i.InvoiceId)
                                                 .ToList();
 
-            //save the filter for future use
+            // save the filter for future use
             Session[InvoiceFilterSessionKey] = invoiceIndexViewModel.InvoiceFilter;
 
             return invoiceIndexViewModel;
