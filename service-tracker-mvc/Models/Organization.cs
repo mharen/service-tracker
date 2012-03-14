@@ -7,10 +7,12 @@ namespace service_tracker_mvc.Models
     {
         public int OrganizationId { get; set; }
         
-        [MaxLength(50), Required]
+        [MaxLength(50)]
+        [Required(ErrorMessage = "⇧ Required")]
         public string Name { get; set; }
         
-        [MaxLength(6), Required]
+        [MaxLength(6)]
+        [Required(ErrorMessage = "⇧ Required")]
         public string Code { get; set; }
 
         [MaxLength(50)]

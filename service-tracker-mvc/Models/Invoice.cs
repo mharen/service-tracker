@@ -12,10 +12,12 @@ namespace service_tracker_mvc.Models
         public int InvoiceId { get; set; }
 
         [Display(Name = "Store")]
+        [Required(ErrorMessage = "⇧ Required")]
         public int SiteId { get; set; }
         public virtual Site Site { get; set; }
 
         [Display(Name = "Employee")]
+        [Required(ErrorMessage = "⇧ Required")]
         public int ServicerId { get; set; }
         public virtual Servicer Servicer { get; set; }
 
@@ -23,6 +25,7 @@ namespace service_tracker_mvc.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         [DataType(DataType.Date)]
         [DisplayName("Date")]
+        [Required(ErrorMessage = "⇧ Required")]
         public DateTime ServiceDate { get; set; }
 
         [Display(Name = "Invoice")]

@@ -13,10 +13,12 @@ namespace service_tracker_mvc.Models
         [MaxLength(50)]
         public string Sku { get; set; }
         
-        [MaxLength(50),Required]
+        [MaxLength(50)]
+        [Required(ErrorMessage = "⇧ Required")]
         public string Description { get; set; }
         
         [DisplayFormat(DataFormatString = "{0:C}")]
+        [Required(ErrorMessage = "⇧ Required")]
         public decimal Cost { get; set; }
         
         public override string ToString()

@@ -10,7 +10,8 @@ namespace service_tracker_mvc.Models
     {
         public int ServicerId { get; set; }
         
-        [Required, MaxLength(50)]
+        [MaxLength(50)]
+        [Required(ErrorMessage = "⇧ Required")]
         public string Name { get; set; }
 
         public virtual ICollection<Invoice> Invoices { get; set; }

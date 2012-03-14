@@ -304,6 +304,7 @@ div#title a
 -----------------------------------------------------------*/
 .field-validation-error
 {
+    display:block;
     color: #ff0000;
 }
 
