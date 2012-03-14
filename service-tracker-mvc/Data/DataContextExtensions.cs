@@ -133,6 +133,11 @@ namespace service_tracker_mvc.Data
                 // return everyone
                 filter = (Servicer s) => true;
             }
+            else
+            {
+                filter = (Servicer i) => false;
+            }
+
             return filter;
         }
 
@@ -158,6 +163,11 @@ namespace service_tracker_mvc.Data
                 // return all orgs
                 filter = (Site s) => true;
             }
+            else
+            {
+                filter = (Site i) => false;
+            }
+
             return filter;
         }
 
@@ -183,6 +193,11 @@ namespace service_tracker_mvc.Data
                 // return all invoices
                 filter = (Invoice i) => true;
             }
+            else
+            {
+                filter = (Invoice i) => false;
+            }
+
             return filter;
         }
     }
