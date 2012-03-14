@@ -507,3 +507,30 @@ a.openid_large_btn:focus {
 }
 #openid_inputarea{ clear: both; padding-top:10px; }
 #openid_inputarea span.oidlabel { vertical-align:middle; margin-right: 5px; }
+
+/* notification bar */
+
+#message
+{
+    display:none;
+	width:100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index:9999999;
+	text-align:center;
+}
+#message div{
+	display:inline-block;
+	padding: 10px;
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=95); 
+	opacity: 0.95;
+	-moz-opacity: 0.95;
+	text-align:center;
+	border-top: none;
+	border-bottom-right-radius: 12px;
+	border-bottom-left-radius: 12px;
+	font-size: 24px;
+	margin:0 auto;
+	max-width: 950px;
+}

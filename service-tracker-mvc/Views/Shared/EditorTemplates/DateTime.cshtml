@@ -1,2 +1,2 @@
 ﻿@model DateTime?
-@Html.TextBox("", Model.HasValue ? Model.Value.ToShortDateString() : "", new { type = "date" })
+@Html.TextBox("", (Model.HasValue && Model.Value != DateTime.MinValue) ? Model.Value.ToShortDateString() : "", new { type = "date" })

@@ -20,12 +20,15 @@ $(function () {
     )
     .click(function (e) {
         if ($(e.target).is('input,textarea,select')) {
-            return; 
+            return;
         }
-        $(this).children('td').toggleClass('ui-state-highlight'); 
+        $(this).children('td').toggleClass('ui-state-highlight');
     });
 
     $('#menu li').hover(function () { $(this).addClass('ui-state-hover'); }, function () { $(this).removeClass('ui-state-hover'); });
 
     $('input:submit, button').button();
+
+    // note: if there is no message, this will silently just not do anything :)
+    $('#message').show('slide', { direction: 'up' }, 'fast').delay(2000).hide('slide', { direction: 'up' }, 'fast');
 });

@@ -192,7 +192,6 @@ namespace service_tracker_mvc.Controllers
             // initialize invoice with defaults
             Invoice Invoice = new Invoice()
             {
-                ServiceDate = DateTime.UtcNow.Date,
                 InvoiceId = 0,
                 Items = new List<InvoiceItem>()
             };
@@ -262,7 +261,12 @@ namespace service_tracker_mvc.Controllers
                     db.Entry(Item).State = ExistingItemIds.Contains(Item.InvoiceItemId) ? EntityState.Modified : EntityState.Added;
                 }
                 db.SaveChanges();
+                TempData["Message"] = "Invoice Saved";
 
+                if (Request.Form["Save"]  == "Save and Add Another")
+                {
+                    return RedirectToAction("Create", new { from = Request["from"] });
+                }
                 return RedirectToAction("Index");
             }
             PopulateEditViewBagProperties(false);
