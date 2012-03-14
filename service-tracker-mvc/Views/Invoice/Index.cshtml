@@ -125,10 +125,10 @@ else
                 <td class='ui-widget-content number'>
                     @Html.DisplayFor(modelItem => item.Total)
                 </td>
-                <td class='ui-widget-content number'>
-                    @Html.ActionLink("Details", "Details", new { id = item.InvoiceId }) 
+                <td class='ui-widget-content number'> 
+                    <a href="@Url.Action("Details", new { id = item.InvoiceId })"><span title="Details" class="ui-icon ui-icon-search" style="display:inline-block"></span></a>
                     @if(User.IsInRole("Manager")){
-                        <text>|</text> @Html.ActionLink("Edit", "Edit", new { id = item.InvoiceId, from = "index" })
+                        <a href="@Url.Action("Edit", new { id = item.InvoiceId, from = "index" })"><span title="Edit" class="ui-icon ui-icon-pencil" style="display:inline-block"></span></a>
                     }
                 </td>
             </tr>

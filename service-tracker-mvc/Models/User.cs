@@ -26,12 +26,13 @@ namespace service_tracker_mvc.Models
         
         public int LoginCount { get; set; }
 
-        [DisplayName("Associated Employee (optional)")]
+        [DisplayName("Associated Employee")]
         public int? ServicerId { get; set; }
         public virtual Servicer Servicer { get; set; }
 
-        [DisplayName("Associated Organization (optional)")]
+        [DisplayName("Associated Organization")]
         public int? OrganizationId { get; set; }
         public virtual Organization Organization { get; set; }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<service_tracker_mvc.Models.User>
+﻿@using service_tracker_mvc.Models
+@model IEnumerable<service_tracker_mvc.Models.User>
 @{
     ViewBag.Title = "Index";
 }
@@ -11,8 +12,7 @@
         <th class='ui-state-default'>ID </th>
         <th class='ui-state-default'>Email </th>
         <th class='ui-state-default'>Role </th>
-        <th class='ui-state-default'>Employee </th>
-        <th class='ui-state-default'>Organization </th>
+        <th class='ui-state-default'>Association</th>
         <th class='ui-state-default'>First Login (UTC) </th>
         <th class='ui-state-default'>Last Login (UTC) </th>
         <th class='ui-state-default number'>Login Count </th>
@@ -31,10 +31,14 @@
                 @((service_tracker_mvc.Models.RoleType)item.RoleId)
             </td>
             <td class='ui-widget-content'>
-                @(item.Servicer == null? "" : item.Servicer.Name.Left(15))
-            </td>
-            <td class='ui-widget-content'>
-                @(item.Organization == null? "" : item.Organization.Name.Left(15))
+                @if (item.RoleId == (int)RoleType.Employee && item.Servicer != null)
+                {
+                    <span title="Employee" class="ui-icon ui-icon-person" style="display:inline-block"></span> @item.Servicer.Name.Left(15)
+                }
+                else if (item.RoleId == (int)RoleType.Customer && item.Organization != null)
+                {
+                    <span title="Organization" class="ui-icon ui-icon-cart" style="display:inline-block"></span> @item.Organization.Name.Left(15)
+                }
             </td>
             <td class='ui-widget-content'>
                 @Html.DisplayFor(modelItem => item.FirstLogin)
