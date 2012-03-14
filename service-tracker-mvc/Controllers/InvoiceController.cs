@@ -166,13 +166,27 @@ namespace service_tracker_mvc.Controllers
         [RequiresAuthorization("Customer")]
         public ViewResult Details(int id)
         {
+            Invoice invoice = QueryInvoice(id);
+            return View(invoice);
+        }
+
+        private Invoice QueryInvoice(int id)
+        {
             Invoice invoice = db.Invoices.Include(x => x.Items)
                                          .Include(x => x.Site)
                                          .Include(x => x.Servicer)
                                          .Single(x => x.InvoiceId == id);
-            return View(invoice);
+
+            var filter = DataContextExtensions.GetInvoiceFilterForCurrentUser();
+            if (!filter(invoice))
+            {
+                throw new UnauthorizedAccessException("Your current role or configuration does not allow you to see this record");
+            }
+
+            return invoice;
         }
 
+        [RequiresAuthorization("Manager")]
         public ActionResult Create()
         {
             // initialize invoice with defaults
@@ -189,11 +203,13 @@ namespace service_tracker_mvc.Controllers
         }
 
         [HttpPost]
+        [RequiresAuthorization("Manager")]
         public ActionResult Create(Invoice invoice)
         {
             return Edit(invoice);
         }
 
+        [RequiresAuthorization("Manager")]
         public ActionResult Edit(int id)
         {
             PopulateEditViewBagProperties(false);
@@ -222,6 +238,7 @@ namespace service_tracker_mvc.Controllers
         }
 
         [HttpPost]
+        [RequiresAuthorization("Manager")]
         public ActionResult Edit(Invoice invoice)
         {
             if (invoice.Items == null)
@@ -252,12 +269,14 @@ namespace service_tracker_mvc.Controllers
             return View(invoice);
         }
 
+        [RequiresAuthorization("Manager")]
         public ActionResult Delete(int id)
         {
             Invoice invoice = db.Invoices.Find(id);
             return View(invoice);
         }
 
+        [RequiresAuthorization("Manager")]
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
