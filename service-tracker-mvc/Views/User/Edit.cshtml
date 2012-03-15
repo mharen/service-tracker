@@ -1,4 +1,6 @@
 ﻿@using service_tracker_mvc.Models;
+@using service_tracker_mvc.Classes;
+@using service_tracker_mvc.Extensions;
 @model service_tracker_mvc.Models.User
 @{
     ViewBag.Title = "Edit";
@@ -28,7 +30,7 @@
             @Html.LabelFor(model => model.RoleId)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.RoleId, MvcExtensions.ToSelectList<service_tracker_mvc.Models.RoleType>(Model.RoleId.ToString()))
+            @Html.DropDownListFor(model => model.RoleId, MvcExtensions.ToSelectList<RoleType>(Model.RoleId.ToString()))
             @Html.ValidationMessageFor(model => model.RoleId)
         </div>
         <div id='associated-servicer'>
