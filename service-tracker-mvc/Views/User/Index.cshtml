@@ -1,4 +1,5 @@
 ﻿@using service_tracker_mvc.Models
+@using service_tracker_mvc.Classes
 @model IEnumerable<service_tracker_mvc.Models.User>
 @{
     ViewBag.Title = "Index";
@@ -28,7 +29,7 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td class='ui-widget-content'>
-                @((service_tracker_mvc.Models.RoleType)item.RoleId)
+                @((RoleType)item.RoleId)
             </td>
             <td class='ui-widget-content'>
                 @if (item.RoleId == (int)RoleType.Employee && item.Servicer != null)

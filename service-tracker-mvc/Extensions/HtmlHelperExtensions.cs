@@ -8,7 +8,7 @@ using System.Collections;
 using System.Text;
 using System.Globalization;
 
-namespace service_tracker_mvc
+namespace service_tracker_mvc.Extensions
 {
     public class ExtendedSelectListItem : SelectListItem
     {

@@ -10,6 +10,7 @@ using service_tracker_mvc.Data;
 using service_tracker_mvc.Filters;
 using service_tracker_mvc.Models;
 using System.Data.Entity;
+using service_tracker_mvc.Classes;
 
 namespace service_tracker_mvc.Controllers
 {

@@ -11,6 +11,7 @@ using System.Text;
 using ExcelGenerator.SpreadSheet;
 using ExcelGenerator.SpreadSheet.Styles;
 using service_tracker_mvc.Filters;
+using service_tracker_mvc.ActionResults;
 
 namespace service_tracker_mvc.Controllers
 {
@@ -70,12 +71,12 @@ namespace service_tracker_mvc.Controllers
                     .Where(i => i.KeyRec.Contains(Filter.KeyRec) || Filter.KeyRec == null || Filter.KeyRec == "")
                     .Where(i => i.FrtBill.Contains(Filter.FrtBill) || Filter.FrtBill == null || Filter.FrtBill == "")
                     .Where(i => i.PurchaseOrder.Contains(Filter.PurchaseOrder) || Filter.PurchaseOrder == null || Filter.PurchaseOrder == "")
-                    // apply user-specific filtering
+                // apply user-specific filtering
                     .Where(DataContextExtensions.GetInvoiceFilterForCurrentUser())
-                    // sort
+                // sort
                     .OrderBy(i => i.ServiceDate)
                     .ThenBy(i => i.InvoiceId)
-                    // evaluate
+                // evaluate
                     .ToList();
 
             // save the filter for future use
@@ -175,6 +176,7 @@ namespace service_tracker_mvc.Controllers
             Invoice invoice = db.Invoices.Include(x => x.Items)
                                          .Include(x => x.Site)
                                          .Include(x => x.Servicer)
+                                         .Include(x => x.Items.Select(i => i.Service))
                                          .Single(x => x.InvoiceId == id);
 
             var filter = DataContextExtensions.GetInvoiceFilterForCurrentUser();
@@ -227,13 +229,11 @@ namespace service_tracker_mvc.Controllers
 
         private void PopulateEditViewBagProperties(bool includeAllOptionsWhenAppropriate)
         {
-            ViewBag.Organizations = db.Organizations.ToSelectListItems(includeAllOption: includeAllOptionsWhenAppropriate);
-
             ViewBag.Services = db.Services.ToSelectListItems(includeAllOption: false);
 
             ViewBag.Servicers = db.Servicers.ToSelectListItems(includeAllOption: includeAllOptionsWhenAppropriate);
 
-            ViewBag.Sites = db.Sites.ToSelectListItems(includeAllOption: includeAllOptionsWhenAppropriate);
+            ViewBag.Sites = db.Sites.Include(s => s.Organization).ToSelectListItems(includeAllOption: includeAllOptionsWhenAppropriate);
         }
 
         [HttpPost]
@@ -263,7 +263,7 @@ namespace service_tracker_mvc.Controllers
                 db.SaveChanges();
                 TempData["Message"] = "Invoice Saved";
 
-                if (Request.Form["Save"]  == "Save and Add Another")
+                if (Request.Form["Save"] == "Save and Add Another")
                 {
                     return RedirectToAction("Create", new { from = Request["from"] });
                 }

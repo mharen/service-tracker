@@ -1,5 +1,5 @@
 ﻿@if(Request.IsAuthenticated) {
-    <text>Welcome <strong title="@Roles.GetRolesForUser().Last()">@HttpContext.Current.GetUserDisplayName()</strong> | @Html.ActionLink("Logout", "Logout", "User")</text>
+    <text>Welcome <strong title="@Html.AttributeEncode(HttpContext.Current.CurrentUser().Role.ToString())">@HttpContext.Current.CurrentUser().Name</strong> | @Html.ActionLink("Logout", "Logout", "User")</text>
 }
 else { 
     @Html.ActionLink("Login", "Login", "User")

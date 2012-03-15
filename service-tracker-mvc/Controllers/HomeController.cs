@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Data.Entity;
 using service_tracker_mvc.Data;
 using service_tracker_mvc.Models;
+using service_tracker_mvc.Extensions;
 using System.Web.Management;
 
 namespace service_tracker_mvc.Controllers
