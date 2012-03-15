@@ -40,6 +40,7 @@ namespace service_tracker_mvc.Controllers
             {
                 db.Sites.Add(site);
                 db.SaveChanges();
+                TempData["Message"] = "Site Saved";
                 return RedirectToAction("Index");
             }
 
@@ -60,6 +61,7 @@ namespace service_tracker_mvc.Controllers
             {
                 db.Entry(site).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["Message"] = "Site Saved";
                 return RedirectToAction("Index");
             }
             return View(site);
@@ -86,6 +88,7 @@ namespace service_tracker_mvc.Controllers
             }
             db.Sites.Remove(site);
             db.SaveChanges();
+            TempData["Message"] = "Site Deleted";
             return RedirectToAction("Index");
         }
 

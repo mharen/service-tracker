@@ -37,6 +37,7 @@ namespace service_tracker_mvc.Controllers
             {
                 db.Organizations.Add(organization);
                 db.SaveChanges();
+                TempData["Message"] = "Organization Saved";
                 return RedirectToAction("Index");  
             }
 
@@ -56,6 +57,7 @@ namespace service_tracker_mvc.Controllers
             {
                 db.Entry(organization).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["Message"] = "Organization Saved";
                 return RedirectToAction("Index");
             }
             return View(organization);
@@ -80,6 +82,7 @@ namespace service_tracker_mvc.Controllers
                 throw new InvalidOperationException("You cannot delete this organization because it is tied to existing sites. You must change the existing sites to use a different organization first or remove them");
             }
             db.Organizations.Remove(organization);
+            TempData["Message"] = "Organization Deleted";
             db.SaveChanges();
             return RedirectToAction("Index");
         }

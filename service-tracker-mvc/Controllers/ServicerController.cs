@@ -39,6 +39,7 @@ namespace service_tracker_mvc.Controllers
             {
                 db.Servicers.Add(servicer);
                 db.SaveChanges();
+                TempData["Message"] = "Employee Saved";
                 return RedirectToAction("Index");
             }
 
@@ -58,6 +59,7 @@ namespace service_tracker_mvc.Controllers
             {
                 db.Entry(servicer).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["Message"] = "Employee Saved";
                 return RedirectToAction("Index");
             }
             return View(servicer);
@@ -83,6 +85,7 @@ namespace service_tracker_mvc.Controllers
             Servicer servicer = db.Servicers.Find(id);
             db.Servicers.Remove(servicer);
             db.SaveChanges();
+            TempData["Message"] = "Employee Deleted";
             return RedirectToAction("Index");
         }
 

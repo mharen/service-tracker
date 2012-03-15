@@ -30,5 +30,5 @@ $(function () {
     $('input:submit, button').button();
 
     // note: if there is no message, this will silently just not do anything :)
-    $('#message').show('slide', { direction: 'up' }, 'fast').delay(2000).hide('slide', { direction: 'up' }, 'fast');
+    $('#message').delay(50).show('slide', { direction: 'up' }, 'fast').delay(2000).hide('slide', { direction: 'up' }, 'fast');
 });

@@ -174,6 +174,7 @@ namespace service_tracker_mvc.Controllers
             existingUser.ServicerId = user.ServicerId;
 
             db.SaveChanges();
+            TempData["Message"] = "User Saved";
             return RedirectToAction("Index");
         }
 
@@ -189,6 +190,7 @@ namespace service_tracker_mvc.Controllers
             User user = db.Users.Find(id);
             db.Users.Remove(user);
             db.SaveChanges();
+            TempData["Message"] = "User Deleted";
             return RedirectToAction("Index");
         }
 

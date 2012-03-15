@@ -287,6 +287,7 @@ namespace service_tracker_mvc.Controllers
             Invoice invoice = db.Invoices.Find(id);
             db.Invoices.Remove(invoice);
             db.SaveChanges();
+            TempData["Message"] = "Invoice Deleted";
             return RedirectToAction("Index");
         }
 
