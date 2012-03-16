@@ -62,20 +62,10 @@
                 @Html.ValidationMessageFor(model => model.InvoiceFilter.PurchaseOrder)
             </div>
         </div>
-        <div class='pair' style="padding-left: 15px;">
-            <div class="editor-field">
-                <input type='submit' name='Button' value='Filter' />
-            </div>
-        </div>
-        <div class='pair'>
-            <div class="editor-field">
-                <input type='submit' name='Button' value='Export' />
-            </div>
-        </div>
-        <div class='no-print pair' style='margin-right: 0;margin-top:10px;'>
-            <div class="editor-field">
-                <a href="?@service_tracker_mvc.Controllers.InvoiceController.ResetFiltersRequestKey=yep">Reset Filters</a>
-            </div>
+        <div class='pair' style="margin-top:15px">
+                    <input type='submit' name='Button' value='Filter' />
+                    <input type='submit' name='Button' value='Export' />
+                    <a href="?@service_tracker_mvc.Controllers.InvoiceController.ResetFiltersRequestKey=yep">Reset Filters</a>
         </div>
     </div>
 }
