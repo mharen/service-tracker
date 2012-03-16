@@ -112,7 +112,7 @@ namespace service_tracker_mvc.Data
             return options;
         }
 
-        private static Func<Servicer, bool> GetServicerFilterForCurrentUser(CurrentUser user = null)
+        private static Func<Servicer, bool> GetServicerFilterForCurrentUser(ICurrentUser user = null)
         {
             var userMaximumRole = LoadUser(user).Role;
             Func<Servicer, bool> filter;
@@ -148,7 +148,7 @@ namespace service_tracker_mvc.Data
         {
             if (user == null)
             {
-                user = HttpContext.Current.Items[CurrentUserContextKey] as CurrentUser;
+                user = HttpContext.Current.Items[CurrentUserContextKey] as ICurrentUser;
             }
 
             if (user == null)
@@ -160,7 +160,7 @@ namespace service_tracker_mvc.Data
             return user;
         }
 
-        private static CurrentUser LoadUserFromDb()
+        private static ICurrentUser LoadUserFromDb()
         {
             using (var db = new DataContext())
             {
@@ -179,7 +179,7 @@ namespace service_tracker_mvc.Data
             }
         }
 
-        private static Func<Site, bool> GetSiteFilterForCurrentUser(CurrentUser user = null)
+        private static Func<Site, bool> GetSiteFilterForCurrentUser(ICurrentUser user = null)
         {
             var userMaximumRole = LoadUser(user).Role;
             Func<Site, bool> filter;
@@ -209,7 +209,7 @@ namespace service_tracker_mvc.Data
             return filter;
         }
 
-        public static Func<Invoice, bool> GetInvoiceFilterForCurrentUser(CurrentUser user = null)
+        public static Func<Invoice, bool> GetInvoiceFilterForCurrentUser(ICurrentUser user = null)
         {
             var userMaximumRole = LoadUser(user).Role;
             Func<Invoice, bool> filter;

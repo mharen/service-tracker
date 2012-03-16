@@ -216,13 +216,13 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: false);
         }
 
-        private void VerifyInvoiceFilter(CurrentUser user, Invoice invoice, bool expectedResult){
+        private void VerifyInvoiceFilter(ICurrentUser user, Invoice invoice, bool expectedResult){
             var filter = DataContextExtensions.GetInvoiceFilterForCurrentUser(user);
             var actualResult = filter(invoice);
             Assert.AreEqual(expectedResult, actualResult);
         }
 
-        private CurrentUser GetFakeUser(RoleType roleType)
+        private ICurrentUser GetFakeUser(RoleType roleType)
         {
             return new CurrentUser()
             {
