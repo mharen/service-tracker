@@ -190,7 +190,7 @@ footer
 }
 ul#menu
 {
-    padding-right: 15px;   
+    padding-right: 5px;   
     position: relative;
     margin: 0;
 }
@@ -534,7 +534,7 @@ a.openid_large_btn:focus {
     }
 }
 
-@media screen and (max-width: 320px) 
+@media screen and (max-width: 480px) 
 {
     div#title h1 a
     {
@@ -557,11 +557,11 @@ a.openid_large_btn:focus {
    }
 }
 
-@media screen and (max-width: 240px) 
+@media screen and (max-width: 320px) 
 {
     div#title h1 a
     {
-        font-size: 1em;
+        font-size: .75em;
     }
     header, div#title, #logindisplay
     {
