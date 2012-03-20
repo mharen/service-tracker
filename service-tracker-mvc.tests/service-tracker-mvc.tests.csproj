@@ -77,7 +77,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataContextExtensionsTest.cs" />
+    <Compile Include="DataContextExtensions_GetInvoiceFilterForCurrentUserTests.cs" />
     <Compile Include="FooController.cs" />
     <Compile Include="Helpers\AssertHelpers.cs" />
     <Compile Include="Helpers\Utilities.cs" />

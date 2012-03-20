@@ -20,7 +20,7 @@ namespace service_tracker_mvc.tests
     ///to contain all DataContextExtensionsTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class DataContextExtensionsTest
+    public class DataContextExtensions_GetInvoiceFilterForCurrentUserTests
     {
 
 
