@@ -31,5 +31,17 @@ namespace service_tracker_mvc.tests
                 }
             };
         }
+
+        public static Servicer GetFakeServicer(int servicerId = 0, int organizationId = 0)
+        {
+            return new Servicer()
+            {
+                ServicerId = servicerId,
+                Invoices = new List<Invoice>()
+                {
+                    GetFakeInvoice(servicerId: servicerId, organizationId: organizationId)
+                }
+            };
+        }
     }
 }

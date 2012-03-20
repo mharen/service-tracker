@@ -13,10 +13,10 @@ using service_tracker_mvc.Classes;
 
 namespace service_tracker_mvc.tests
 {
-    [TestClass()]
+    [TestClass]
     public class DataContextExtensions_GetInvoiceFilterForCurrentUserTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUser_ByCurrentServicer_Administrator()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Administrator);
@@ -24,7 +24,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: true);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUserTest_ByCurrentOrganization_Administrator()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Administrator);
@@ -32,7 +32,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: true);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUserTest_ByNeitherCurrentOrganizationOrServicer_Administrator()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Administrator);
@@ -40,7 +40,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: true);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUser_ByCurrentServicer_Manager()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Manager);
@@ -48,7 +48,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: true);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUserTest_ByCurrentOrganization_Manager()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Manager);
@@ -56,7 +56,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: true);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUserTest_ByNeitherCurrentOrganizationOrServicer_Manager()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Manager);
@@ -64,7 +64,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: true);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUser_ByCurrentServicer_Supervisor()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Supervisor);
@@ -72,7 +72,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: true);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUserTest_ByCurrentOrganization_Supervisor()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Supervisor);
@@ -80,7 +80,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: true);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUserTest_ByNeitherCurrentOrganizationOrServicer_Supervisor()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Supervisor);
@@ -88,7 +88,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: true);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUser_ByCurrentServicer_Customer()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Customer);
@@ -96,7 +96,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: false);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUserTest_ByCurrentOrganization_Customer()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Customer);
@@ -104,7 +104,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: true);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUserTest_ByNeitherCurrentOrganizationOrServicer_Customer()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Customer);
@@ -112,7 +112,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: false);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUser_ByCurrentServicer_Employee()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Employee);
@@ -120,7 +120,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: true);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUserTest_ByCurrentOrganization_Employee()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Employee);
@@ -128,7 +128,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: false);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUserTest_ByNeitherCurrentOrganizationOrServicer_Employee()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Employee);
@@ -136,7 +136,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: false);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUser_ByCurrentServicer_Guest()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Guest);
@@ -144,7 +144,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: false);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUserTest_ByCurrentOrganization_Guest()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Guest);
@@ -152,7 +152,7 @@ namespace service_tracker_mvc.tests
             VerifyInvoiceFilter(FakeUser, FakeInvoice, expectedResult: false);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetInvoiceFilterForCurrentUserTest_ByNeitherCurrentOrganizationOrServicer_Guest()
         {
             var FakeUser = Statics.GetFakeUser(RoleType.Guest);
@@ -169,32 +169,12 @@ namespace service_tracker_mvc.tests
         
 
         ///// <summary>
-        /////A test for GetServicerFilterForCurrentUser
-        /////</summary>
-        //// TODO: Ensure that the UrlToTest attribute specifies a URL to an ASP.NET page (for example,
-        //// http://.../Default.aspx). This is necessary for the unit test to be executed on the web server,
-        //// whether you are testing a page, web service, or a WCF service.
-        //[TestMethod()]
-        //[HostType("ASP.NET")]
-        //[AspNetDevelopmentServerHost("C:\\Users\\haren.AURORA_NT\\Documents\\My Dropbox\\Projects\\service-tracker\\service-tracker-mvc", "/")]
-        //[UrlToTest("http://localhost:60595/")]
-        //[DeploymentItem("service-tracker-mvc.dll")]
-        //public void GetServicerFilterForCurrentUserTest()
-        //{
-        //    Func<Servicer, bool> expected = null; // TODO: Initialize to an appropriate value
-        //    Func<Servicer, bool> actual;
-        //    actual = DataContextExtensions_Accessor.GetServicerFilterForCurrentUser();
-        //    Assert.AreEqual(expected, actual);
-        //    Assert.Inconclusive("Verify the correctness of this test method.");
-        //}
-
-        ///// <summary>
         /////A test for GetSiteFilterForCurrentUser
         /////</summary>
         //// TODO: Ensure that the UrlToTest attribute specifies a URL to an ASP.NET page (for example,
         //// http://.../Default.aspx). This is necessary for the unit test to be executed on the web server,
         //// whether you are testing a page, web service, or a WCF service.
-        //[TestMethod()]
+        //[TestMethod]
         //[HostType("ASP.NET")]
         //[AspNetDevelopmentServerHost("C:\\Users\\haren.AURORA_NT\\Documents\\My Dropbox\\Projects\\service-tracker\\service-tracker-mvc", "/")]
         //[UrlToTest("http://localhost:60595/")]
@@ -214,7 +194,7 @@ namespace service_tracker_mvc.tests
         //// TODO: Ensure that the UrlToTest attribute specifies a URL to an ASP.NET page (for example,
         //// http://.../Default.aspx). This is necessary for the unit test to be executed on the web server,
         //// whether you are testing a page, web service, or a WCF service.
-        //[TestMethod()]
+        //[TestMethod]
         //[HostType("ASP.NET")]
         //[AspNetDevelopmentServerHost("C:\\Users\\haren.AURORA_NT\\Documents\\My Dropbox\\Projects\\service-tracker\\service-tracker-mvc", "/")]
         //[UrlToTest("http://localhost:60595/")]
@@ -235,7 +215,7 @@ namespace service_tracker_mvc.tests
         //// TODO: Ensure that the UrlToTest attribute specifies a URL to an ASP.NET page (for example,
         //// http://.../Default.aspx). This is necessary for the unit test to be executed on the web server,
         //// whether you are testing a page, web service, or a WCF service.
-        //[TestMethod()]
+        //[TestMethod]
         //[HostType("ASP.NET")]
         //[AspNetDevelopmentServerHost("C:\\Users\\haren.AURORA_NT\\Documents\\My Dropbox\\Projects\\service-tracker\\service-tracker-mvc", "/")]
         //[UrlToTest("http://localhost:60595/")]
@@ -256,7 +236,7 @@ namespace service_tracker_mvc.tests
         //// TODO: Ensure that the UrlToTest attribute specifies a URL to an ASP.NET page (for example,
         //// http://.../Default.aspx). This is necessary for the unit test to be executed on the web server,
         //// whether you are testing a page, web service, or a WCF service.
-        //[TestMethod()]
+        //[TestMethod]
         //[HostType("ASP.NET")]
         //[AspNetDevelopmentServerHost("C:\\Users\\haren.AURORA_NT\\Documents\\My Dropbox\\Projects\\service-tracker\\service-tracker-mvc", "/")]
         //[UrlToTest("http://localhost:60595/")]
@@ -277,7 +257,7 @@ namespace service_tracker_mvc.tests
         //// TODO: Ensure that the UrlToTest attribute specifies a URL to an ASP.NET page (for example,
         //// http://.../Default.aspx). This is necessary for the unit test to be executed on the web server,
         //// whether you are testing a page, web service, or a WCF service.
-        //[TestMethod()]
+        //[TestMethod]
         //[HostType("ASP.NET")]
         //[AspNetDevelopmentServerHost("C:\\Users\\haren.AURORA_NT\\Documents\\My Dropbox\\Projects\\service-tracker\\service-tracker-mvc", "/")]
         //[UrlToTest("http://localhost:60595/")]
