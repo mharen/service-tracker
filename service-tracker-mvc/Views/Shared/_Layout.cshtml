@@ -25,6 +25,7 @@
     <script src="@Url.VersionedContent("~/Scripts/libs/dd_belatedpng.js")"></script>
     <script> DD_belatedPNG.fix('img, .png_bg');</script>
     <![endif]-->
+    @RenderSection("AdditionalScripts", required: false)
 </head>
 <body>
         @{

@@ -19,10 +19,9 @@ $(function () {
         function () { $(this).children('td').removeClass('ui-state-hover'); }
     )
     .click(function (e) {
-        if ($(e.target).is('input,textarea,select')) {
-            return;
+        if ($(e.target).is('tr,td,th')) {
+            $(this).children('td').toggleClass('ui-state-highlight');
         }
-        $(this).children('td').toggleClass('ui-state-highlight');
     });
 
     $('#menu li').hover(function () { $(this).addClass('ui-state-hover'); }, function () { $(this).removeClass('ui-state-hover'); });

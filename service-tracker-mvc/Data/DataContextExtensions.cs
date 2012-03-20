@@ -66,7 +66,6 @@ namespace service_tracker_mvc.Data
             );
         }
 
-
         public static IEnumerable<SelectListItem> ToSelectListItems(this IQueryable<Site> sites, bool includeAllOption = false)
         {
             return ToSelectListItems(
