@@ -492,6 +492,13 @@ a.openid_large_btn:focus {
 	max-width: 950px;
 }
 
+@media screen and (max-width: 640px) 
+{
+    .hide-1 {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 480px) 
 {
     #menucontainer
@@ -514,6 +521,9 @@ a.openid_large_btn:focus {
         float:right;
         margin-bottom:5px;
     }
+    .hide-2 {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 480px) 
@@ -531,12 +541,15 @@ a.openid_large_btn:focus {
         display:inline-block;
         padding: 2px 4px;
         margin:0;
-   }
-   ul#menu li 
-   {
-       padding:0;
-       margin:0;
-   }
+    }
+    ul#menu li 
+    {
+        padding:0;
+        margin:0;
+    }
+    .hide-3 {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 320px) 
@@ -563,8 +576,10 @@ a.openid_large_btn:focus {
         display: block;
         padding: 2px 4px;
         margin:5px;
-   }
-}
+    }
+    .hide-4 {
+        display: none;
+    }}
 
 @media print 
 {

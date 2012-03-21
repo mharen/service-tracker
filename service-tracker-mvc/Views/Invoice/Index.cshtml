@@ -65,13 +65,13 @@ else
     <table class='data-table ui-widget'>
         <thead>
             <tr>
-                <th class='ui-state-default'>Service Date</th>
-                <th class='ui-state-default'>Store</th>
-                <th class='ui-state-default'>Employee</th>
+                <th class='ui-state-default hide-4'>Service Date</th>
+                <th class='ui-state-default hide-3'>Store</th>
+                <th class='ui-state-default hide-2'>Employee</th>
                 <th class='ui-state-default'>Key Rec</th>
-                <th class='ui-state-default'>Invoice</th>
-                <th class='ui-state-default'>PO</th>
-                <th class='ui-state-default number'>Items</th>
+                <th class='ui-state-default hide-2'>Invoice</th>
+                <th class='ui-state-default hide-1'>PO</th>
+                <th class='ui-state-default hide-1 number'>Items</th>
                 <th class='ui-state-default number'>Total</th>
                 <th class='ui-state-default number'></th>
             </tr>
@@ -80,25 +80,25 @@ else
         @foreach (var item in Model.Invoices)
         {
             <tr>
-                <td class='ui-widget-content'>
+                <td class='ui-widget-content hide-4'>
                     @Html.DisplayFor(modelItem => item.ServiceDate)
                 </td>
-                <td class='ui-widget-content'>
+                <td class='ui-widget-content hide-3'>
                     @item.Site.ToString()
                 </td>
-                <td class='ui-widget-content'>
+                <td class='ui-widget-content hide-2'>
                     @Html.DisplayFor(modelItem => item.Servicer.Name)
                 </td>
                 <td class='ui-widget-content'>
                     @Html.DisplayFor(modelItem => item.KeyRec)
                 </td>
-                <td class='ui-widget-content'>
+                <td class='ui-widget-content hide-2'>
                     @Html.DisplayFor(modelItem => item.FrtBill)
                 </td>
-                <td class='ui-widget-content'>
+                <td class='ui-widget-content hide-1'>
                     @Html.DisplayFor(modelItem => item.PurchaseOrder)
                 </td>
-                <td class='ui-widget-content number'>
+                <td class='ui-widget-content number hide-1'>
                     @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
                 <td class='ui-widget-content number'>
