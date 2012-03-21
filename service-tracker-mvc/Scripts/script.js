@@ -7,13 +7,15 @@ function formatMoney(n) {
 
 $(function () {
 
-    // patch the validate "date" method to accomodate iOS dates
-    var originalDateValidator = $.validator.methods.date;
+    // patch the validate "date" method to accomodate iOS-style ISO dates
+    // because somehow iOS supports HTML5 date inputs, but its Date() implementation
+    // doesn't parse them... WUT?!
+    var originalDateValidator1 = $.validator.methods.date;
+    var originalDateValidator2 = $.validator.methods.dateISO;
     $.validator.methods.date = function (value, element) {
-        var originalDateResult = originalDateValidator.apply(this, arguments);
-        var dateParts = value.split(/[-]/);
-        var isValidDate = originalDateResult || !/Invalid|NaN/.test(new Date(dateParts[0], dateParts[1] - 1, dateParts[2]));
-
+        var isValidDate =
+            originalDateValidator1.apply(this, arguments) ||
+            originalDateValidator2.apply(this, arguments);
         return isValidDate;
     };
 
