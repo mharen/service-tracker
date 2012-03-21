@@ -6,8 +6,19 @@ function formatMoney(n) {
 }
 
 $(function () {
+
+    // patch the validate "date" method to accomodate iOS dates
+    var originalDateValidator = $.validator.methods.date;
+    $.validator.methods.date = function (value, element) {
+        var originalDateResult = originalDateValidator.apply(this, arguments);
+        var dateParts = value.split(/[-]/);
+        var isValidDate = originalDateResult || !/Invalid|NaN/.test(new Date(dateParts[0], dateParts[1] - 1, dateParts[2]));
+
+        return isValidDate;
+    };
+
     if (!Modernizr.inputtypes.date) {
-        $("input[type=date]").datepicker();
+        $("input[type=date]").datepicker().attr("novalidate", "novalidate");
     }
 
     $("input[type='submit'].confirm-no-undo").click(function () {

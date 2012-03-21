@@ -10,10 +10,10 @@ namespace service_tracker_mvc.Models
     [NotMapped]
     public class InvoiceFilter
     {
-        [DisplayName("Service Date Range")]
+        [Required, DisplayName("Service Date Range")]
         public DateTime? StartDate { get; set; }
 
-        [DisplayName("Service Date Range")]
+        [Required, DisplayName("Service Date Range")]
         public DateTime? EndDate { get; set; }
         
         [DisplayName("Employee")]
