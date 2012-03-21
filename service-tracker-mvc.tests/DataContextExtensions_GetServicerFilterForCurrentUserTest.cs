@@ -163,7 +163,7 @@ namespace service_tracker_mvc.tests
 
         private void VerifyServicerFilter(ICurrentUser currentUser, Servicer servicer, bool expectedResult)
         {
-            var filter = DataContextExtensions_Accessor.GetServicerFilterForCurrentUser(currentUser);
+            var filter = DataContextExtensions.GetServicerFilterForCurrentUser(currentUser);
             var actualResult = filter(servicer);
             Assert.AreEqual(expectedResult, actualResult);
         }

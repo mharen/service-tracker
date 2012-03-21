@@ -111,7 +111,7 @@ namespace service_tracker_mvc.Data
             return options;
         }
 
-        private static Func<Servicer, bool> GetServicerFilterForCurrentUser(ICurrentUser user = null)
+        public static Func<Servicer, bool> GetServicerFilterForCurrentUser(ICurrentUser user = null)
         {
             var userMaximumRole = LoadUser(user).Role;
             Func<Servicer, bool> filter;
@@ -178,7 +178,7 @@ namespace service_tracker_mvc.Data
             }
         }
 
-        private static Func<Site, bool> GetSiteFilterForCurrentUser(ICurrentUser user = null)
+        public static Func<Site, bool> GetSiteFilterForCurrentUser(ICurrentUser user = null)
         {
             var userMaximumRole = LoadUser(user).Role;
             Func<Site, bool> filter;

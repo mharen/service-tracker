@@ -163,7 +163,7 @@ namespace service_tracker_mvc.tests
 
         private void VerifySiteFilter(ICurrentUser currentUser, Site Site, bool expectedResult)
         {
-            var filter = DataContextExtensions_Accessor.GetSiteFilterForCurrentUser(currentUser);
+            var filter = DataContextExtensions.GetSiteFilterForCurrentUser(currentUser);
             var actualResult = filter(Site);
             Assert.AreEqual(expectedResult, actualResult);
         }
