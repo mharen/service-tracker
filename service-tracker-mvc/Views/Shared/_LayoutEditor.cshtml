@@ -9,6 +9,7 @@
 {
     @Html.ValidationSummary(true)
     <div class="clearfix">
+        @Html.Partial("CreateEditPartial")
         @RenderBody()
     </div>     
     <div class="actions">
