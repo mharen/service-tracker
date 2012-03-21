@@ -1,10 +1,11 @@
 ﻿@model service_tracker_mvc.Models.Invoice
 @{
     Layout = "~/Views/Shared/_LayoutEditor.cshtml";
-    ViewBag.Title = "Edit Invoice " + Model.InvoiceId;
-    ViewBag.IsNewInvoice = false;
+    ViewBag.Title = "New Invoice";
+    ViewBag.IsNewInvoice = true;
 }
 @section Actions{
+    <input type="submit" name="Save" value="Save and Add Another" />        
     <input type="submit" name="Save" value="Save" />
     @switch (Request["from"])
     {
@@ -16,5 +17,5 @@
         @Html.ActionLink("Cancel", "Index")
    break;
     }
-    @Html.ActionLink("Delete", "Delete", new { Id = Model.InvoiceId }, new { style = "float:right" })
 }
+<script>$(function(){ $('#ServiceDate').focus(); });</script>

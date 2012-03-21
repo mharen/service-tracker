@@ -1,0 +1,106 @@
+﻿@model service_tracker_mvc.Models.Invoice
+@if (this.ViewContext.FormContext == null) { this.ViewContext.FormContext = new FormContext(); }
+@if (!ViewBag.IsNewInvoice)
+{
+    @Html.HiddenFor(model => model.InvoiceId)    
+}
+<div class="clearfix">
+@Html.Partial("PairEditor", new PairEditor()
+{
+    Label = Html.LabelFor(model => model.ServiceDate),
+    Editor = Html.EditorFor(model => model.ServiceDate),
+    Validation = Html.ValidationMessageFor(model => model.ServiceDate)
+})
+@Html.Partial("PairEditor", new PairEditor()
+{
+    Label = Html.LabelFor(model => model.SiteId),
+    Editor = Html.DropDownListFor(model => model.SiteId, (IEnumerable<SelectListItem>)ViewBag.Sites, ""),
+    Validation = Html.ValidationMessageFor(model => model.SiteId)
+})
+@Html.Partial("PairEditor", new PairEditor()
+{
+    Label = Html.LabelFor(model => model.ServicerId),
+    Editor = Html.DropDownListFor(model => model.ServicerId, (IEnumerable<SelectListItem>)ViewBag.Servicers, ""),
+    Validation = Html.ValidationMessageFor(model => model.ServicerId)
+})
+@Html.Partial("PairEditor", new PairEditor()
+{
+    Label = Html.LabelFor(model => model.KeyRec),
+    Editor = Html.EditorFor(model => model.KeyRec),
+    Validation = Html.ValidationMessageFor(model => model.KeyRec)
+})
+@Html.Partial("PairEditor", new PairEditor()
+{
+    Label = Html.LabelFor(model => model.FrtBill),
+    Editor = Html.EditorFor(model => model.FrtBill),
+    Validation = Html.ValidationMessageFor(model => model.FrtBill)
+})
+@Html.Partial("PairEditor", new PairEditor()
+{
+    Label = Html.LabelFor(model => model.PurchaseOrder),
+    Editor = Html.EditorFor(model => model.PurchaseOrder),
+    Validation = Html.ValidationMessageFor(model => model.PurchaseOrder)
+})
+</div>
+<table class='data-table ui-widget'>
+    <tr>
+        <th class='ui-state-default'>Service</th>
+        <th class='ui-state-default'>Comment</th>
+        <th class='ui-state-default number'>Quantity</th>
+        <th class='ui-state-default number'>Unit Price</th>
+        <th class='ui-state-default number'>Total</th>
+    </tr>
+    @for (int i = 0; i < Model.Items.Count; ++i)
+    {
+        var index = i;
+        <tr>
+            <td class='ui-widget-content'>@Html.Hidden("Items.Index", index.ToString())
+                @Html.HiddenFor(m => m.Items[index].InvoiceId)
+                @Html.HiddenFor(m => m.Items[index].InvoiceItemId)
+                @Html.ExtendedDropDownListFor(m => m.Items[index].ServiceId, (IEnumerable<ExtendedSelectListItem>)ViewBag.Services, "", new { @class = "calc-cost affects-calculation" }, Model.Items[index].ServiceId)
+            </td>
+            <td class='ui-widget-content'>@Html.EditorFor(m => m.Items[index].Comment)
+            </td>
+            <td class='ui-widget-content number'>@Html.TextBoxFor(m => m.Items[index].Quantity, new { @class = "calc-quantity affects-calculation" })
+            </td>
+            <td class='ui-widget-content number'>
+                <span class='calc-output-cost'>(cost)</span>
+            </td>
+            <td class='ui-widget-content number'>
+                <span class='calc-output-total'>(total)</span>
+            </td>
+        </tr>
+    }
+    <tr>
+        <th class='number' colspan="4"><span class='calc-output-grand-quantity'></span></th>
+        <th class='number' colspan="2"><span class='calc-output-grand-total'></span></th>
+    </tr>
+</table>
+
+<script>
+    $(function () {
+        $('.affects-calculation').change(function () {
+            var $row = $(this).closest('tr');
+            var cost = $row.find('.calc-cost option:selected').data('cost');
+            var qty = parseFloat($row.find('.calc-quantity').val());
+
+            var total = cost * qty;
+
+            $row.find('.calc-output-cost').text(formatMoney(cost));
+            $row.find('.calc-output-total').text(formatMoney(total));
+        });
+
+        $('.calc-quantity').change();
+
+        var UpdateGrandTotals = function () {
+            var GrandQuantity = 0, GrandTotal = 0;
+            $('.calc-quantity').each(function () { GrandQuantity += parseFloat($(this).val()); });
+            $('.calc-output-total').each(function () { GrandTotal += parseFloat($(this).text()); });
+
+            $('.calc-output-grand-quantity').text(formatMoney(GrandQuantity));
+            $('.calc-output-grand-total').text(formatMoney(GrandTotal));
+        };
+        UpdateGrandTotals();
+        $('.affects-calculation').change(UpdateGrandTotals);
+    });
+</script>

@@ -13,7 +13,11 @@
         @RenderBody()
     </div>     
     <div class="actions">
+    @if (!IsSectionDefined("Actions")) { 
         <input type="submit" value="Save" />
         @Html.ActionLink("Back to List", "Index")
+    }
+    @RenderSection("Actions", required: false)
     </div>
+    
 }

@@ -200,7 +200,7 @@ namespace service_tracker_mvc.Controllers
 
             PadItemsList(Invoice);
             PopulateEditViewBagProperties(false);
-            return View("Edit", Invoice);
+            return View(Invoice);
         }
 
         [HttpPost]
@@ -266,6 +266,10 @@ namespace service_tracker_mvc.Controllers
                 if (Request.Form["Save"] == "Save and Add Another")
                 {
                     return RedirectToAction("Create", new { from = Request["from"] });
+                }
+                if (Request.QueryString["from"] == "details")
+                {
+                    return RedirectToAction("Details", new { id = invoice.InvoiceId });
                 }
                 return RedirectToAction("Index");
             }
