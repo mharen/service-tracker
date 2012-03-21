@@ -7,6 +7,7 @@ using service_tracker_mvc.Data;
 using service_tracker_mvc.Models;
 using System.Web.Caching;
 using service_tracker_mvc.Classes;
+using System.Text;
 
 namespace service_tracker_mvc.Extensions
 {
@@ -169,6 +170,15 @@ namespace service_tracker_mvc.Extensions
             }
 
             return s;
+        }
+
+        // via http://stackoverflow.com/a/4360017/29
+        public static MvcHtmlString Concat(params MvcHtmlString[] items)
+        {
+            var sb = new StringBuilder();
+            foreach (var item in items.Where(i => i != null))
+                sb.Append(item.ToHtmlString());
+            return MvcHtmlString.Create(sb.ToString());
         }
     }
 }
