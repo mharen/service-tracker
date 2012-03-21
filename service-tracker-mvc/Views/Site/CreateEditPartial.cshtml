@@ -1,0 +1,25 @@
+﻿@model service_tracker_mvc.Models.Site
+@if (this.ViewContext.FormContext == null) { this.ViewContext.FormContext = new FormContext(); }
+@if (Model != null && Model.SiteId > 0)
+{
+    @Html.HiddenFor(model => model.SiteId)    
+}
+@Html.Partial("PairEditor", new PairEditor()
+{
+    Label = Html.LabelFor(model => model.OrganizationId),
+    Editor = Html.DropDownListFor(model => model.OrganizationId, (IEnumerable<SelectListItem>)ViewBag.Organizations),
+    Validation = Html.ValidationMessageFor(model => model.OrganizationId)
+})
+
+@Html.Partial("PairEditor", new PairEditor()
+{
+    Label = Html.LabelFor(model => model.Name),
+    Editor = Html.EditorFor(model => model.Name),
+    Validation = Html.ValidationMessageFor(model => model.Name)
+})
+    
+@Html.Partial("PairEditor", new PairEditor(){
+    Label = Html.LabelFor(model => model.Address), 
+    Editor =  Html.EditorFor(model => model.Address),
+    Validation = Html.ValidationMessageFor(model => model.Address)
+})

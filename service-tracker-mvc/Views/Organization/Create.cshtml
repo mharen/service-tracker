@@ -1,43 +1,6 @@
 ﻿@model service_tracker_mvc.Models.Organization
-
 @{
     Layout = "~/Views/Shared/_LayoutEditor.cshtml";
     ViewBag.Title = "Create";
 }
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
-    <fieldset>
-        <legend>Organization</legend>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Code)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Code)
-            @Html.ValidationMessageFor(model => model.Code)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.VendorNumber)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.VendorNumber)
-            @Html.ValidationMessageFor(model => model.VendorNumber)
-        </div>
-
-        <p class="actions">
-            <input type="submit" value="Create" />
-        </p>
-    </fieldset>
-}
-<div class="actions">
-    @Html.ActionLink("Back to List", "Index")
-</div>
+@Html.Partial("CreateEditPartial", Model)

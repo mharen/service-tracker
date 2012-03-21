@@ -44,6 +44,7 @@ namespace service_tracker_mvc.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.Organizations = db.Organizations.ToSelectListItems(includeAllOption: false);
             return View(site);
         }
 
@@ -64,6 +65,7 @@ namespace service_tracker_mvc.Controllers
                 TempData["Message"] = "Site Saved";
                 return RedirectToAction("Index");
             }
+            ViewBag.Organizations = db.Organizations.ToSelectListItems(includeAllOption: false);
             return View(site);
         }
 

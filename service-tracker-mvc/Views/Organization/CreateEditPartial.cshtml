@@ -1,0 +1,23 @@
+﻿@model service_tracker_mvc.Models.Organization
+@if (this.ViewContext.FormContext == null) { this.ViewContext.FormContext = new FormContext(); }
+@if (Model != null && Model.OrganizationId > 0)
+{
+    @Html.HiddenFor(model => model.OrganizationId)    
+}
+@Html.Partial("PairEditor", new PairEditor()
+{
+    Label = Html.LabelFor(model => model.Name),
+    Editor = Html.EditorFor(model => model.Name),
+    Validation = Html.ValidationMessageFor(model => model.Name)
+})
+@Html.Partial("PairEditor", new PairEditor()
+{
+    Label = Html.LabelFor(model => model.Code),
+    Editor = Html.EditorFor(model => model.Code),
+    Validation = Html.ValidationMessageFor(model => model.Code)
+})
+@Html.Partial("PairEditor", new PairEditor(){
+    Label = Html.LabelFor(model => model.VendorNumber),
+    Editor = Html.EditorFor(model => model.VendorNumber),
+    Validation = Html.ValidationMessageFor(model => model.VendorNumber)
+})

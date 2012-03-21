@@ -3,45 +3,4 @@
     Layout = "~/Views/Shared/_LayoutEditor.cshtml";
     ViewBag.Title = "Edit"; 
 }
-@using (Html.BeginForm())
-{
-    @Html.ValidationSummary(true)
-    @Html.HiddenFor(model => model.SiteId)
-    <div class="clearfix">
-        <div class="pair">
-            <div class="editor-label">
-                @Html.LabelFor(model => model.OrganizationId)
-            </div>
-            <div class="editor-field">
-                @Html.DropDownListFor(model => model.OrganizationId, (IEnumerable<SelectListItem>)ViewBag.Organizations)
-                @Html.ValidationMessageFor(model => model.OrganizationId)
-            </div>
-        </div>
-        <div class="pair">
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Name)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.Name)
-                @Html.ValidationMessageFor(model => model.Name)
-            </div>
-        </div>
-        <div class="pair">
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Address)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.Address)
-                @Html.ValidationMessageFor(model => model.Address)
-            </div>
-        </div>
-        <div class="pair">
-            <p>
-                <input type="submit" value="Save" />
-            </p>
-        </div>
-    </div>
-}
-<div class="actions">
-    @Html.ActionLink("Back to List", "Index")
-</div>
+@Html.Partial("CreateEditPartial", Model)
