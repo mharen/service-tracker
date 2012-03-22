@@ -141,7 +141,6 @@
   <ItemGroup>
     <Content Include="Content\apple-touch-icon.png" />
     <Content Include="Content\balloon.png" />
-    <Content Include="Content\handheld.css" />
     <Content Include="Content\Images\Error\NotFound.jpg" />
     <Content Include="Content\Images\Error\ServerError.jpg" />
     <Content Include="Content\indicator.gif" />
@@ -151,14 +150,7 @@
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\jquery.openid.js" />
-    <Content Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\libs\dd_belatedpng.js" />
-    <Content Include="Scripts\libs\jquery-1.5.1.min.js" />
-    <Content Include="Scripts\libs\modernizr-1.7.min.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
-    <Content Include="Scripts\plugins.js" />
     <Content Include="Scripts\script.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -171,16 +163,6 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\MicrosoftAjax.js" />
-    <Content Include="Scripts\MicrosoftAjax.debug.js" />
-    <Content Include="Scripts\MicrosoftMvcAjax.js" />
-    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
-    <Content Include="Scripts\MicrosoftMvcValidation.js" />
-    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
