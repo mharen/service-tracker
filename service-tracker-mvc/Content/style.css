@@ -451,7 +451,7 @@ a.openid_large_btn:focus {
 	max-width: 950px;
 }
 
-@media screen and (max-width: 800px) 
+@media screen and (max-width: 850px) 
 {
     .hide-0 {
         display: none;

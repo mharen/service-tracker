@@ -8,13 +8,13 @@
 <table class="data-table ui-widget">
     <thead>
         <tr>
-            <th class='ui-state-default'>ID </th>
+            <th class='ui-state-default hide-3'>ID </th>
             <th class='ui-state-default'>Email </th>
             <th class='ui-state-default'>Role </th>
             <th class='ui-state-default'>Association</th>
-            <th class='ui-state-default'>First Login (UTC) </th>
-            <th class='ui-state-default'>Last Login (UTC) </th>
-            <th class='ui-state-default number'>Login Count </th>
+            <th class='ui-state-default hide-0'>First Login (UTC) </th>
+            <th class='ui-state-default hide-1'>Last Login (UTC) </th>
+            <th class='ui-state-default number hide-2'>Login Count </th>
             <th class='ui-state-default number'></th>
         </tr>
     </thead>
@@ -22,7 +22,7 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td class='ui-widget-content' title="@Html.AttributeEncode(item.ClaimedIdentifier)">
+            <td class='ui-widget-content hide-3' title="@Html.AttributeEncode(item.ClaimedIdentifier)">
                 @item.ClaimedIdentifier.Replace("https://", "").Replace("http://", "").Replace("www.", "").Left(15)
             </td>
             <td class='ui-widget-content'>
@@ -41,13 +41,13 @@
                     <span title="Organization" class="ui-icon ui-icon-cart" style="display:inline-block"></span> @item.Organization.Name.Left(15)
                 }
             </td>
-            <td class='ui-widget-content'>
+            <td class='ui-widget-content hide-0'>
                 @Html.DisplayFor(modelItem => item.FirstLogin)
             </td>
-            <td class='ui-widget-content'>
+            <td class='ui-widget-content hide-1'>
                 @Html.DisplayFor(modelItem => item.LastLogin)
             </td>
-            <td class='ui-widget-content number'>
+            <td class='ui-widget-content number hide-2'>
                 @Html.DisplayFor(modelItem => item.LoginCount)
             </td>
             <td class='ui-widget-content number'>
