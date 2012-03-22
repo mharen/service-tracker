@@ -1,7 +1,9 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
-<script src="@Url.VersionedContent("~/Scripts/jquery.openid.js")" type="text/javascript"></script>
+@section AdditionalScripts{
+    <script src="@Url.VersionedContent("~/Scripts/jquery.openid.min.js")" type="text/javascript"></script>
+}
 <script>
     $(function () {
         $('#openid')

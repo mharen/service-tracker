@@ -149,6 +149,8 @@
     <Content Include="Content\favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
+    <Content Include="Scripts\jquery.openid.min.js" />
+    <Content Include="Scripts\modernizr-2.5.3.min.js" />
     <Content Include="Scripts\jquery.openid.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\script.js" />
