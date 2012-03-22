@@ -492,14 +492,21 @@ a.openid_large_btn:focus {
 	max-width: 950px;
 }
 
-@media screen and (max-width: 640px) 
+@media screen and (max-width: 800px) 
 {
     .hide-1 {
         display: none;
     }
 }
 
-@media screen and (max-width: 480px) 
+@media screen and (max-width: 768px) 
+{
+    .hide-2 {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 640px) 
 {
     #menucontainer
     {
@@ -521,7 +528,7 @@ a.openid_large_btn:focus {
         float:right;
         margin-bottom:5px;
     }
-    .hide-2 {
+    .hide-3 {
         display: none;
     }
 }
@@ -547,7 +554,7 @@ a.openid_large_btn:focus {
         padding:0;
         margin:0;
     }
-    .hide-3 {
+    .hide-4 {
         display: none;
     }
 }
@@ -577,9 +584,7 @@ a.openid_large_btn:focus {
         padding: 2px 4px;
         margin:5px;
     }
-    .hide-4 {
-        display: none;
-    }}
+}
 
 @media print 
 {
