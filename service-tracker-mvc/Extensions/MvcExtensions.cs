@@ -180,5 +180,12 @@ namespace service_tracker_mvc.Extensions
                 sb.Append(item.ToHtmlString());
             return MvcHtmlString.Create(sb.ToString());
         }
+
+        public static string PrettifyUrl(this string url, int maxLength = 15)
+        {
+            if (url == null) { return null; }
+
+            return url.Replace("https://", "").Replace("http://", "").Replace("www.", "").Left(maxLength);
+        }
     }
 }

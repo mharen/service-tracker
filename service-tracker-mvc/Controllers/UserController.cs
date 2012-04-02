@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -6,11 +7,12 @@ using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId;
 using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using DotNetOpenAuth.OpenId.RelyingParty;
+using Mvc.Mailer;
+using service_tracker_mvc.Classes;
 using service_tracker_mvc.Data;
 using service_tracker_mvc.Filters;
+using service_tracker_mvc.Mailers;
 using service_tracker_mvc.Models;
-using System.Data.Entity;
-using service_tracker_mvc.Classes;
 
 namespace service_tracker_mvc.Controllers
 {
@@ -55,7 +57,7 @@ namespace service_tracker_mvc.Controllers
                     try
                     {
                         var openIdRequest = openid.CreateRequest(Request.Form["openid_identifier"]);
-                        
+
                         var fetch = new FetchRequest();
                         fetch.Attributes.AddRequired(WellKnownAttributes.Contact.Email);
                         openIdRequest.AddExtension(fetch);
@@ -157,6 +159,37 @@ namespace service_tracker_mvc.Controllers
             );
         }
 
+        public ActionResult Create()
+        {
+            ViewBag.Organizations = db.Organizations.ToSelectListItems();
+            ViewBag.Servicers = db.Servicers.ToSelectListItems();
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(User user)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Users.Add(user);
+                db.SaveChanges();
+                // TODO: send an email
+
+                IUserMailer mailer = new UserMailer();
+                var message = mailer.Invitation();
+                message.To.Add("mharen@gmail.com");
+                message.Send();
+
+                TempData["Message"] = "User Saved; Invitation Sent";
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.Organizations = db.Organizations.ToSelectListItems();
+            ViewBag.Servicers = db.Servicers.ToSelectListItems();
+            return View(user);
+        }
+
         public ActionResult Edit(int id)
         {
             ViewBag.Organizations = db.Organizations.ToSelectListItems();
@@ -169,14 +202,27 @@ namespace service_tracker_mvc.Controllers
         [HttpPost]
         public ActionResult Edit(User user)
         {
-            var existingUser = db.Users.Single(u => u.UserId == user.UserId);
-            existingUser.OrganizationId = user.OrganizationId;
-            existingUser.RoleId = user.RoleId;
-            existingUser.ServicerId = user.ServicerId;
-
-            db.SaveChanges();
-            TempData["Message"] = "User Saved";
-            return RedirectToAction("Index");
+            // note: we can't just save off the given "user" object because it doesn't have
+            // all the values from the user row (login count, date, claimed id, etc.) and to 
+            // do it that way would blow those other fields out of the DB, which
+            // would make you look pretty foolish, amirite?
+            try
+            {
+                var existingUser = db.Users.Single(u => u.UserId == user.UserId);
+                existingUser.OrganizationId = user.OrganizationId;
+                existingUser.RoleId = user.RoleId;
+                existingUser.ServicerId = user.ServicerId;
+                db.SaveChanges();
+                TempData["Message"] = "User Saved";
+                return RedirectToAction("Index");
+            }
+            catch(Exception ex)
+            {
+                TempData["Message"] = "Error: " + ex.Message;
+                ViewBag.Organizations = db.Organizations.ToSelectListItems();
+                ViewBag.Servicers = db.Servicers.ToSelectListItems();
+                return View(user);
+            }
         }
 
         public ActionResult Delete(int id)

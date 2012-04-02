@@ -5,6 +5,9 @@
     ViewBag.Title = "Index";
 }
 <h2>Logins</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="data-table ui-widget">
     <thead>
         <tr>
@@ -23,7 +26,7 @@
     {
         <tr>
             <td class='ui-widget-content hide-3' title="@Html.AttributeEncode(item.ClaimedIdentifier)">
-                @item.ClaimedIdentifier.Replace("https://", "").Replace("http://", "").Replace("www.", "").Left(15)
+                @item.ClaimedIdentifier.PrettifyUrl()
             </td>
             <td class='ui-widget-content'>
                 @Html.DisplayFor(modelItem => item.Email)

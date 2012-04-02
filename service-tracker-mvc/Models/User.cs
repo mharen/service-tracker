@@ -12,7 +12,8 @@ namespace service_tracker_mvc.Models
         [Key]
         public int UserId { get; set; }
 
-        [MaxLength(2048), Required]
+        [DisplayName("Open ID URL")]
+        [MaxLength(2048)]
         public string ClaimedIdentifier { get; set; }
 
         [MaxLength(254)]
@@ -20,11 +21,14 @@ namespace service_tracker_mvc.Models
 
         [DisplayName("Role")]
         public int RoleId { get; set; }
-        
-        public DateTime FirstLogin { get; set; }
-        
-        public DateTime LastLogin { get; set; }
-        
+
+        [DisplayName("First Login")]
+        public DateTime? FirstLogin { get; set; }
+
+        [DisplayName("Last Login")]
+        public DateTime? LastLogin { get; set; }
+
+        [DisplayName("Logins")]
         public int LoginCount { get; set; }
 
         [DisplayName("Associated Employee")]
@@ -34,6 +38,5 @@ namespace service_tracker_mvc.Models
         [DisplayName("Associated Organization")]
         public int? OrganizationId { get; set; }
         public virtual Organization Organization { get; set; }
-
     }
 }
