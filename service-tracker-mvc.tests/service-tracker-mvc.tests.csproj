@@ -83,7 +83,7 @@
     <Compile Include="FooController.cs" />
     <Compile Include="Helpers\AssertHelpers.cs" />
     <Compile Include="Helpers\Utilities.cs" />
-    <Compile Include="Mocks\ActionInvokerExpecter.cs" />
+    <Compile Include="ActionInvokerExpecter.cs" />
     <Compile Include="Mocks\MvcMocks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequiresAuthorizationAttributeTests.cs" />

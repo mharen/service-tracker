@@ -1,0 +1,65 @@
+﻿@using RazorScriptManager
+
+@helper AddCss(string localPath, string cdnPath = null, bool siteWide = false) {
+	var scriptType = ScriptType.Stylesheet;
+	var key = "__rsm__" + scriptType.ToString();
+	if (AppState[key] == null) {
+		AppState[key] = new List<ScriptInfo>();
+	}
+	var scripts = AppState[key] as List<ScriptInfo>;
+	scripts.Add(new ScriptInfo(Server.MapPath(localPath), cdnPath, scriptType, siteWide));
+	AppState[key] = scripts;		
+}
+
+@helper AddJavaScript(string localPath, string cdnPath = null, bool siteWide = false) {
+	var scriptType = ScriptType.JavaScript;
+	var key = "__rsm__" + scriptType.ToString();
+	if (AppState[key] == null) {
+		AppState[key] = new List<ScriptInfo>();
+	}
+	var scripts = AppState[key] as List<ScriptInfo>;
+	scripts.Add(new ScriptInfo(Server.MapPath(localPath), cdnPath, scriptType, siteWide));
+	AppState[key] = scripts;		
+}
+
+@helper OutputCss() {
+	var scriptType = ScriptType.Stylesheet;
+	var key = "__rsm__" + scriptType.ToString();
+	if (AppState[key] == null) { return; }
+	IEnumerable<ScriptInfo> scripts = AppState[key] as List<ScriptInfo>;
+	if (bool.Parse(System.Configuration.ConfigurationManager.AppSettings["UseCDNScripts"])) {
+		var localScripts = scripts.Where(s => string.IsNullOrWhiteSpace(s.CDNPath));
+		var cdnScripts = scripts.Except(localScripts);
+		scripts = localScripts;
+		AppState[key] = scripts;
+
+		foreach (var cdnScript in cdnScripts) {
+		<link href="@cdnScript" rel="stylesheet" type="text/css" />
+		}
+	}
+
+
+	var hash = HttpUtility.UrlEncode(RazorScriptManager.GetHash(scripts));
+	<link href="/scripts.axd?type=@scriptType.ToString()&hash=@hash" rel="stylesheet" type="text/css" />
+}
+
+@helper OutputJavaScript() {
+	var scriptType = ScriptType.JavaScript;
+	var key = "__rsm__" + scriptType.ToString();
+	if (AppState[key] == null) { return; }
+	var scripts = AppState[key] as List<ScriptInfo>;
+	var cdnScripts = new List<ScriptInfo>();
+	if (bool.Parse(System.Configuration.ConfigurationManager.AppSettings["UseCDNScripts"])) {
+		var localScripts = scripts.Where(s => string.IsNullOrWhiteSpace(s.CDNPath)).ToList().ToList();
+		cdnScripts = scripts.Except(localScripts).ToList();
+		scripts = localScripts;
+		AppState[key] = scripts;
+	}
+
+	foreach (var cdnScript in cdnScripts) {
+				<script type="text/javascript" src="@cdnScript.CDNPath"></script>
+	}
+
+	var hash = HttpUtility.UrlEncode(RazorScriptManager.GetHash(scripts));
+	<script type="text/javascript" src="/scripts.axd?type=@scriptType.ToString()&hash=@hash"></script>
+}
