@@ -37,7 +37,7 @@ namespace service_tracker_mvc.Controllers
             // aren't allowed to see
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Unauthorized", "Error", new { ReturnUrl = Request["returnUrl"] });
+                return RedirectToAction("Index", "Home");
             }
 
             // Stage 1: display login form to user
