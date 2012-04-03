@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace service_tracker_mvc.Models
 {
@@ -15,5 +16,11 @@ namespace service_tracker_mvc.Models
         
         [MaxLength(2048)]
         public string AboutUrl { get; set; }
+
+        [MaxLength(100)]
+        public string EmailFromAddress { get; set; }
+
+        [MaxLength(100)]
+        public string EmailBccAddress { get; set; }
     }
 }

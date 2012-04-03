@@ -179,6 +179,10 @@
     <Compile Include="Migrations\201204031651287_Invitation Log Cleanup.Designer.cs">
       <DependentUpon>201204031651287_Invitation Log Cleanup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201204032109060_Adding email info to profiles table.cs" />
+    <Compile Include="Migrations\201204032109060_Adding email info to profiles table.Designer.cs">
+      <DependentUpon>201204032109060_Adding email info to profiles table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\InvitationAction.cs" />
     <Compile Include="Models\InvitationLog.cs" />
