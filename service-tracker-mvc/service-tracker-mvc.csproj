@@ -139,6 +139,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Data\DataContextExtensions.cs" />
     <Compile Include="ActionResults\ExcelResult.cs" />
+    <Compile Include="Extensions\Utilities.cs" />
     <Compile Include="Handlers\RazorScriptManager.cs" />
     <Compile Include="Mailers\IUserMailer.cs" />
     <Compile Include="Mailers\UserMailer.cs" />
@@ -166,8 +167,13 @@
     <Compile Include="Migrations\201203310213232_invitations.Designer.cs">
       <DependentUpon>201203310213232_invitations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201204021938192_cleaning up invitations.cs" />
+    <Compile Include="Migrations\201204021938192_cleaning up invitations.Designer.cs">
+      <DependentUpon>201204021938192_cleaning up invitations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Invitation.cs" />
+    <Compile Include="Models\InvitationAction.cs" />
+    <Compile Include="Models\InvitationLog.cs" />
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Classes\RoleType.cs" />

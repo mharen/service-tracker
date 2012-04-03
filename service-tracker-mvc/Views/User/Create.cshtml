@@ -3,3 +3,9 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_LayoutEditor.cshtml";
 }
+@Html.Partial("PairEditor", new PairEditor()
+{
+    Label = Html.LabelFor(model => model.Email),
+    Editor = Html.EditorFor(model => model.Email),
+    Validation = null
+})

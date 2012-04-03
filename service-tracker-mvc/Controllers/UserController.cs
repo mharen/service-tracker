@@ -9,9 +9,9 @@ using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using Mvc.Mailer;
 using service_tracker_mvc.Classes;
-using service_tracker_mvc.Data;
 using service_tracker_mvc.Filters;
 using service_tracker_mvc.Mailers;
+using service_tracker_mvc.Data;
 using service_tracker_mvc.Models;
 
 namespace service_tracker_mvc.Controllers
@@ -20,7 +20,7 @@ namespace service_tracker_mvc.Controllers
     public class UserController : Controller
     {
         private static OpenIdRelyingParty openid = new OpenIdRelyingParty();
-        private DataContext db = new DataContext();
+        private service_tracker_mvc.Data.DataContext db = new service_tracker_mvc.Data.DataContext();
 
         [RequiresAuthorization(false)]
         public ActionResult Logout()
@@ -172,16 +172,21 @@ namespace service_tracker_mvc.Controllers
         {
             if (ModelState.IsValid)
             {
+                // generate a new invite code
+                user.InvitationCode = Extensions.Utilities.GenerateKey();
                 db.Users.Add(user);
                 db.SaveChanges();
+
                 // TODO: send an email
 
-                IUserMailer mailer = new UserMailer();
-                var message = mailer.Invitation();
-                message.To.Add("mharen@gmail.com");
-                message.Send();
+                //IUserMailer mailer = new UserMailer();
+                //var message = mailer.Invitation();
+                //message.To.Add("mharen@gmail.com");
+                //message.Send();
 
-                TempData["Message"] = "User Saved; Invitation Sent";
+                // TODO: update the invitation log
+
+                TempData["Message"] = "Invitation Sent";
                 return RedirectToAction("Index");
             }
 

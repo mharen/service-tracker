@@ -26,7 +26,12 @@
     {
         <tr>
             <td class='ui-widget-content hide-3' title="@Html.AttributeEncode(item.ClaimedIdentifier)">
-                @item.ClaimedIdentifier.PrettifyUrl()
+                @if (item.ClaimedIdentifier == null) {
+                    <em>(Invited)</em>
+                }
+                else{
+                    @item.ClaimedIdentifier.PrettifyUrl()
+                }
             </td>
             <td class='ui-widget-content'>
                 @Html.DisplayFor(modelItem => item.Email)

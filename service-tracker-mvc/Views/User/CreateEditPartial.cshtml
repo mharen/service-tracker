@@ -1,21 +1,5 @@
 ﻿@model service_tracker_mvc.Models.User
 @if (this.ViewContext.FormContext == null) { this.ViewContext.FormContext = new FormContext(); }
-@if (Model != null && Model.UserId > 0)
-{
-    @Html.HiddenFor(model => model.UserId)    
-}
-@Html.Partial("PairEditor", new PairEditor()
-{
-    Label = Html.LabelFor(model => model.ClaimedIdentifier),
-    Editor = Model == null? null : new MvcHtmlString(string.Format("<span title='{0}'>{1}</span>", Html.AttributeEncode(Model.ClaimedIdentifier), Html.Encode(Model.ClaimedIdentifier.PrettifyUrl()))),
-    Validation = null
-})
-@Html.Partial("PairEditor", new PairEditor()
-{
-    Label = Html.LabelFor(model => model.Email),
-    Editor = Html.DisplayFor(model => model.Email),
-    Validation = null
-})
 @Html.Partial("PairEditor", new PairEditor()
 {
     Label = Html.LabelFor(model => model.RoleId),

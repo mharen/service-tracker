@@ -16,8 +16,8 @@
 {
     @Html.ValidationSummary(true)
     <div class="clearfix">
-        @Html.Partial("CreateEditPartial")
         @RenderBody()
+        @Html.Partial("CreateEditPartial")
     </div>     
     <div class="actions">
     @if (!IsSectionDefined("Actions")) { 
