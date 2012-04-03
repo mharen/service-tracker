@@ -187,5 +187,26 @@ namespace service_tracker_mvc.Extensions
 
             return url.Replace("https://", "").Replace("http://", "").Replace("www.", "").Left(maxLength);
         }
+
+        // 99% via http://support.appharbor.com/kb/getting-started/workaround-for-generating-absolute-urls-without-port-number
+        public static string ToPublicUrl(this UrlHelper urlHelper, string relativeUri)
+        {
+            var httpContext = urlHelper.RequestContext.HttpContext;
+
+            var uriBuilder = new UriBuilder
+            {
+                Host = httpContext.Request.Url.Host,
+                Path = "/",
+                Port = 80,
+                Scheme = "http",
+            };
+
+            if (httpContext.Request.IsLocal)
+            {
+                uriBuilder.Port = httpContext.Request.Url.Port;
+            }
+
+            return new Uri(uriBuilder.Uri, relativeUri).AbsoluteUri;
+        }
     }
 }

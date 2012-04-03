@@ -3,6 +3,6 @@
 	<body>
 		@RenderBody()
         <hr/>
-        <a style="color:#EB8F00;text-decoration:none" href="@Url.Abs(Url.Action("Index", "Home"))">Service Tracker</a> | @Html.Partial("FooterPartial")
+        <a style="color:#EB8F00;text-decoration:none" href="@Url.ToPublicUrl(Url.Action("Index", "Home"))">Service Tracker</a> | @Html.Partial("FooterPartial")
 	</body>
 </html>

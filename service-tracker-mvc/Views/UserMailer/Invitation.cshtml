@@ -2,7 +2,7 @@
 <p>Please accept this invitation to Service Tracker!</p>
 <h2>How? It's a piece of cake:</h2>
 <p><ol>
-    <li>Click <a style="color:#EB8F00;font-weight:bold;" href="@Url.Abs(Url.Action("Login", "User", new { invitationCode = ViewBag.User.InvitationCode }))">here</a></li>
+    <li>Click <a style="color:#EB8F00;font-weight:bold;" href="@Url.ToPublicUrl(Url.Action("Login", "User", new { invitationCode = ViewBag.User.InvitationCode }))">here</a></li>
     <li>Log in with an account you already use (no new password to remember!)</li>
     <li>That's all</li>
 </ol>
