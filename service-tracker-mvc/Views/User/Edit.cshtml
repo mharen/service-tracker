@@ -25,7 +25,8 @@ else {
     @Html.Partial("PairEditor", new PairEditor()
     {
         Label = Html.LabelFor(model => model.InvitationCode),
-        Editor = new MvcHtmlString("<em>Invitation Sent</em>"),
+        Editor = new MvcHtmlString(string.Format("<em>Invitation Sent</em> ({0})",
+            Html.ActionLink("resend", "SendInvite", new { id= Model.UserId }).ToHtmlString())),
         Validation = null
     })
 }

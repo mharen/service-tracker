@@ -45,7 +45,7 @@ namespace service_tracker_mvc.Controllers
 
         [RequiresAuthorization(false)]
         [ValidateInput(false)]
-        public ActionResult Authenticate(string returnUrl)
+        public ActionResult Authenticate(string returnUrl, string invitationCode)
         {
             var response = openid.GetResponse();
             if (response == null)
@@ -63,6 +63,7 @@ namespace service_tracker_mvc.Controllers
                         openIdRequest.AddExtension(fetch);
 
                         openIdRequest.AddCallbackArguments("returnUrl", returnUrl);
+                        openIdRequest.AddCallbackArguments("invitationCode", invitationCode);
 
                         return openIdRequest.RedirectingResponse.AsActionResult();
                     }
@@ -98,10 +99,10 @@ namespace service_tracker_mvc.Controllers
                             throw new ApplicationException("Could not retrieve email from openID provider");
                         }
 
-                        Session["FriendlyIdentifier"] = email; //response.FriendlyIdentifierForDisplay;
+                        Session["FriendlyIdentifier"] = email;
 
 
-                        CreateOrUpdateDbUser(response.ClaimedIdentifier.ToString(), email);
+                        CreateOrUpdateDbUser(response.ClaimedIdentifier.ToString(), email, invitationCode);
 
                         if (!string.IsNullOrEmpty(returnUrl))
                         {
@@ -123,10 +124,21 @@ namespace service_tracker_mvc.Controllers
             return new EmptyResult();
         }
 
-        private void CreateOrUpdateDbUser(string claimedIdentifier, string email)
+        private void CreateOrUpdateDbUser(string claimedIdentifier, string email, string invitationCode)
         {
             // see if user already exists
-            var ExistingUser = db.Users.SingleOrDefault(u => u.ClaimedIdentifier == claimedIdentifier);
+            var ExistingUserByOpenId = db.Users.SingleOrDefault(u => u.ClaimedIdentifier == claimedIdentifier);
+            var ExistingUserByInvite = db.Users.SingleOrDefault(u => u.InvitationCode == invitationCode);
+
+            if (ExistingUserByOpenId != null && ExistingUserByInvite != null)
+            {
+                // the user that accepted the invite already had an account. Delete the invite
+                db.Users.Remove(ExistingUserByInvite);
+                ExistingUserByInvite = null;
+            }
+
+            var ExistingUser = ExistingUserByOpenId ?? ExistingUserByInvite;
+
             if (ExistingUser == null)
             {
                 var NewUser = new User
@@ -143,8 +155,15 @@ namespace service_tracker_mvc.Controllers
             }
             else
             {
+                if (ExistingUser.ClaimedIdentifier == null)
+                {
+                    ExistingUser.ClaimedIdentifier = claimedIdentifier;
+                    ExistingUser.FirstLogin = DateTime.UtcNow;
+                }
+                ExistingUser.Email = email;
                 ExistingUser.LoginCount++;
                 ExistingUser.LastLogin = DateTime.UtcNow;
+                ExistingUser.InvitationCode = null; // clear out code since it's been redeemed
             }
             db.SaveChanges();
         }
@@ -221,7 +240,7 @@ namespace service_tracker_mvc.Controllers
                 TempData["Message"] = "User Saved";
                 return RedirectToAction("Index");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 TempData["Message"] = "Error: " + ex.Message;
                 ViewBag.Organizations = db.Organizations.ToSelectListItems();
@@ -244,6 +263,12 @@ namespace service_tracker_mvc.Controllers
             db.SaveChanges();
             TempData["Message"] = "User Deleted";
             return RedirectToAction("Index");
+        }
+
+        public ActionResult SendInvite(int id)
+        {
+            User user = db.Users.Find(id);
+            return View(user);
         }
 
         protected override void Dispose(bool disposing)

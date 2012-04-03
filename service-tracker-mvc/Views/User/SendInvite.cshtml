@@ -1,0 +1,61 @@
+﻿@model service_tracker_mvc.Models.User
+
+@{
+    ViewBag.Title = "SendInvite";
+}
+
+<h2>SendInvite</h2>
+
+<fieldset>
+    <legend>User</legend>
+
+    <div class="display-label">ClaimedIdentifier</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ClaimedIdentifier)
+    </div>
+
+    <div class="display-label">Email</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+
+    <div class="display-label">RoleId</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RoleId)
+    </div>
+
+    <div class="display-label">FirstLogin</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FirstLogin)
+    </div>
+
+    <div class="display-label">LastLogin</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LastLogin)
+    </div>
+
+    <div class="display-label">LoginCount</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LoginCount)
+    </div>
+
+    <div class="display-label">ServicerId</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ServicerId)
+    </div>
+
+    <div class="display-label">OrganizationId</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.OrganizationId)
+    </div>
+
+    <div class="display-label">InvitationCode</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.InvitationCode)
+    </div>
+    @Html.ActionLink("Login", "Login", "User", new { invitationCode = Model.InvitationCode }, null)
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.UserId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

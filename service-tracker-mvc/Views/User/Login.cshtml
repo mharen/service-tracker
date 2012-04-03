@@ -7,7 +7,7 @@
 <script>
     $(function () {
         $('#openid')
-            .children(":not([name=ReturnUrl])").remove().end()
+            .children(":not([name=ReturnUrl],[name=InvitationCode])").remove().end()
             .openid({ img_path: '@Url.Content("~/Content")' });
     });
 </script>
@@ -22,6 +22,7 @@
 @using (Html.BeginForm("Authenticate", "User", FormMethod.Post, new { id = "openid" }))
 {
     @Html.Hidden("ReturnUrl", Request["ReturnUrl"])
+    @Html.Hidden("InvitationCode", Request["InvitationCode"])
     <input id="openid_identifier" name="openid_identifier" />
     <input type="submit" value="Login" />
 }
