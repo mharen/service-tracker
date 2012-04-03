@@ -25,8 +25,7 @@ else {
     @Html.Partial("PairEditor", new PairEditor()
     {
         Label = Html.LabelFor(model => model.InvitationCode),
-        Editor = new MvcHtmlString(string.Format("<em>Invitation Sent</em> ({0})",
-            Html.ActionLink("resend", "SendInvite", new { id= Model.UserId }).ToHtmlString())),
+        Editor = new MvcHtmlString("<em>Invitation Sent</em>" + " (" + Html.ActionLink("send again", "SendInvite", new { Id = Model.UserId }).ToHtmlString() + ")"),
         Validation = null
     })
 }
@@ -36,3 +35,10 @@ else {
     Editor = Html.DisplayFor(model => model.Email),
     Validation = null
 })
+
+@section Actions{
+    <input type="submit" name="Save" value="Save" />
+    @Html.ActionLink("Back to List", "Index") |
+    @Html.ActionLink("Invitation Log", "Log", new { Id = Model.UserId })
+    @Html.ActionLink("Delete", "Delete", new { Id = Model.UserId }, new { style = "float:right" })
+}

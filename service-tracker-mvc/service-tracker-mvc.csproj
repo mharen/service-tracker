@@ -175,6 +175,10 @@
     <Compile Include="Migrations\201204030205245_Requiring Emai address on model.Designer.cs">
       <DependentUpon>201204030205245_Requiring Emai address on model.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201204031651287_Invitation Log Cleanup.cs" />
+    <Compile Include="Migrations\201204031651287_Invitation Log Cleanup.Designer.cs">
+      <DependentUpon>201204031651287_Invitation Log Cleanup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\InvitationAction.cs" />
     <Compile Include="Models\InvitationLog.cs" />
@@ -430,7 +434,10 @@
     <Content Include="Views\UserMailer\Invitation.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\User\SendInvite.cshtml" />
+    <Content Include="Views\User\Log.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\FooterPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

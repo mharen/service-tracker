@@ -9,12 +9,16 @@ namespace service_tracker_mvc.Models
 {
     public class InvitationLog
     {
-        [DisplayName("User")]
         [Key]
+        public int InvitationLogId { get; set; }
+
+        [DisplayName("User")]
         public int UserId { get; set; }
-        public virtual User User { get; set; }
 
         [DisplayName("Action")]
-        public InvitationAction Action { get; set; }
+        public int Action { get; set; }
+
+        [DisplayName("Log Date (UTC)")]
+        public DateTime LogDate { get; set; }
     }
 }

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<service_tracker_mvc.Models.InvitationLog>
+@using service_tracker_mvc.Models
+@{
+    ViewBag.Title = "Log";
+}
+
+<h2>Invitation Log for User</h2>
+
+@if (!Model.Any())
+{
+    <div class='no-data'>No log entries found</div>
+}
+else
+{ 
+    <table class="data-table ui-widget">
+        <thead>
+            <tr>
+                <th class='ui-state-default'>@Html.LabelFor(m => m.First().LogDate)</th>
+                <th class='ui-state-default'>@Html.LabelFor(m => m.First().Action)</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class='ui-widget-content'>@Html.DisplayFor(modelItem => item.LogDate)</td>
+                <td class='ui-widget-content'>@((InvitationAction)item.Action)</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

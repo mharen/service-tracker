@@ -7,9 +7,10 @@ namespace service_tracker_mvc.Models
 {
     public enum InvitationAction
     {
-        Created,
-        Sent,
-        Accepted,
-        Deleted
+        Unknown = 0,
+        Created = 1,
+        Sent = 2,
+        Accepted = 3,
+        Deleted = 4
     }
 }

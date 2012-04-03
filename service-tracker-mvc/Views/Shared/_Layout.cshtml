@@ -70,7 +70,7 @@
             @RenderBody()
         </div>
         <footer>
-            <span id="slug">A service of @Html.Action("CompanyNameSlug", "Home")</span> &#8212; &copy; @DateTime.UtcNow.Year Haren
+            @Html.Partial("FooterPartial")
         </footer>
     </div>
     <script type="text/javascript">

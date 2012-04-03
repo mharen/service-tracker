@@ -24,5 +24,6 @@ namespace service_tracker_mvc.Data
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<InvoiceItem> InvoiceItems { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvitationLog> InvitationLogs { get; set; }
     }
 }

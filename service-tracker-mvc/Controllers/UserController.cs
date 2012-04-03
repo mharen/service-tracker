@@ -13,6 +13,7 @@ using service_tracker_mvc.Filters;
 using service_tracker_mvc.Mailers;
 using service_tracker_mvc.Data;
 using service_tracker_mvc.Models;
+using System.Net.Mail;
 
 namespace service_tracker_mvc.Controllers
 {
@@ -159,11 +160,19 @@ namespace service_tracker_mvc.Controllers
                 {
                     ExistingUser.ClaimedIdentifier = claimedIdentifier;
                     ExistingUser.FirstLogin = DateTime.UtcNow;
+                    ExistingUser.InvitationCode = null; // clear out code since it's been redeemed
+
+                    var log = new InvitationLog()
+                    {
+                        UserId = ExistingUser.UserId,
+                        Action = (int)InvitationAction.Accepted,
+                        LogDate = DateTime.UtcNow
+                    };
+                    db.InvitationLogs.Add(log);
                 }
                 ExistingUser.Email = email;
                 ExistingUser.LoginCount++;
                 ExistingUser.LastLogin = DateTime.UtcNow;
-                ExistingUser.InvitationCode = null; // clear out code since it's been redeemed
             }
             db.SaveChanges();
         }
@@ -195,23 +204,58 @@ namespace service_tracker_mvc.Controllers
                 user.InvitationCode = Extensions.Utilities.GenerateKey();
                 db.Users.Add(user);
                 db.SaveChanges();
+                               
+                var LogEntry = new InvitationLog()
+                {
+                    Action = (int)InvitationAction.Created,
+                    UserId = user.UserId,
+                    LogDate = DateTime.UtcNow
+                };
 
-                // TODO: send an email
+                db.InvitationLogs.Add(LogEntry);
 
-                //IUserMailer mailer = new UserMailer();
-                //var message = mailer.Invitation();
-                //message.To.Add("mharen@gmail.com");
-                //message.Send();
+                try
+                {
+                    SendEmailInvitation(user);
+                    TempData["Message"] = "Invitation Sent";
+                }
+                catch (Exception ex)
+                {
+                    TempData["Message"] = string.Format("Invitation created, but could not be sent :( ({0})", ex.Message);
+                }
 
-                // TODO: update the invitation log
-
-                TempData["Message"] = "Invitation Sent";
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             ViewBag.Organizations = db.Organizations.ToSelectListItems();
             ViewBag.Servicers = db.Servicers.ToSelectListItems();
             return View(user);
+        }
+
+        [HttpPost]
+        private void SendEmailInvitation(User user)
+        {
+            IUserMailer mailer = new UserMailer();
+            var message = mailer.Invitation(user);
+            message.Send();
+
+            var log = new InvitationLog()
+            {
+                UserId = user.UserId,
+                Action = (int)InvitationAction.Sent,
+                LogDate = DateTime.UtcNow
+            };
+            db.InvitationLogs.Add(log);
+        }
+
+        public ActionResult Log(int id)
+        {
+            var invitationLogs = db.InvitationLogs
+                                    .Where(l => l.UserId == id).OrderBy(d => d.LogDate)
+                                    .ToList();
+
+            return View(invitationLogs);
         }
 
         public ActionResult Edit(int id)
@@ -259,16 +303,35 @@ namespace service_tracker_mvc.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             User user = db.Users.Find(id);
-            db.Users.Remove(user);
-            db.SaveChanges();
-            TempData["Message"] = "User Deleted";
-            return RedirectToAction("Index");
+
+            try
+            {
+                var currentUser = DataContextExtensions.LoadUser();
+
+                if (currentUser.UserId == user.UserId)
+                {
+                    throw new ArgumentException("You cannot delete yourself!");
+                }
+
+                db.Users.Remove(user);
+                db.SaveChanges();
+                TempData["Message"] = "User Deleted";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewData["Message"] = ex.Message;
+                return View(user);
+            }
         }
 
         public ActionResult SendInvite(int id)
         {
             User user = db.Users.Find(id);
-            return View(user);
+            SendEmailInvitation(user);
+
+            TempData["Message"] = "Invitation Resent";
+            return RedirectToAction("Edit", new { id = id });
         }
 
         protected override void Dispose(bool disposing)
