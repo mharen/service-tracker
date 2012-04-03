@@ -3,16 +3,32 @@
     Layout = "~/Views/Shared/_LayoutEditor.cshtml";
     ViewBag.Title = "Edit";
 }
+@if (this.ViewContext.FormContext == null) { this.ViewContext.FormContext = new FormContext(); }
 @if (Model != null && Model.UserId > 0)
 {
     @Html.HiddenFor(model => model.UserId)    
 }
-@Html.Partial("PairEditor", new PairEditor()
-{
-    Label = Html.LabelFor(model => model.ClaimedIdentifier),
-    Editor = new MvcHtmlString(string.Format("<span title='{0}'>{1}</span>", Html.AttributeEncode(Model.ClaimedIdentifier), Html.Encode(Model.ClaimedIdentifier.PrettifyUrl()))),
-    Validation = null
-})
+
+@if (!string.IsNullOrEmpty(Model.ClaimedIdentifier))
+{ 
+    @Html.Partial("PairEditor", new PairEditor()
+    {
+        Label = Html.LabelFor(model => model.ClaimedIdentifier),
+        Editor = new MvcHtmlString(
+            string.Format("<span title='{0}'>{1}</span>",
+                Html.AttributeEncode(Model.ClaimedIdentifier),
+                Html.Encode(Model.ClaimedIdentifier.PrettifyUrl()))),
+        Validation = null
+    })
+}
+else { 
+    @Html.Partial("PairEditor", new PairEditor()
+    {
+        Label = Html.LabelFor(model => model.InvitationCode),
+        Editor = new MvcHtmlString("<em>Invitation Sent</em>"),
+        Validation = null
+    })
+}
 @Html.Partial("PairEditor", new PairEditor()
 {
     Label = Html.LabelFor(model => model.Email),

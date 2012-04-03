@@ -171,6 +171,10 @@
     <Compile Include="Migrations\201204021938192_cleaning up invitations.Designer.cs">
       <DependentUpon>201204021938192_cleaning up invitations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201204030205245_Requiring Emai address on model.cs" />
+    <Compile Include="Migrations\201204030205245_Requiring Emai address on model.Designer.cs">
+      <DependentUpon>201204030205245_Requiring Emai address on model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\InvitationAction.cs" />
     <Compile Include="Models\InvitationLog.cs" />

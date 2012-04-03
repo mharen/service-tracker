@@ -17,7 +17,6 @@ time, mark, audio, video {
 em
 {
     font-style:italic;
-    color:Green;
 }
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -430,6 +429,10 @@ a.openid_large_btn:focus {
 
 /* notification bar */
 
+.dim
+{
+    color: #999;
+}
 #message
 {
     display:none;

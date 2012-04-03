@@ -3,9 +3,10 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_LayoutEditor.cshtml";
 }
+@if (this.ViewContext.FormContext == null) { this.ViewContext.FormContext = new FormContext(); }
 @Html.Partial("PairEditor", new PairEditor()
 {
     Label = Html.LabelFor(model => model.Email),
     Editor = Html.EditorFor(model => model.Email),
-    Validation = null
+    Validation = Html.ValidationMessageFor(model=>model.Email)
 })

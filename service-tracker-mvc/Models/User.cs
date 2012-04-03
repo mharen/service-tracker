@@ -16,7 +16,7 @@ namespace service_tracker_mvc.Models
         [MaxLength(2048)]
         public string ClaimedIdentifier { get; set; }
 
-        [MaxLength(254)]
+        [MaxLength(254), Required(ErrorMessage = "⇧ Required")]
         public string Email { get; set; }
 
         [DisplayName("Role")]

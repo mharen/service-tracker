@@ -27,7 +27,7 @@
         <tr>
             <td class='ui-widget-content hide-3' title="@Html.AttributeEncode(item.ClaimedIdentifier)">
                 @if (item.ClaimedIdentifier == null) {
-                    <em>(Invited)</em>
+                    <em class="dim">Invited</em>
                 }
                 else{
                     @item.ClaimedIdentifier.PrettifyUrl()
