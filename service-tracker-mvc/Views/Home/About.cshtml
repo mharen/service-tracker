@@ -1,29 +1,36 @@
-﻿@{
+﻿@using service_tracker_mvc.Models
+@{
     ViewBag.Title = "About Us";
 }
-<h2>About</h2>
 <p>This tracking tool is licensed and used with permission of its owner. </p>
 <p>It is built with the following amazing libraries (listed in random):</p>
 @{
     var Rand = new Random();
-    var Tools = new string[]{ 
-        "ASP.NET MVC",
-        "SQL Server",
-        "jQuery",
-        "jQuery UI",
-        "jQuery Validation Plugin",
-        "jQuery Open ID Real Selector",
-        "Entity Framework + Code First + Create-Tables-Only",
-        "HTML5 Boilerplate",
-        "DotNetOpenAuth",
-        "Magical Unicorn MVC Error Toolkit",
-        "WebActivator"
+    var Tools = new Tool[]{ 
+        new Tool(){ Name = "ASP.NET MVC", Url="http://www.asp.net/mvc" },
+        new Tool(){ Name = "SQL Server", Url="http://www.microsoft.com/sql/" },
+        new Tool(){ Name = "jQuery", Url="http://jquery.com" },
+        new Tool(){ Name = "jQuery UI", Url="http://jqueryui.com" },
+        new Tool(){ Name = "jQuery Validation Plugin", Url="http://bassistance.de/jquery-plugins/jquery-plugin-validation/" },
+        new Tool(){ Name = "jQuery Unobtrusive Validation Plugin", Url="https://nuget.org/packages/jQuery.Validation.Unobtrusive" },
+        new Tool(){ Name = "jQuery Open ID Real Selector", Url="https://code.google.com/p/openid-realselector/" },
+        new Tool(){ Name = "HTML5 Boilerplate", Url="http://html5boilerplate.com/" },
+        new Tool(){ Name = "DotNetOpenAuth", Url="http://www.dotnetopenauth.net/" },
+        new Tool(){ Name = "Magical Unicorn MVC Error Toolkit", Url="https://nuget.org/packages/MagicalUnicornMvcErrorToolkit" },
+        new Tool(){ Name = "WebActivator", Url="https://nuget.org/packages/WebActivator" },
+        new Tool(){ Name = "Entity Framework", Url="https://nuget.org/packages/entityframework" },
+        new Tool(){ Name = "Excel Generator", Url="https://nuget.org/packages/ExcelGenerator" },
+        new Tool(){ Name = "YUICompressor.NET", Url="https://nuget.org/packages/yuicompressor.net" },
+        new Tool(){ Name = "RazorScriptManager", Url="https://github.com/mharen/RazorScriptManager" },
+        new Tool(){ Name = "MvcMailer", Url="https://github.com/smsohan/MvcMailer" },
+        new Tool(){ Name = "Modernizr", Url="http://modernizr.com/" }
     }.OrderBy(item => Rand.Next());
 }
 <ul>
-@foreach (var Tool in Tools)
-{
-    <li>@Tool</li>
-}
+    @foreach (var Tool in Tools)
+    {
+        <li><a href="@Tool.Url">@Tool.Name</a></li>
+    }
 </ul>
-<p>Considering that this app evolved very quickly, it's possible I missed one...please know any ommissions are accidental!</p>
+<p>Considering that this app evolved very quickly, it's possible a tool has been missed; please
+    know any ommissions are accidental!</p>
