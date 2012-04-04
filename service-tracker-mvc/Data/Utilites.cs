@@ -93,7 +93,6 @@ namespace service_tracker_mvc.Data
                         InvoiceItemId = 2,
                         ServiceId = 1,
                         Quantity = 2m,
-                        Comment = "Repairs needed"
                     });
                     DB.InvoiceItems.Add(new InvoiceItem()
                     {
@@ -101,7 +100,6 @@ namespace service_tracker_mvc.Data
                         InvoiceItemId = 3,
                         ServiceId = 1,
                         Quantity = 3m,
-                        Comment = "Low on stock"
                     });
                     DB.InvoiceItems.Add(new InvoiceItem()
                     {

@@ -45,7 +45,6 @@
 <table class='data-table ui-widget'>
     <tr>
         <th class='ui-state-default'>Service</th>
-        <th class='ui-state-default'>Comment</th>
         <th class='ui-state-default number'>Quantity</th>
         <th class='ui-state-default number'>Unit Price</th>
         <th class='ui-state-default number'>Total</th>
@@ -59,8 +58,6 @@
                 @Html.HiddenFor(m => m.Items[index].InvoiceItemId)
                 @Html.ExtendedDropDownListFor(m => m.Items[index].ServiceId, (IEnumerable<ExtendedSelectListItem>)ViewBag.Services, "", new { @class = "calc-cost affects-calculation" }, Model.Items[index].ServiceId)
             </td>
-            <td class='ui-widget-content'>@Html.EditorFor(m => m.Items[index].Comment)
-            </td>
             <td class='ui-widget-content number'>@Html.TextBoxFor(m => m.Items[index].Quantity, new { @class = "calc-quantity affects-calculation" })
             </td>
             <td class='ui-widget-content number'>
@@ -72,7 +69,7 @@
         </tr>
     }
     <tr>
-        <th class='number' colspan="4"><span class='calc-output-grand-quantity'></span></th>
+        <th class='number' colspan="3"><span class='calc-output-grand-quantity'></span></th>
         <th class='number' colspan="2"><span class='calc-output-grand-total'></span></th>
     </tr>
 </table>

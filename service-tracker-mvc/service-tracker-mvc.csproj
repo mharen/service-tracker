@@ -183,6 +183,10 @@
     <Compile Include="Migrations\201204032109060_Adding email info to profiles table.Designer.cs">
       <DependentUpon>201204032109060_Adding email info to profiles table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201204041804169_drop comment.cs" />
+    <Compile Include="Migrations\201204041804169_drop comment.Designer.cs">
+      <DependentUpon>201204041804169_drop comment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\InvitationAction.cs" />
     <Compile Include="Models\InvitationLog.cs" />

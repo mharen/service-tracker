@@ -115,7 +115,7 @@ namespace service_tracker_mvc.Controllers
 
             // add header row
             var Columns = new string[] { "Service Date", "Store", "Employee", "Invoice", "Key REC", "PO", "Invoice Total", 
-                                         "Comment", "SKU", "Service", "Quantity", "Unit Price", "Total Line Item Price" };
+                                         "SKU", "Service", "Quantity", "Unit Price", "Total Line Item Price" };
 
             Row HeaderRow = new Row();
             foreach (var CellName in Columns)
@@ -156,7 +156,6 @@ namespace service_tracker_mvc.Controllers
 
         private IEnumerable<Cell> GetInvoiceItemCells(InvoiceItem item)
         {
-            yield return new Cell(item.Comment);
             yield return new Cell(item.Service == null ? "" : item.Service.Sku);
             yield return new Cell(item.Service == null ? "" : item.Service.Description);
             yield return new Cell(item.Quantity.ToString("0.00"));

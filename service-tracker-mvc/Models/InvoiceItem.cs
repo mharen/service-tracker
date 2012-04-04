@@ -22,9 +22,6 @@ namespace service_tracker_mvc.Models
         public int? ServiceId { get; set; }
         public virtual Service Service { get; set; }
 
-        [MaxLength(250)]
-        public string Comment { get; set; }
-
         [NotMapped]
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Total { get { return (Service == null || Quantity == 0)? 0 : Service.Cost * Quantity; } }
@@ -34,8 +31,7 @@ namespace service_tracker_mvc.Models
         {
             get
             {
-                return string.IsNullOrEmpty(Comment)
-                    && Quantity == 0
+                return Quantity == 0
                     && (ServiceId ?? 0) == 0;
             }
         }
