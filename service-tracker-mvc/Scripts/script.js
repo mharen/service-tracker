@@ -61,4 +61,8 @@ $(function () {
 
     // note: if there is no message, this will silently just not do anything :)
     $('#message').delay(50).show('slide', { direction: 'up' }, 'fast').delay(2000).hide('slide', { direction: 'up' }, 'fast');
+
+    if ($.timeago) {
+        $('time.timeago').timeago();
+    }
 });
