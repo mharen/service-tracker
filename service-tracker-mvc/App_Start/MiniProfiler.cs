@@ -13,13 +13,13 @@ using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 //using StackExchange.Profiling.Data.Linq2Sql;
 
 [assembly: WebActivator.PreApplicationStartMethod(
-	typeof(service_tracker_mvc.App_Start.MiniProfilerPackage), "PreStart")]
+    typeof(service_tracker_mvc.App_Start.MiniProfilerPackage), "PreStart")]
 
 [assembly: WebActivator.PostApplicationStartMethod(
-	typeof(service_tracker_mvc.App_Start.MiniProfilerPackage), "PostStart")]
+    typeof(service_tracker_mvc.App_Start.MiniProfilerPackage), "PostStart")]
 
 
-namespace service_tracker_mvc.App_Start 
+namespace service_tracker_mvc.App_Start
 {
     public static class MiniProfilerPackage
     {
@@ -35,8 +35,8 @@ namespace service_tracker_mvc.App_Start
             //TODO: Non SQL Server based installs can use other formatters like: new StackExchange.Profiling.SqlFormatters.InlineFormatter()
             MiniProfiler.Settings.SqlFormatter = new StackExchange.Profiling.SqlFormatters.SqlServerFormatter();
 
-			//TODO: To profile a standard DbConnection: 
-			// var profiled = new ProfiledDbConnection(cnn, MiniProfiler.Current);
+            //TODO: To profile a standard DbConnection: 
+            // var profiled = new ProfiledDbConnection(cnn, MiniProfiler.Current);
 
             //TODO: If you are profiling EF code first try: 
             MiniProfilerEF.Initialize();
@@ -47,18 +47,18 @@ namespace service_tracker_mvc.App_Start
             //Setup profiler for Controllers via a Global ActionFilter
             GlobalFilters.Filters.Add(new ProfilingActionFilter());
 
-			// You can use this to check if a request is allowed to view results
+            // You can use this to check if a request is allowed to view results
             //MiniProfiler.Settings.Results_Authorize = (request) =>
             //{
-                // you should implement this if you need to restrict visibility of profiling on a per request basis 
+            // you should implement this if you need to restrict visibility of profiling on a per request basis 
             //    return !DisableProfilingResults; 
             //};
 
             // the list of all sessions in the store is restricted by default, you must return true to alllow it
             //MiniProfiler.Settings.Results_List_Authorize = (request) =>
             //{
-                // you may implement this if you need to restrict visibility of profiling lists on a per request basis 
-                //return true; // all requests are kosher
+            // you may implement this if you need to restrict visibility of profiling lists on a per request basis 
+            //return true; // all requests are kosher
             //};
         }
 
@@ -77,37 +77,22 @@ namespace service_tracker_mvc.App_Start
 
     public class MiniProfilerStartupModule : IHttpModule
     {
-        private static bool IsCurrentRequestProfiled()
+        private static bool IsCurrentRequestProfiled(HttpRequest request)
         {
-            var context = HttpContext.Current;
-            return context.Request.IsLocal || (context.Request.IsAuthenticated && context.User.IsInRole("Administrator"));
+            return (request.IsAuthenticated && request.RequestContext.HttpContext.User.IsInRole("Administrator"));
         }
 
         public void Init(HttpApplication context)
         {
             context.BeginRequest += (sender, e) =>
             {
-                if (IsCurrentRequestProfiled())
-                {
-                    MiniProfiler.Start();
-                }
+                MiniProfiler.Start();
             };
-
-
-            // TODO: You can control who sees the profiling information
-            
-            context.AuthenticateRequest += (sender, e) =>
-            {
-                if (!IsCurrentRequestProfiled())
-                {
-                    StackExchange.Profiling.MiniProfiler.Stop(discardResults: true);
-                }
-            };
-            
 
             context.EndRequest += (sender, e) =>
             {
-                MiniProfiler.Stop();
+                var request = ((HttpApplication)sender).Request;
+                StackExchange.Profiling.MiniProfiler.Stop(discardResults: !IsCurrentRequestProfiled(request));
             };
         }
 
