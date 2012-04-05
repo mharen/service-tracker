@@ -77,27 +77,33 @@ namespace service_tracker_mvc.App_Start
 
     public class MiniProfilerStartupModule : IHttpModule
     {
+        private static bool IsCurrentRequestProfiled()
+        {
+            var context = HttpContext.Current;
+            return context.Request.IsLocal || (context.Request.IsAuthenticated && context.User.IsInRole("Administrator"));
+        }
+
         public void Init(HttpApplication context)
         {
             context.BeginRequest += (sender, e) =>
             {
-                var request = ((HttpApplication)sender).Request;
-                //TODO: By default only local requests are profiled, optionally you can set it up
-                //  so authenticated users are always profiled
-                if (request.IsLocal) { MiniProfiler.Start(); }
+                if (IsCurrentRequestProfiled())
+                {
+                    MiniProfiler.Start();
+                }
             };
 
 
             // TODO: You can control who sees the profiling information
-            /*
+            
             context.AuthenticateRequest += (sender, e) =>
             {
-                if (!CurrentUserIsAllowedToSeeProfiler())
+                if (!IsCurrentRequestProfiled())
                 {
                     StackExchange.Profiling.MiniProfiler.Stop(discardResults: true);
                 }
             };
-            */
+            
 
             context.EndRequest += (sender, e) =>
             {
