@@ -10,12 +10,6 @@ namespace service_tracker_mvc.Data
 {
     public class DataContext : DbContext
     {
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Conventions.Remove<IncludeMetadataConvention>(); 
-            base.OnModelCreating(modelBuilder);
-        }
-
         public DbSet<Site> Sites { get; set; }
         public DbSet<Servicer> Servicers { get; set; }
         public DbSet<Service> Services { get; set; }
