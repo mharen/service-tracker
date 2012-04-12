@@ -1,0 +1,7 @@
+﻿@model DateTime?
+@if (Model.HasValue)
+{
+    var value = Model.Value;
+    @Script.AddJavaScript("~/Scripts/jquery.timeago.js")
+    <time class='timeago' datetime='@value.ToString(@"yyyy-MM-ddTHH\:mm\:ss.fffffffZ")'>@value.ToString(@"yyyy-MM-dd HH\:mm\:ssZ")</time>
+}

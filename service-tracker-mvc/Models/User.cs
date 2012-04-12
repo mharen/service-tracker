@@ -23,9 +23,11 @@ namespace service_tracker_mvc.Models
         public int RoleId { get; set; }
 
         [DisplayName("First Login")]
+        [UIHint("RelativeDateTime")]
         public DateTime? FirstLogin { get; set; }
 
         [DisplayName("Last Login")]
+        [UIHint("RelativeDateTime")]
         public DateTime? LastLogin { get; set; }
 
         [DisplayName("Logins")]
