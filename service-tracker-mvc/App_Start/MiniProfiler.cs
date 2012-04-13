@@ -77,7 +77,7 @@ namespace service_tracker_mvc.App_Start
 
     public class MiniProfilerStartupModule : IHttpModule
     {
-        private static bool IsCurrentRequestProfiled(HttpRequest request)
+        public static bool IsCurrentRequestProfiled(HttpRequest request)
         {
             return (request.IsAuthenticated && request.RequestContext.HttpContext.User.IsInRole("Administrator"));
         }

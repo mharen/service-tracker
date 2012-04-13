@@ -45,7 +45,7 @@
             document.write('<script src="@Url.VersionedContent("~/Scripts/jquery-ui-1.8.18.min.js")">\x3C/script>')
         }
     </script>
-    @Script.AddJavaScript("~/Scripts/modernizr-2.5.3.min.js")
+    @Script.AddJavaScript("~/Scripts/modernizr-2.5.3.js")
     @Script.AddJavaScript("~/Scripts/script.js")
     @Script.OutputJavaScript()
     @RenderSection("AdditionalScripts", required: false)
@@ -101,6 +101,8 @@
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
     </script>
-    @StackExchange.Profiling.MiniProfiler.RenderIncludes()
+    @if (service_tracker_mvc.App_Start.MiniProfilerStartupModule.IsCurrentRequestProfiled(HttpContext.Current.Request)) { 
+        @StackExchange.Profiling.MiniProfiler.RenderIncludes()
+    }
 </body>
 </html>
