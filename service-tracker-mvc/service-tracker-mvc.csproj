@@ -146,6 +146,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Data\DataContextExtensions.cs" />
     <Compile Include="ActionResults\ExcelResult.cs" />
+    <Compile Include="Data\Repo.cs" />
     <Compile Include="Extensions\Utilities.cs" />
     <Compile Include="Handlers\RazorScriptManager.cs" />
     <Compile Include="Mailers\IUserMailer.cs" />

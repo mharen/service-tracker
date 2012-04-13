@@ -14,16 +14,16 @@ namespace service_tracker_mvc.Controllers
     [RequiresAuthorizationAttribute("Manager")]
     public class SiteController : Controller
     {
-        private DataContext db = new DataContext();
+        private Repo db = new Repo();
 
         public ViewResult Index()
         {
-            return View(db.Sites.Include(s => s.Organization).OrderBy(c => c.Name).ToList());
+            return View(db.Sites);
         }
 
         public ViewResult Details(int id)
         {
-            Site site = db.Sites.Find(id);
+            Site site = db.Sites.Single(s => s.SiteId == id);
             return View(site);
         }
 
@@ -38,7 +38,7 @@ namespace service_tracker_mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Sites.Add(site);
+                db.Add(site);
                 db.SaveChanges();
                 TempData["Message"] = "Site Saved";
                 return RedirectToAction("Index");
@@ -51,7 +51,7 @@ namespace service_tracker_mvc.Controllers
         public ActionResult Edit(int id)
         {
             ViewBag.Organizations = db.Organizations.ToSelectListItems(includeAllOption: false);
-            Site site = db.Sites.Find(id);
+            Site site = db.Sites.Single(s => s.SiteId == id);
             return View(site);
         }
 
@@ -76,19 +76,19 @@ namespace service_tracker_mvc.Controllers
                 ViewBag.DeleteError = "You cannot delete this store because it is tied to existing invoices. You must change the existing invoices to use a different store first";
             }
 
-            Site site = db.Sites.Find(id);
+            Site site = db.Sites.Single(s => s.SiteId == id);
             return View(site);
         }
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Site site = db.Sites.Find(id);
+            Site site = db.Sites.Single(s => s.SiteId == id);
             if (site.Invoices.Any())
             {
                 throw new InvalidOperationException("You cannot delete this store because it is tied to existing invoices. You must change the existing invoices to use a different store first");
             }
-            db.Sites.Remove(site);
+            db.Remove(site);
             db.SaveChanges();
             TempData["Message"] = "Site Deleted";
             return RedirectToAction("Index");

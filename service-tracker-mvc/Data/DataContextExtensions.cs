@@ -19,7 +19,6 @@ namespace service_tracker_mvc.Data
         {
             return ToSelectListItems(
                 set: organizations,
-                orderBySelector: o => o.Name,
                 selectListItemTextSelector: o => o.Name,
                 selectListItemValueSelector: o => o.OrganizationId.ToString(),
                 includeAllOption: includeAllOption
@@ -29,7 +28,6 @@ namespace service_tracker_mvc.Data
         public static IEnumerable<ExtendedSelectListItem> ToSelectListItems(this IQueryable<Service> services, bool includeAllOption = false)
         {
             var options = services
-                 .OrderBy(s => s.Sku)
                  .ToList()
                  .Select(s => new ExtendedSelectListItem()
                  {
@@ -58,7 +56,6 @@ namespace service_tracker_mvc.Data
         {
             return ToSelectListItems(
                 set: servicers,
-                orderBySelector: o => o.Name,
                 selectListItemTextSelector: o => o.Name,
                 selectListItemValueSelector: o => o.ServicerId.ToString(),
                 includeAllOption: includeAllOption,
@@ -70,7 +67,6 @@ namespace service_tracker_mvc.Data
         {
             return ToSelectListItems(
                 set: sites,
-                orderBySelector: o => o.ToString(),
                 selectListItemTextSelector: o => o.ToString(),
                 selectListItemValueSelector: o => o.SiteId.ToString(),
                 includeAllOption: includeAllOption,
@@ -80,7 +76,6 @@ namespace service_tracker_mvc.Data
 
         private static IEnumerable<SelectListItem> ToSelectListItems<T>(
             IQueryable<T> set,
-            Func<T, string> orderBySelector,
             Func<T, string> selectListItemTextSelector,
             Func<T, string> selectListItemValueSelector,
             bool includeAllOption,
@@ -95,7 +90,6 @@ namespace service_tracker_mvc.Data
             var options = set
                             .ToList() // must call this so EF doesn't try to do this stuff in SQL
                             .Where(t => filter(t))
-                            .OrderBy(orderBySelector)
                             .Select(t => new SelectListItem()
                             {
                                 Text = selectListItemTextSelector(t),

@@ -5,13 +5,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using service_tracker_mvc.Models;
-using service_tracker_mvc.Data;
-using System.Text;
 using ExcelGenerator.SpreadSheet;
 using ExcelGenerator.SpreadSheet.Styles;
-using service_tracker_mvc.Filters;
 using service_tracker_mvc.ActionResults;
+using service_tracker_mvc.Data;
+using service_tracker_mvc.Filters;
+using service_tracker_mvc.Models;
 
 namespace service_tracker_mvc.Controllers
 {
@@ -63,6 +62,8 @@ namespace service_tracker_mvc.Controllers
             invoiceIndexViewModel.Invoices =
                 db.Invoices
                     .Include(i => i.Items)
+                    .Include(i => i.Items.Select(item => item.Service))
+                    .Include(i => i.Servicer)
                     .Include(i => i.Site.Organization)
                     .Where(i => i.ServiceDate >= Filter.StartDate)
                     .Where(i => i.ServiceDate <= Filter.EndDate)
@@ -228,11 +229,11 @@ namespace service_tracker_mvc.Controllers
 
         private void PopulateEditViewBagProperties(bool includeAllOptionsWhenAppropriate)
         {
-            ViewBag.Services = db.Services.ToSelectListItems(includeAllOption: false);
+            var repo = new Repo();
 
-            ViewBag.Servicers = db.Servicers.ToSelectListItems(includeAllOption: includeAllOptionsWhenAppropriate);
-
-            ViewBag.Sites = db.Sites.Include(s => s.Organization).ToSelectListItems(includeAllOption: includeAllOptionsWhenAppropriate);
+            ViewBag.Services = repo.Services.ToSelectListItems(includeAllOption: false);
+            ViewBag.Servicers = repo.Servicers.ToSelectListItems(includeAllOption: includeAllOptionsWhenAppropriate);
+            ViewBag.Sites = repo.Sites.ToSelectListItems(includeAllOption: includeAllOptionsWhenAppropriate);
         }
 
         [HttpPost]
