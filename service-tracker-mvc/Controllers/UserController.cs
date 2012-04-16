@@ -21,7 +21,7 @@ namespace service_tracker_mvc.Controllers
     public class UserController : Controller
     {
         private static OpenIdRelyingParty openid = new OpenIdRelyingParty();
-        private service_tracker_mvc.Data.DataContext db = new service_tracker_mvc.Data.DataContext();
+        private Repo repo = new Repo();
 
         [RequiresAuthorization(false)]
         public ActionResult Logout()
@@ -46,18 +46,18 @@ namespace service_tracker_mvc.Controllers
 
         [RequiresAuthorization(false)]
         [ValidateInput(false)]
-        public ActionResult Authenticate(string returnUrl, string invitationCode)
+        public ActionResult Authenticate(string returnUrl = "", string invitationCode = "")
         {
             var response = openid.GetResponse();
             if (response == null)
             {
                 // Stage 2: user submitting Identifier
                 Identifier id;
-                if (Identifier.TryParse(Request.Form["openid_identifier"], out id))
+                if (Identifier.TryParse(Request["openid_identifier"], out id))
                 {
                     try
                     {
-                        var openIdRequest = openid.CreateRequest(Request.Form["openid_identifier"]);
+                        var openIdRequest = openid.CreateRequest(id);
 
                         var fetch = new FetchRequest();
                         fetch.Attributes.AddRequired(WellKnownAttributes.Contact.Email);
@@ -128,13 +128,13 @@ namespace service_tracker_mvc.Controllers
         private void CreateOrUpdateDbUser(string claimedIdentifier, string email, string invitationCode)
         {
             // see if user already exists
-            var ExistingUserByOpenId = db.Users.SingleOrDefault(u => u.ClaimedIdentifier == claimedIdentifier);
-            var ExistingUserByInvite = db.Users.SingleOrDefault(u => u.InvitationCode == invitationCode);
+            var ExistingUserByOpenId = repo.Users.SingleOrDefault(u => u.ClaimedIdentifier == claimedIdentifier);
+            var ExistingUserByInvite = repo.Users.SingleOrDefault(u => u.InvitationCode == invitationCode);
 
             if (ExistingUserByOpenId != null && ExistingUserByInvite != null)
             {
                 // the user that accepted the invite already had an account. Delete the invite
-                db.Users.Remove(ExistingUserByInvite);
+                repo.Remove(ExistingUserByInvite);
                 ExistingUserByInvite = null;
             }
 
@@ -152,7 +152,7 @@ namespace service_tracker_mvc.Controllers
                     RoleId = (int)RoleType.Guest
                 };
 
-                db.Users.Add(NewUser);
+                repo.Add(NewUser);
             }
             else
             {
@@ -168,29 +168,24 @@ namespace service_tracker_mvc.Controllers
                         Action = (int)InvitationAction.Accepted,
                         LogDate = DateTime.UtcNow
                     };
-                    db.InvitationLogs.Add(log);
+                    repo.Add(log);
                 }
                 ExistingUser.Email = email;
                 ExistingUser.LoginCount++;
                 ExistingUser.LastLogin = DateTime.UtcNow;
             }
-            db.SaveChanges();
+            repo.SaveChanges();
         }
 
         public ViewResult Index()
         {
-            return View(
-                db.Users
-                  .Include(u => u.Organization)
-                  .Include(u => u.Servicer)
-                .OrderBy(u => u.Email).ToList()
-            );
+            return View(repo.Users.ToList());
         }
 
         public ActionResult Create()
         {
-            ViewBag.Organizations = db.Organizations.ToSelectListItems();
-            ViewBag.Servicers = db.Servicers.ToSelectListItems();
+            ViewBag.Organizations = repo.Organizations.ToSelectListItems();
+            ViewBag.Servicers = repo.Servicers.ToSelectListItems();
 
             return View();
         }
@@ -202,9 +197,9 @@ namespace service_tracker_mvc.Controllers
             {
                 // generate a new invite code
                 user.InvitationCode = Extensions.Utilities.GenerateKey();
-                db.Users.Add(user);
-                db.SaveChanges();
-                               
+                repo.Add(user);
+                repo.SaveChanges();
+
                 var LogEntry = new InvitationLog()
                 {
                     Action = (int)InvitationAction.Created,
@@ -212,7 +207,7 @@ namespace service_tracker_mvc.Controllers
                     LogDate = DateTime.UtcNow
                 };
 
-                db.InvitationLogs.Add(LogEntry);
+                repo.Add(LogEntry);
 
                 try
                 {
@@ -224,12 +219,12 @@ namespace service_tracker_mvc.Controllers
                     TempData["Message"] = string.Format("Invitation created, but could not be sent :( ({0})", ex.Message);
                 }
 
-                db.SaveChanges();
+                repo.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Organizations = db.Organizations.ToSelectListItems();
-            ViewBag.Servicers = db.Servicers.ToSelectListItems();
+            ViewBag.Organizations = repo.Organizations.ToSelectListItems();
+            ViewBag.Servicers = repo.Servicers.ToSelectListItems();
             return View(user);
         }
 
@@ -246,13 +241,13 @@ namespace service_tracker_mvc.Controllers
                 Action = (int)InvitationAction.Sent,
                 LogDate = DateTime.UtcNow
             };
-            db.InvitationLogs.Add(log);
+            repo.Add(log);
         }
 
         public ActionResult Log(int id)
         {
-            var invitationLogs = db.InvitationLogs
-                                    .Where(l => l.UserId == id).OrderBy(d => d.LogDate)
+            var invitationLogs = repo.InvitationLogs
+                                    .Where(l => l.UserId == id)
                                     .ToList();
 
             return View(invitationLogs);
@@ -260,10 +255,10 @@ namespace service_tracker_mvc.Controllers
 
         public ActionResult Edit(int id)
         {
-            ViewBag.Organizations = db.Organizations.ToSelectListItems();
-            ViewBag.Servicers = db.Servicers.ToSelectListItems();
+            ViewBag.Organizations = repo.Organizations.ToSelectListItems();
+            ViewBag.Servicers = repo.Servicers.ToSelectListItems();
 
-            User user = db.Users.Find(id);
+            User user = repo.Users.Single(u => u.UserId == id);
             return View(user);
         }
 
@@ -275,34 +270,35 @@ namespace service_tracker_mvc.Controllers
             // do it that way would blow those other fields out of the DB, which
             // would make you look pretty foolish, amirite?
             try
-            {
-                var existingUser = db.Users.Single(u => u.UserId == user.UserId);
+            { 
+                var existingUser = repo.Users.Single(u => u.UserId == user.UserId);
+                repo.Entry(existingUser).State = System.Data.EntityState.Modified;
                 existingUser.OrganizationId = user.OrganizationId;
                 existingUser.RoleId = user.RoleId;
                 existingUser.ServicerId = user.ServicerId;
-                db.SaveChanges();
+                repo.SaveChanges();
                 TempData["Message"] = "User Saved";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 TempData["Message"] = "Error: " + ex.Message;
-                ViewBag.Organizations = db.Organizations.ToSelectListItems();
-                ViewBag.Servicers = db.Servicers.ToSelectListItems();
+                ViewBag.Organizations = repo.Organizations.ToSelectListItems();
+                ViewBag.Servicers = repo.Servicers.ToSelectListItems();
                 return View(user);
             }
         }
 
         public ActionResult Delete(int id)
         {
-            User user = db.Users.Find(id);
+            User user = repo.Users.Single(u => u.UserId == id);
             return View(user);
         }
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            User user = db.Users.Find(id);
+            User user = repo.Users.Single(u => u.UserId == id);
 
             try
             {
@@ -313,8 +309,8 @@ namespace service_tracker_mvc.Controllers
                     throw new ArgumentException("You cannot delete yourself!");
                 }
 
-                db.Users.Remove(user);
-                db.SaveChanges();
+                repo.Remove(user);
+                repo.SaveChanges();
                 TempData["Message"] = "User Deleted";
                 return RedirectToAction("Index");
             }
@@ -327,7 +323,7 @@ namespace service_tracker_mvc.Controllers
 
         public ActionResult SendInvite(int id)
         {
-            User user = db.Users.Find(id);
+            User user = repo.Users.Single(u => u.UserId == id);
             SendEmailInvitation(user);
 
             TempData["Message"] = "Invitation Resent";
@@ -336,7 +332,7 @@ namespace service_tracker_mvc.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            repo.Dispose();
             base.Dispose(disposing);
         }
     }

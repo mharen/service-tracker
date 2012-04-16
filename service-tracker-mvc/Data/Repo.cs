@@ -23,7 +23,11 @@ namespace service_tracker_mvc.Data
             {
                 return HttpContext.Current.Cache.GetOrStore(
                     "Sites",
-                    () => db.Sites.Include(s => s.Organization).OrderBy(c => c.Name).ToList()
+                    () => db.Sites
+                            .Include(s => s.Organization)
+                            .OrderBy(c => c.Organization.Name)
+                            .ThenBy(c => c.Name)
+                            .ToList()
                 ).AsQueryable();
             }
         }
@@ -37,11 +41,13 @@ namespace service_tracker_mvc.Data
         public Site Remove(Site entity)
         {
             HttpContext.Current.Cache.Remove("Sites"); // invalidate cache
-            return db.Sites.Remove(entity);
+            Entry(entity).State = System.Data.EntityState.Deleted;
+            return entity;
         }
 
         public DbEntityEntry<Site> Entry(Site entity)
         {
+            HttpContext.Current.Cache.Remove("Sites"); // invalidate cache
             return db.Entry<Site>(entity);
         }
 
@@ -65,11 +71,13 @@ namespace service_tracker_mvc.Data
         public Servicer Remove(Servicer entity)
         {
             HttpContext.Current.Cache.Remove("Servicers"); // invalidate cache
-            return db.Servicers.Remove(entity);
+            Entry(entity).State = System.Data.EntityState.Deleted;
+            return entity;
         }
 
         public DbEntityEntry<Servicer> Entry(Servicer entity)
         {
+            HttpContext.Current.Cache.Remove("Servicers"); // invalidate cache
             return db.Entry<Servicer>(entity);
         }
 
@@ -92,21 +100,26 @@ namespace service_tracker_mvc.Data
         public Service Remove(Service entity)
         {
             HttpContext.Current.Cache.Remove("Services"); // invalidate cache
-            return db.Services.Remove(entity);
+            Entry(entity).State = System.Data.EntityState.Deleted;
+            return entity;
         }
 
         public DbEntityEntry<Service> Entry(Service entity)
         {
+            HttpContext.Current.Cache.Remove("Services"); // invalidate cache
             return db.Entry<Service>(entity);
         }
 
         public IQueryable<User> Users
         {
-            get
+            get 
             {
                 return HttpContext.Current.Cache.GetOrStore(
                     "Users",
-                    () => db.Users.OrderBy(c => c.Email).ToList()).AsQueryable();
+                    () => db.Users
+                            .Include(u => u.Organization)
+                            .Include(u => u.Servicer)
+                            .OrderBy(c => c.Email).ToList()).AsQueryable();
             }
         }
 
@@ -119,10 +132,15 @@ namespace service_tracker_mvc.Data
         public User Remove(User entity)
         {
             HttpContext.Current.Cache.Remove("Users"); // invalidate cache
-            return db.Users.Remove(entity);
+            Entry(entity).State = System.Data.EntityState.Deleted;
+            return entity;
         }
 
-        public DbEntityEntry<User> Entry(User entity) { return db.Entry<User>(entity); }
+        public DbEntityEntry<User> Entry(User entity)
+        {
+            HttpContext.Current.Cache.Remove("Users"); // invalidate cache
+            return db.Entry<User>(entity);
+        }
 
         public IQueryable<Profile> Profiles
         {
@@ -143,10 +161,15 @@ namespace service_tracker_mvc.Data
         public Profile Remove(Profile entity)
         {
             HttpContext.Current.Cache.Remove("Profiles"); // invalidate cache
-            return db.Profiles.Remove(entity);
+            Entry(entity).State = System.Data.EntityState.Deleted;
+            return entity;
         }
 
-        public DbEntityEntry<Profile> Entry(Profile entity) { return db.Entry<Profile>(entity); }
+        public DbEntityEntry<Profile> Entry(Profile entity)
+        {
+            HttpContext.Current.Cache.Remove("Profiles"); // invalidate cache
+            return db.Entry<Profile>(entity);
+        }
 
         public IQueryable<Organization> Organizations
         {
@@ -167,19 +190,52 @@ namespace service_tracker_mvc.Data
         public Organization Remove(Organization entity)
         {
             HttpContext.Current.Cache.Remove("Organizations"); // invalidate cache
-            return db.Organizations.Remove(entity);
+            Entry(entity).State = System.Data.EntityState.Deleted;
+            return entity;
         }
 
         public DbEntityEntry<Organization> Entry(Organization entity)
         {
+            HttpContext.Current.Cache.Remove("Organizations"); // invalidate cache
             return db.Entry<Organization>(entity);
+        }
+
+        public IQueryable<InvitationLog> InvitationLogs
+        {
+            get
+            {
+                return HttpContext.Current.Cache.GetOrStore(
+                "InvitationLogs",
+                () => db.InvitationLogs.OrderBy(c => c.LogDate).ToList()).AsQueryable();
+            }
+        }
+
+        public InvitationLog Add(InvitationLog entity)
+        {
+            HttpContext.Current.Cache.Remove("InvitationLogs"); // invalidate cache
+            return db.InvitationLogs.Add(entity);
+        }
+
+        public InvitationLog Remove(InvitationLog entity)
+        {
+            HttpContext.Current.Cache.Remove("InvitationLogs"); // invalidate cache
+            Entry(entity).State = System.Data.EntityState.Deleted;
+            return entity;
+        }
+
+        public DbEntityEntry<InvitationLog> Entry(InvitationLog entity)
+        {
+            HttpContext.Current.Cache.Remove("InvitationLogs"); // invalidate cache
+            return db.Entry<InvitationLog>(entity);
         }
 
         public IQueryable<Invoice> Invoices
         {
             get
             {
-                return db.Invoices.OrderBy(c => c.ServiceDate).ToList().AsQueryable();
+                return db.Invoices
+                    .OrderBy(c => c.ServiceDate)
+                    .ThenBy(i => i.InvoiceId);
             }
         }
 
@@ -190,12 +246,37 @@ namespace service_tracker_mvc.Data
 
         public Invoice Remove(Invoice entity)
         {
-            return db.Invoices.Remove(entity);
+            Entry(entity).State = System.Data.EntityState.Deleted;
+            return entity;
         }
 
         public DbEntityEntry<Invoice> Entry(Invoice entity)
         {
             return db.Entry<Invoice>(entity);
+        }
+
+        public IQueryable<InvoiceItem> InvoiceItems
+        {
+            get
+            {
+                return db.InvoiceItems.OrderBy(c => c.InvoiceItemId);
+            }
+        }
+
+        public InvoiceItem Add(InvoiceItem entity)
+        {
+            return db.InvoiceItems.Add(entity);
+        }
+
+        public InvoiceItem Remove(InvoiceItem entity)
+        {
+            Entry(entity).State = System.Data.EntityState.Deleted;
+            return entity;
+        }
+
+        public DbEntityEntry<InvoiceItem> Entry(InvoiceItem entity)
+        {
+            return db.Entry<InvoiceItem>(entity);
         }
 
         public int SaveChanges()

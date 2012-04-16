@@ -18,7 +18,7 @@ namespace service_tracker_mvc.Controllers
     [RequiresAuthorizationAttribute("Manager")]
     public class InvoiceController : Controller
     {
-        private DataContext db = new DataContext();
+        private Repo repo = new Repo();
 
         [RequiresAuthorization("Customer")]
         public ActionResult Index(InvoiceIndexViewModel invoiceIndexViewModel, string button)
@@ -60,24 +60,25 @@ namespace service_tracker_mvc.Controllers
 
             // apply filters from the view
             invoiceIndexViewModel.Invoices =
-                db.Invoices
+                repo.Invoices
                     .Include(i => i.Items)
                     .Include(i => i.Items.Select(item => item.Service))
                     .Include(i => i.Servicer)
+                    .Include(i => i.Site)
                     .Include(i => i.Site.Organization)
                     .Where(i => i.ServiceDate >= Filter.StartDate)
                     .Where(i => i.ServiceDate <= Filter.EndDate)
-                    .Where(i => i.SiteId == Filter.SiteId || Filter.SiteId == 0)
+                    .Where(i => Filter.SiteId == 0 || i.SiteId == Filter.SiteId)
                     .Where(i => i.ServicerId == Filter.ServicerId || Filter.ServicerId == 0)
-                    .Where(i => i.KeyRec.Contains(Filter.KeyRec) || Filter.KeyRec == null || Filter.KeyRec == "")
-                    .Where(i => i.FrtBill.Contains(Filter.FrtBill) || Filter.FrtBill == null || Filter.FrtBill == "")
-                    .Where(i => i.PurchaseOrder.Contains(Filter.PurchaseOrder) || Filter.PurchaseOrder == null || Filter.PurchaseOrder == "")
-                // apply user-specific filtering
+                    .Where(i => Filter.KeyRec == null || Filter.KeyRec == "" || i.KeyRec.Contains(Filter.KeyRec))
+                    .Where(i => Filter.FrtBill == null || Filter.FrtBill == "" || i.FrtBill.Contains(Filter.FrtBill))
+                    .Where(i => Filter.PurchaseOrder == null || Filter.PurchaseOrder == "" || i.PurchaseOrder.Contains(Filter.PurchaseOrder))
+                    // apply user-specific filtering
                     .Where(DataContextExtensions.GetInvoiceFilterForCurrentUser())
-                // sort
+                    // sort
                     .OrderBy(i => i.ServiceDate)
                     .ThenBy(i => i.InvoiceId)
-                // evaluate
+                    // evaluate
                     .ToList();
 
             // save the filter for future use
@@ -173,7 +174,7 @@ namespace service_tracker_mvc.Controllers
 
         private Invoice QueryInvoice(int id)
         {
-            Invoice invoice = db.Invoices.Include(x => x.Items)
+            Invoice invoice = repo.Invoices.Include(x => x.Items)
                                          .Include(x => x.Site)
                                          .Include(x => x.Servicer)
                                          .Include(x => x.Items.Select(i => i.Service))
@@ -214,7 +215,7 @@ namespace service_tracker_mvc.Controllers
         public ActionResult Edit(int id)
         {
             PopulateEditViewBagProperties(false);
-            Invoice invoice = db.Invoices.Include(i => i.Items).Single(i => i.InvoiceId == id);
+            Invoice invoice = repo.Invoices.Include(i => i.Items).Single(i => i.InvoiceId == id);
             PadItemsList(invoice);
             return View(invoice);
         }
@@ -251,16 +252,16 @@ namespace service_tracker_mvc.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Entry(invoice).State = invoice.InvoiceId > 0 ? EntityState.Modified : EntityState.Added;
-                db.SaveChanges();
+                repo.Entry(invoice).State = invoice.InvoiceId > 0 ? EntityState.Modified : EntityState.Added;
+                repo.SaveChanges();
 
-                var ExistingItemIds = db.InvoiceItems.Where(i => i.InvoiceId == invoice.InvoiceId).Select(i => i.InvoiceItemId).ToList();
+                var ExistingItemIds = repo.InvoiceItems.Where(i => i.InvoiceId == invoice.InvoiceId).Select(i => i.InvoiceItemId).ToList();
 
                 foreach (var Item in invoice.Items)
                 {
-                    db.Entry(Item).State = ExistingItemIds.Contains(Item.InvoiceItemId) ? EntityState.Modified : EntityState.Added;
+                    repo.Entry(Item).State = ExistingItemIds.Contains(Item.InvoiceItemId) ? EntityState.Modified : EntityState.Added;
                 }
-                db.SaveChanges();
+                repo.SaveChanges();
                 TempData["Message"] = "Invoice Saved";
 
                 if (Request.Form["Save"] == "Save and Add Another")
@@ -280,7 +281,7 @@ namespace service_tracker_mvc.Controllers
         [RequiresAuthorization("Manager")]
         public ActionResult Delete(int id)
         {
-            Invoice invoice = db.Invoices.Find(id);
+            Invoice invoice = repo.Invoices.Single(i=>i.InvoiceId == id);
             return View(invoice);
         }
 
@@ -288,16 +289,16 @@ namespace service_tracker_mvc.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Invoice invoice = db.Invoices.Find(id);
-            db.Invoices.Remove(invoice);
-            db.SaveChanges();
+            Invoice invoice = repo.Invoices.Single(i => i.InvoiceId == id); 
+            repo.Remove(invoice);
+            repo.SaveChanges();
             TempData["Message"] = "Invoice Deleted";
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            repo.Dispose();
             base.Dispose(disposing);
         }
     }

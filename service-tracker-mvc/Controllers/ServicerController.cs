@@ -14,16 +14,16 @@ namespace service_tracker_mvc.Controllers
     [RequiresAuthorizationAttribute("Manager")]
     public class ServicerController : Controller
     {
-        private DataContext db = new DataContext();
+        private Repo repo = new Repo();
 
         public ViewResult Index()
         {
-            return View(db.Servicers.OrderBy(s => s.Name).ToList());
+            return View(repo.Servicers.ToList());
         }
 
         public ViewResult Details(int id)
         {
-            Servicer servicer = db.Servicers.Find(id);
+            Servicer servicer = repo.Servicers.Single(s => s.ServicerId == id);
             return View(servicer);
         }
 
@@ -37,8 +37,8 @@ namespace service_tracker_mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Servicers.Add(servicer);
-                db.SaveChanges();
+                repo.Add(servicer);
+                repo.SaveChanges();
                 TempData["Message"] = "Employee Saved";
                 return RedirectToAction("Index");
             }
@@ -48,7 +48,7 @@ namespace service_tracker_mvc.Controllers
 
         public ActionResult Edit(int id)
         {
-            Servicer servicer = db.Servicers.Find(id);
+            Servicer servicer = repo.Servicers.Single(s => s.ServicerId == id);
             return View(servicer);
         }
 
@@ -57,8 +57,8 @@ namespace service_tracker_mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(servicer).State = EntityState.Modified;
-                db.SaveChanges();
+                repo.Entry(servicer).State = EntityState.Modified;
+                repo.SaveChanges();
                 TempData["Message"] = "Employee Saved";
                 return RedirectToAction("Index");
             }
@@ -67,31 +67,31 @@ namespace service_tracker_mvc.Controllers
 
         public ActionResult Delete(int id)
         {
-            if (db.Invoices.Any(i => i.ServicerId == id))
+            if (repo.Invoices.Any(i => i.ServicerId == id))
             {
                 ViewBag.DeleteError = "You cannot delete this employee because it is tied to existing invoices. You must change the existing invoices to use a different employee first";
             }
-            Servicer servicer = db.Servicers.Find(id);
+            Servicer servicer = repo.Servicers.Single(s => s.ServicerId == id);
             return View(servicer);
         }
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            if (db.Invoices.Any(i => i.ServicerId == id))
+            if (repo.Invoices.Any(i => i.ServicerId == id))
             {
                 throw new InvalidOperationException("You cannot delete this employee because it is tied to existing invoices. You must change the existing invoices to use a different employee first");
             }
-            Servicer servicer = db.Servicers.Find(id);
-            db.Servicers.Remove(servicer);
-            db.SaveChanges();
+            Servicer servicer = repo.Servicers.Single(s => s.ServicerId == id);
+            repo.Remove(servicer);
+            repo.SaveChanges();
             TempData["Message"] = "Employee Deleted";
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            repo.Dispose();
             base.Dispose(disposing);
         }
     }

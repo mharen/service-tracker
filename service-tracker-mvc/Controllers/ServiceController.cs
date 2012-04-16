@@ -14,16 +14,16 @@ namespace service_tracker_mvc.Controllers
     [RequiresAuthorizationAttribute("Manager")]
     public class ServiceController : Controller
     {
-        private DataContext db = new DataContext();
+        private Repo repo = new Repo();
 
         public ViewResult Index()
         {
-            return View(db.Services.OrderBy(s => s.Sku).ToList());
+            return View(repo.Services.ToList());
         }
 
         public ViewResult Details(int id)
         {
-            Service service = db.Services.Find(id);
+            Service service = repo.Services.Single(s => s.ServiceId == id);
             return View(service);
         }
 
@@ -37,8 +37,8 @@ namespace service_tracker_mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Services.Add(service);
-                db.SaveChanges();
+                repo.Add(service);
+                repo.SaveChanges();
                 TempData["Message"] = "Service Saved";
                 return RedirectToAction("Index");
             }
@@ -48,7 +48,7 @@ namespace service_tracker_mvc.Controllers
 
         public ActionResult Edit(int id)
         {
-            Service service = db.Services.Find(id);
+            Service service = repo.Services.Single(s => s.ServiceId == id);
             return View(service);
         }
 
@@ -57,8 +57,8 @@ namespace service_tracker_mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(service).State = EntityState.Modified;
-                db.SaveChanges();
+                repo.Entry(service).State = EntityState.Modified;
+                repo.SaveChanges();
                 TempData["Message"] = "Service Saved";
                 return RedirectToAction("Index");
             }
@@ -67,31 +67,31 @@ namespace service_tracker_mvc.Controllers
 
         public ActionResult Delete(int id)
         {
-            if (db.InvoiceItems.Any(i => i.ServiceId == id))
+            if (repo.InvoiceItems.Any(i => i.ServiceId == id))
             {
                 ViewBag.DeleteError = "You cannot delete this service because it is tied to existing invoices. You must change the existing invoices to use a different service first";
             }
-            Service service = db.Services.Find(id);
+            Service service = repo.Services.Single(s => s.ServiceId == id);
             return View(service);
         }
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            if (db.InvoiceItems.Any(i => i.ServiceId == id))
+            if (repo.InvoiceItems.Any(i => i.ServiceId == id))
             {
                 throw new InvalidOperationException("You cannot delete this service because it is tied to existing invoices. You must change the existing invoices to use a different service first");
             }
-            Service service = db.Services.Find(id);
-            db.Services.Remove(service);
-            db.SaveChanges();
+            Service service = repo.Services.Single(s => s.ServiceId == id);
+            repo.Remove(service);
+            repo.SaveChanges();
             TempData["Message"] = "Service Deleted";
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            repo.Dispose();
             base.Dispose(disposing);
         }
     }

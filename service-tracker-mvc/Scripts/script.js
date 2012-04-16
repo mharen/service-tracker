@@ -57,7 +57,7 @@ $(function () {
     $('#menu li').hover(function () { $(this).addClass('ui-state-hover'); }, function () { $(this).removeClass('ui-state-hover'); });
 
     // buttonize inputs and buttons to make them look all fancy
-    $('input:submit, button').button();
+    $('input:submit, button, a.button').button();
 
     // note: if there is no message, this will silently just not do anything :)
     $('#message').delay(50).show('slide', { direction: 'up' }, 'fast').delay(2000).hide('slide', { direction: 'up' }, 'fast');
@@ -65,4 +65,8 @@ $(function () {
     if ($.timeago) {
         $('time.timeago').timeago();
     }
+
+    $('.expand-next-element')
+        .next().hide().end()
+        .on('click', function (e) { $(this).next().slideToggle(); e.preventDefault(); });
 });

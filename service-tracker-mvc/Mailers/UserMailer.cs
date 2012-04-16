@@ -21,9 +21,9 @@ namespace service_tracker_mvc.Mailers
 
         public virtual MailMessage Invitation(User user)
         {
-            using (var db = new DataContext())
+            using (var repo = new Repo())
             {
-                var profile = db.Profiles.Single();
+                var profile = repo.Profiles.Single();
 
                 var from = profile.EmailFromAddress ?? "noreply@domain";
 

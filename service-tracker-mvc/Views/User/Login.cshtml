@@ -1,9 +1,7 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
-
 @Script.AddJavaScript("~/Scripts/jquery.openid.min.js")
-
 <script>
     $(function () {
         $('#openid')
@@ -26,3 +24,13 @@
     <input id="openid_identifier" name="openid_identifier" />
     <input type="submit" value="Login" />
 }
+<div class='ui-widget ui-corner-all' style='display:none;width:50%;margin:0 auto;'>
+    <div class='expand-next-element ui-widget-header' style='padding:5px; cursor:pointer'>
+        What if I don't have one of those accounts?</div>
+    <div class='ui-widget-content' style='padding:5px'>
+        <p>This site lets you login with accounts from other sites (do you <em>really</em>
+        want another password to remember?).</p>
+        <p>You can signup for a <a href="https://www.myopenid.com/signup?affiliate_id=79263?openid.sreg.required=email" class='button'>
+            new account</a>, though, if you prefer.</p>
+    </div>
+</div>

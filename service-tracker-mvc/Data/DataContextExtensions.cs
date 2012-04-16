@@ -155,11 +155,11 @@ namespace service_tracker_mvc.Data
 
         private static ICurrentUser LoadUserFromDb()
         {
-            using (var db = new DataContext())
+            using (var repo = new Repo())
             {
                 var claimedIdentifier = HttpContext.Current.User.Identity.Name;
 
-                return db.Users.Where(u => u.ClaimedIdentifier == claimedIdentifier)
+                return repo.Users.Where(u => u.ClaimedIdentifier == claimedIdentifier)
                                    .Select(u => new CurrentUser()
                                    {
                                        Name = u.Email,
