@@ -11,6 +11,8 @@ using service_tracker_mvc.ActionResults;
 using service_tracker_mvc.Data;
 using service_tracker_mvc.Filters;
 using service_tracker_mvc.Models;
+using Elmah;
+using service_tracker_mvc.Extensions;
 
 namespace service_tracker_mvc.Controllers
 {
@@ -241,38 +243,50 @@ namespace service_tracker_mvc.Controllers
         [RequiresAuthorization("Manager")]
         public ActionResult Edit(Invoice invoice)
         {
-            if (invoice.Items == null)
+            try
             {
-                invoice.Items = new List<InvoiceItem>();
+                if (invoice.Items == null)
+                {
+                    invoice.Items = new List<InvoiceItem>();
+                }
+                else
+                {
+                    invoice.Items.RemoveAll(item => item.IsEmpty);
+                }
+
+                invoice.LogDate = DateTime.UtcNow;
+                invoice.EntryDate = DateTime.UtcNow.Date; // need to localize this to the entry user's timezone...?
+                invoice.LogUserId = MvcExtensions.CurrentUser(System.Web.HttpContext.Current).UserId;
+
+                if (ModelState.IsValid)
+                {
+                    repo.Entry(invoice).State = invoice.InvoiceId > 0 ? EntityState.Modified : EntityState.Added;
+                    repo.SaveChanges();
+
+                    var ExistingItemIds = repo.InvoiceItems.Where(i => i.InvoiceId == invoice.InvoiceId).Select(i => i.InvoiceItemId).ToList();
+
+                    foreach (var Item in invoice.Items)
+                    {
+                        repo.Entry(Item).State = ExistingItemIds.Contains(Item.InvoiceItemId) ? EntityState.Modified : EntityState.Added;
+                    }
+                    repo.SaveChanges();
+                    TempData["Message"] = "Invoice Saved";
+
+                    if (Request.Form["Save"] == "Save and Add Another")
+                    {
+                        return RedirectToAction("Create", new { from = Request["from"] });
+                    }
+                    if (Request.QueryString["from"] == "details")
+                    {
+                        return RedirectToAction("Details", new { id = invoice.InvoiceId });
+                    }
+                    return RedirectToAction("Index");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                invoice.Items.RemoveAll(item => item.IsEmpty);
-            }
-
-            if (ModelState.IsValid)
-            {
-                repo.Entry(invoice).State = invoice.InvoiceId > 0 ? EntityState.Modified : EntityState.Added;
-                repo.SaveChanges();
-
-                var ExistingItemIds = repo.InvoiceItems.Where(i => i.InvoiceId == invoice.InvoiceId).Select(i => i.InvoiceItemId).ToList();
-
-                foreach (var Item in invoice.Items)
-                {
-                    repo.Entry(Item).State = ExistingItemIds.Contains(Item.InvoiceItemId) ? EntityState.Modified : EntityState.Added;
-                }
-                repo.SaveChanges();
-                TempData["Message"] = "Invoice Saved";
-
-                if (Request.Form["Save"] == "Save and Add Another")
-                {
-                    return RedirectToAction("Create", new { from = Request["from"] });
-                }
-                if (Request.QueryString["from"] == "details")
-                {
-                    return RedirectToAction("Details", new { id = invoice.InvoiceId });
-                }
-                return RedirectToAction("Index");
+                ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["Message"] = string.Format("Error saving invoice ({0})", ex.Message);
             }
             PopulateEditViewBagProperties(false);
             return View(invoice);

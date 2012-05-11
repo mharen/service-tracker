@@ -82,6 +82,9 @@
     <Reference Include="EcmaScript.NET.modified, Version=0.1.1.0, Culture=neutral, PublicKeyToken=7d53ba4f537753a5, processorArchitecture=MSIL">
       <HintPath>..\packages\YUICompressor.NET.1.7.1.0\lib\net35\EcmaScript.NET.modified.dll</HintPath>
     </Reference>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
@@ -137,6 +140,8 @@
   <ItemGroup>
     <Compile Include="App_Start\MagicalUnicornCustomErrorHandling.cs" />
     <Compile Include="App_Start\MiniProfiler.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\ElmahController.cs" />
     <Compile Include="Classes\ContextKey.cs" />
     <Compile Include="Classes\CurrentUser.cs" />
     <Compile Include="Classes\ICurrentUser.cs" />
@@ -195,6 +200,10 @@
     <Compile Include="Migrations\201204041804169_drop comment.Designer.cs">
       <DependentUpon>201204041804169_drop comment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201205111329244_Adding entry date and log info to invoices model.cs" />
+    <Compile Include="Migrations\201205111329244_Adding entry date and log info to invoices model.Designer.cs">
+      <DependentUpon>201205111329244_Adding entry date and log info to invoices model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\InvitationAction.cs" />
     <Compile Include="Models\InvitationLog.cs" />
@@ -229,6 +238,7 @@
     <Compile Include="Classes\SimpleRoleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Content\apple-touch-icon.png" />
     <Content Include="Content\balloon.png" />
     <Content Include="Content\Images\Error\NotFound.jpg" />

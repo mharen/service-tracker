@@ -24,9 +24,15 @@ namespace service_tracker_mvc.Models
         [Column(TypeName = "DATE")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         [DataType(DataType.Date)]
-        [DisplayName("Date")]
+        [DisplayName("Invoice Date")]
         [Required(ErrorMessage = "⇧ Required")]
         public DateTime ServiceDate { get; set; }
+
+        [Column(TypeName = "DATE")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DataType(DataType.Date)]
+        [DisplayName("Entry Date")]
+        public DateTime EntryDate { get; set; }
 
         [Display(Name = "Invoice")]
         [MaxLength(50)]
@@ -49,5 +55,14 @@ namespace service_tracker_mvc.Models
         [NotMapped]
         [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal Total { get { return Items != null ? Items.Sum(i => i.Total) : 0; } }
+
+        [DisplayName("Last Updated")]
+        public DateTime LogDate { get; set; }
+
+        [DisplayName("Last Updated By")]
+        [ForeignKey("LogUser")]
+        public int LogUserId { get; set; }
+        
+        public virtual User LogUser { get; set; }
     }
 }
