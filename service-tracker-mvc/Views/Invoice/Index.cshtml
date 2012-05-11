@@ -12,52 +12,59 @@
             document.write('<script src="@Url.VersionedContent("~/Scripts/jquery.validate.unobtrusive.min.js")">\x3C/script>')
         }
     </script>
+    <style>.tiny-ddl{ border:none; padding: none; font-weight: bold; }</style>
 }
 @using (Html.BeginForm(null, null, FormMethod.Get, htmlAttributes: new { id = "search-form" }))
 {
     <div class="clearfix">
-    @Html.Partial("PairEditor", new PairEditor(){
-        Label = Html.LabelFor(model => model.InvoiceFilter.StartDate),
-        Editor = MvcExtensions.Concat(
-            Html.EditorFor(model => model.InvoiceFilter.StartDate),
-            MvcHtmlString.Create(" - "),
-            Html.EditorFor(model => model.InvoiceFilter.EndDate)
-        ),
-        Validation = MvcExtensions.Concat(
-            Html.ValidationMessageFor(model => model.InvoiceFilter.StartDate),
-            Html.ValidationMessageFor(model => model.InvoiceFilter.EndDate)
-        )
-    })
+    @Html.Partial("PairEditor", new PairEditor()
+{
+    Label = (MvcHtmlString)Html.DropDownListForEnum(model => model.InvoiceFilter.DateFilterType, null, new { @class = "tiny-ddl" }),
+    Editor = MvcExtensions.Concat(
+        Html.EditorFor(model => model.InvoiceFilter.StartDate),
+        MvcHtmlString.Create(" - "),
+        Html.EditorFor(model => model.InvoiceFilter.EndDate)
+    ),
+    Validation = MvcExtensions.Concat(
+        Html.ValidationMessageFor(model => model.InvoiceFilter.StartDate),
+        Html.ValidationMessageFor(model => model.InvoiceFilter.EndDate)
+    )
+})
 
-    @Html.Partial("PairEditor", new PairEditor(){
-        Label = Html.LabelFor(model => model.InvoiceFilter.SiteId),
-        Editor = Html.DropDownListFor(model => model.InvoiceFilter.SiteId, (IEnumerable<SelectListItem>)ViewBag.Sites),
-        Validation = Html.ValidationMessageFor(model => model.InvoiceFilter.SiteId)
-    })
+    @Html.Partial("PairEditor", new PairEditor()
+{
+    Label = Html.LabelFor(model => model.InvoiceFilter.SiteId),
+    Editor = Html.DropDownListFor(model => model.InvoiceFilter.SiteId, (IEnumerable<SelectListItem>)ViewBag.Sites),
+    Validation = Html.ValidationMessageFor(model => model.InvoiceFilter.SiteId)
+})
 
-    @Html.Partial("PairEditor", new PairEditor(){
-        Label = Html.LabelFor(model => model.InvoiceFilter.ServicerId),
-        Editor = Html.DropDownListFor(model => model.InvoiceFilter.ServicerId, (IEnumerable<SelectListItem>)ViewBag.Servicers),
-        Validation = Html.ValidationMessageFor(model => model.InvoiceFilter.ServicerId)
-    })
+    @Html.Partial("PairEditor", new PairEditor()
+{
+    Label = Html.LabelFor(model => model.InvoiceFilter.ServicerId),
+    Editor = Html.DropDownListFor(model => model.InvoiceFilter.ServicerId, (IEnumerable<SelectListItem>)ViewBag.Servicers),
+    Validation = Html.ValidationMessageFor(model => model.InvoiceFilter.ServicerId)
+})
     
-    @Html.Partial("PairEditor", new PairEditor(){
-        Label = Html.LabelFor(model => model.InvoiceFilter.KeyRec),
-        Editor = Html.TextBoxFor(model => model.InvoiceFilter.KeyRec),
-        Validation = Html.ValidationMessageFor(model => model.InvoiceFilter.KeyRec)
-    })
+    @Html.Partial("PairEditor", new PairEditor()
+{
+    Label = Html.LabelFor(model => model.InvoiceFilter.KeyRec),
+    Editor = Html.TextBoxFor(model => model.InvoiceFilter.KeyRec),
+    Validation = Html.ValidationMessageFor(model => model.InvoiceFilter.KeyRec)
+})
     
-    @Html.Partial("PairEditor", new PairEditor(){
-        Label = Html.LabelFor(model => model.InvoiceFilter.FrtBill),
-        Editor = Html.TextBoxFor(model => model.InvoiceFilter.FrtBill),
-        Validation = Html.ValidationMessageFor(model => model.InvoiceFilter.FrtBill)
-    })
+    @Html.Partial("PairEditor", new PairEditor()
+{
+    Label = Html.LabelFor(model => model.InvoiceFilter.FrtBill),
+    Editor = Html.TextBoxFor(model => model.InvoiceFilter.FrtBill),
+    Validation = Html.ValidationMessageFor(model => model.InvoiceFilter.FrtBill)
+})
     
-    @Html.Partial("PairEditor", new PairEditor(){
-        Label = Html.LabelFor(model => model.InvoiceFilter.PurchaseOrder),
-        Editor = Html.TextBoxFor(model => model.InvoiceFilter.PurchaseOrder),
-        Validation = Html.ValidationMessageFor(model => model.InvoiceFilter.PurchaseOrder)
-    })
+    @Html.Partial("PairEditor", new PairEditor()
+{
+    Label = Html.LabelFor(model => model.InvoiceFilter.PurchaseOrder),
+    Editor = Html.TextBoxFor(model => model.InvoiceFilter.PurchaseOrder),
+    Validation = Html.ValidationMessageFor(model => model.InvoiceFilter.PurchaseOrder)
+})
 
     <div class='pair' style="margin-top:15px">
                 <input type='submit' name='Button' value='Filter' />
@@ -77,6 +84,7 @@ else
         <thead>
             <tr>
                 <th class='ui-state-default hide-4'>Service Date</th>
+                <th class='ui-state-default hide-1'>Entry Date</th>
                 <th class='ui-state-default hide-3'>Store</th>
                 <th class='ui-state-default hide-2'>Employee</th>
                 <th class='ui-state-default'>Key Rec</th>
@@ -93,6 +101,9 @@ else
             <tr>
                 <td class='ui-widget-content hide-4'>
                     @Html.DisplayFor(modelItem => item.ServiceDate)
+                </td>
+                <td class='ui-widget-content hide-1'>
+                    @Html.DisplayFor(modelItem => item.EntryDate)
                 </td>
                 <td class='ui-widget-content hide-3'>
                     @item.Site.ToString()
@@ -117,7 +128,8 @@ else
                 </td>
                 <td class='ui-widget-content number'> 
                     <a href="@Url.Action("Details", new { id = item.InvoiceId })"><span title="Details" class="ui-icon ui-icon-search" style="display:inline-block"></span></a>
-                    @if(User.IsInRole("Manager")){
+                    @if (User.IsInRole("Manager"))
+                    {
                         <a href="@Url.Action("Edit", new { id = item.InvoiceId, from = "index" })"><span title="Edit" class="ui-icon ui-icon-pencil" style="display:inline-block"></span></a>
                     }
                 </td>

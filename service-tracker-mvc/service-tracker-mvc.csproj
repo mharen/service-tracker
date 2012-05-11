@@ -144,6 +144,7 @@
     <Compile Include="Areas\Admin\Controllers\ElmahController.cs" />
     <Compile Include="Classes\ContextKey.cs" />
     <Compile Include="Classes\CurrentUser.cs" />
+    <Compile Include="Classes\DateFilterType.cs" />
     <Compile Include="Classes\ICurrentUser.cs" />
     <Compile Include="Classes\PairEditor.cs" />
     <Compile Include="Controllers\ErrorController.cs" />

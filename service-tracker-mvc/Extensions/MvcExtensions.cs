@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 using service_tracker_mvc.Data;
 using service_tracker_mvc.Models;
 using System.Web.Caching;
 using service_tracker_mvc.Classes;
 using System.Text;
+using System.Reflection;
+using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
 
 namespace service_tracker_mvc.Extensions
 {
@@ -133,7 +137,7 @@ namespace service_tracker_mvc.Extensions
             return cssClassToUse;
         }
 
-        public static SelectList ToSelectList<T>(string selectedValue)
+        public static SelectList ToSelectList<T>(string selectedValue) where T : struct, IConvertible
         {
             return new SelectList(
                 Enum.GetNames(typeof(T)).Select(text => new { Value = (int)Enum.Parse(typeof(T), text), Text = text }),
@@ -141,6 +145,45 @@ namespace service_tracker_mvc.Extensions
                 "Text",
                 selectedValue
            );
+        }
+
+        public static IHtmlString DropDownListForEnum<TModel, TProperty>(
+                this HtmlHelper<TModel> htmlHelper,
+                Expression<Func<TModel, TProperty>> expression,
+                string optionLabel,
+                object htmlAttributes
+            )
+        {
+            if (!typeof(TProperty).IsEnum)
+            {
+                throw new Exception("This helper can be used only with enum types");
+            }
+
+            var enumType = typeof(TProperty);
+            var fields = enumType.GetFields(
+                BindingFlags.Static | BindingFlags.GetField | BindingFlags.Public
+            );
+            var values = Enum.GetValues(enumType).OfType<TProperty>();
+            var items =
+                from value in values
+                from field in fields
+                let descriptionAttribute = field
+                    .GetCustomAttributes(
+                        typeof(DisplayAttribute), true
+                    )
+                    .OfType<DisplayAttribute>()
+                    .FirstOrDefault()
+                let displayName = (descriptionAttribute != null)
+                    ? descriptionAttribute.Name
+                    : value.ToString()
+                where value.ToString() == field.Name
+                select new { Id = value, Name = displayName };
+
+            var metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
+            var enumObj = metadata;
+            var selectList = new SelectList(items, "Id", "Name", metadata.Model);
+            
+            return htmlHelper.DropDownListFor(expression, selectList, optionLabel, htmlAttributes);
         }
 
         public static string VersionedContent(this UrlHelper url, string relativePath)

@@ -13,6 +13,12 @@
 })
 @Html.Partial("PairEditor", new PairEditor()
 {
+    Label = Html.LabelFor(model => model.EntryDate),
+    Editor = Html.EditorFor(model => model.EntryDate),
+    Validation = Html.ValidationMessageFor(model => model.EntryDate)
+})
+@Html.Partial("PairEditor", new PairEditor()
+{
     Label = Html.LabelFor(model => model.SiteId),
     Editor = Html.DropDownListFor(model => model.SiteId, (IEnumerable<SelectListItem>)ViewBag.Sites, ""),
     Validation = Html.ValidationMessageFor(model => model.SiteId)

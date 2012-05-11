@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using service_tracker_mvc.Classes;
 
 namespace service_tracker_mvc.Models
 {
@@ -15,6 +16,9 @@ namespace service_tracker_mvc.Models
 
         [Required, DisplayName("Service Date Range")]
         public DateTime? EndDate { get; set; }
+
+        [Required, DisplayName("Apply Dates To")]
+        public DateFilterType DateFilterType { get; set; }
         
         [DisplayName("Employee")]
         public int ServicerId { get; set; }

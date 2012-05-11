@@ -61,27 +61,44 @@ namespace service_tracker_mvc.Controllers
             var Filter = invoiceIndexViewModel.InvoiceFilter;
 
             // apply filters from the view
-            invoiceIndexViewModel.Invoices =
-                repo.Invoices
-                    .Include(i => i.Items)
-                    .Include(i => i.Items.Select(item => item.Service))
-                    .Include(i => i.Servicer)
-                    .Include(i => i.Site)
-                    .Include(i => i.Site.Organization)
-                    .Where(i => i.ServiceDate >= Filter.StartDate)
-                    .Where(i => i.ServiceDate <= Filter.EndDate)
-                    .Where(i => Filter.SiteId == 0 || i.SiteId == Filter.SiteId)
-                    .Where(i => i.ServicerId == Filter.ServicerId || Filter.ServicerId == 0)
-                    .Where(i => Filter.KeyRec == null || Filter.KeyRec == "" || i.KeyRec.Contains(Filter.KeyRec))
-                    .Where(i => Filter.FrtBill == null || Filter.FrtBill == "" || i.FrtBill.Contains(Filter.FrtBill))
-                    .Where(i => Filter.PurchaseOrder == null || Filter.PurchaseOrder == "" || i.PurchaseOrder.Contains(Filter.PurchaseOrder))
-                    // apply user-specific filtering
-                    .Where(DataContextExtensions.GetInvoiceFilterForCurrentUser())
-                    // sort
-                    .OrderBy(i => i.ServiceDate)
-                    .ThenBy(i => i.InvoiceId)
-                    // evaluate
-                    .ToList();
+            var invoices = repo.Invoices
+                .Include(i => i.Items)
+                .Include(i => i.Items.Select(item => item.Service))
+                .Include(i => i.Servicer)
+                .Include(i => i.Site)
+                .Include(i => i.Site.Organization)
+                .Where(i => Filter.SiteId == 0 || i.SiteId == Filter.SiteId)
+                .Where(i => i.ServicerId == Filter.ServicerId || Filter.ServicerId == 0)
+                .Where(i => Filter.KeyRec == null || Filter.KeyRec == "" || i.KeyRec.Contains(Filter.KeyRec))
+                .Where(i => Filter.FrtBill == null || Filter.FrtBill == "" || i.FrtBill.Contains(Filter.FrtBill))
+                .Where(i => Filter.PurchaseOrder == null || Filter.PurchaseOrder == "" || i.PurchaseOrder.Contains(Filter.PurchaseOrder))
+                // apply user-specific filtering
+                .Where(DataContextExtensions.GetInvoiceFilterForCurrentUser());
+
+            // add date filters
+            switch (Filter.DateFilterType)
+            {
+                case service_tracker_mvc.Classes.DateFilterType.ServiceDate:
+                    invoices = invoices
+                        .Where(i => i.ServiceDate >= Filter.StartDate)
+                        .Where(i => i.ServiceDate <= Filter.EndDate);
+                    break;
+                case service_tracker_mvc.Classes.DateFilterType.EntryDate:
+                    invoices = invoices
+                        .Where(i => i.EntryDate >= Filter.StartDate)
+                        .Where(i => i.EntryDate <= Filter.EndDate);
+                    break;
+                default:
+                    throw new ArgumentException("Given DateFilterType is not supported", "DateFilterType");
+            }
+
+            // evaluate query
+            invoiceIndexViewModel.Invoices = invoices
+                // sort
+                .OrderBy(i => i.ServiceDate)
+                .ThenBy(i => i.InvoiceId)
+                // evaluate
+               .ToList();
 
             // save the filter for future use
             Session[InvoiceFilterSessionKey] = invoiceIndexViewModel.InvoiceFilter;
@@ -118,7 +135,7 @@ namespace service_tracker_mvc.Controllers
             Worksheet worksheet = new Worksheet(Title);
 
             // add header row
-            var Columns = new string[] { "Service Date", "Store", "Employee", "Invoice", "Key REC", "PO", "Invoice Total", 
+            var Columns = new string[] { "Service Date", "Entry Date", "Store", "Employee", "Invoice", "Key REC", "PO", "Invoice Total", 
                                          "SKU", "Service", "Quantity", "Unit Price", "Total Line Item Price" };
 
             Row HeaderRow = new Row();
@@ -150,6 +167,7 @@ namespace service_tracker_mvc.Controllers
         private IEnumerable<Cell> GetInvoiceCells(Invoice invoice)
         {
             yield return new Cell(invoice.ServiceDate.ToShortDateString());
+            yield return new Cell(invoice.EntryDate.ToShortDateString());
             yield return new Cell(invoice.Site.ToString());
             yield return new Cell(invoice.Servicer.Name);
             yield return new Cell(invoice.FrtBill);
@@ -198,6 +216,7 @@ namespace service_tracker_mvc.Controllers
             Invoice Invoice = new Invoice()
             {
                 InvoiceId = 0,
+                EntryDate = DateTime.UtcNow.Date, // TODO: localize this to the user's timezone
                 Items = new List<InvoiceItem>()
             };
 
@@ -255,7 +274,6 @@ namespace service_tracker_mvc.Controllers
                 }
 
                 invoice.LogDate = DateTime.UtcNow;
-                invoice.EntryDate = DateTime.UtcNow.Date; // need to localize this to the entry user's timezone...?
                 invoice.LogUserId = MvcExtensions.CurrentUser(System.Web.HttpContext.Current).UserId;
 
                 if (ModelState.IsValid)
@@ -295,7 +313,7 @@ namespace service_tracker_mvc.Controllers
         [RequiresAuthorization("Manager")]
         public ActionResult Delete(int id)
         {
-            Invoice invoice = repo.Invoices.Single(i=>i.InvoiceId == id);
+            Invoice invoice = repo.Invoices.Single(i => i.InvoiceId == id);
             return View(invoice);
         }
 
@@ -303,7 +321,7 @@ namespace service_tracker_mvc.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Invoice invoice = repo.Invoices.Single(i => i.InvoiceId == id); 
+            Invoice invoice = repo.Invoices.Single(i => i.InvoiceId == id);
             repo.Remove(invoice);
             repo.SaveChanges();
             TempData["Message"] = "Invoice Deleted";

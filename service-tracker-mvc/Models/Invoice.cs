@@ -32,6 +32,7 @@ namespace service_tracker_mvc.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         [DataType(DataType.Date)]
         [DisplayName("Entry Date")]
+        [Required(ErrorMessage = "⇧ Required")]
         public DateTime EntryDate { get; set; }
 
         [Display(Name = "Invoice")]
