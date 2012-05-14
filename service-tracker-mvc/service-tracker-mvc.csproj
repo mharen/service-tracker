@@ -34,6 +34,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClosedXML">
+      <HintPath>..\packages\ClosedXML_NET_35.0.60.0\lib\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml">
+      <HintPath>..\packages\DocumentFormat.OpenXml.1.0\lib\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="DoddleReport">
+      <HintPath>..\packages\DoddleReport.1.2.2\lib\net35\DoddleReport.dll</HintPath>
+    </Reference>
+    <Reference Include="DoddleReport.OpenXml">
+      <HintPath>..\packages\DoddleReport.OpenXml.1.2.1\lib\net35\DoddleReport.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="DoddleReport.Web">
+      <HintPath>..\packages\DoddleReport.Web.1.2.1\lib\net35\DoddleReport.Web.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetOpenAuth.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetOpenAuth.Core.4.0.1.12097\lib\net40-full\DotNetOpenAuth.Core.dll</HintPath>
     </Reference>
@@ -208,6 +223,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\InvitationAction.cs" />
     <Compile Include="Models\InvitationLog.cs" />
+    <Compile Include="Models\InvoiceItemReport.cs" />
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Classes\RoleType.cs" />

@@ -13,6 +13,9 @@ using service_tracker_mvc.Filters;
 using service_tracker_mvc.Models;
 using Elmah;
 using service_tracker_mvc.Extensions;
+using DoddleReport;
+using DoddleReport.Web;
+using DoddleReport.OpenXml;
 
 namespace service_tracker_mvc.Controllers
 {
@@ -29,7 +32,7 @@ namespace service_tracker_mvc.Controllers
 
             if (button == "Export")
             {
-                return Excel(invoiceIndexViewModel);
+                return Export(invoiceIndexViewModel);
             }
 
             PopulateEditViewBagProperties(includeAllOptionsWhenAppropriate: true);
@@ -118,50 +121,59 @@ namespace service_tracker_mvc.Controllers
         }
 
         [RequiresAuthorization("Customer")]
-        public ActionResult Excel(InvoiceIndexViewModel invoiceIndexViewModel)
+        public ActionResult Export(InvoiceIndexViewModel invoiceIndexViewModel)
         {
             //get the invoices
             invoiceIndexViewModel = QueryInvoices(invoiceIndexViewModel);
 
-            var HeaderStyle = new Style("Header");
-            HeaderStyle.font.bold = true;
-            StylesManager.addStyle(HeaderStyle);
+            var reportItems = invoiceIndexViewModel.Invoices.SelectMany(invoice =>
+                invoice.Items.Select(item =>
+                    new InvoiceItemReport
+                    {
+                        InvoiceId = invoice.InvoiceId,
+                        ServiceDate = invoice.ServiceDate,
+                        EntryDate = invoice.EntryDate,
+                        Store = invoice.Site.ToString(),
+                        Employee = invoice.Servicer.Name,
+                        FrtBill = invoice.FrtBill,
+                        KeyRec = invoice.KeyRec,
+                        PO = invoice.PurchaseOrder,
+                        InvoiceTotal = invoice.Total,
 
-            // don't show a border by default
-            StylesManager.getStyle("Default").border.display = false;
+                        Sku = item.Service == null ? "" : item.Service.Sku,
+                        Service = item.Service == null ? "" : item.Service.Description,
+                        Quantity = item.Quantity,
+                        UnitPrice = item.Service == null ? 0M : item.Service.Cost,
+                        TotalLineItemPrice = item.Total
+                    }
+                )
+            );
+            // Create the report and turn our query into a ReportSource
+            var report = new Report(reportItems.ToReportSource());
 
-            var Title = string.Format("{0:yyyy.MM.dd}-to-{1:yyyy.MM.dd}", invoiceIndexViewModel.InvoiceFilter.StartDate, invoiceIndexViewModel.InvoiceFilter.EndDate);
-            Workbook workbook = new Workbook();
-            Worksheet worksheet = new Worksheet(Title);
+            // Customize the Text Fields
+            var Title = string.Format("{0:yyyy.MM.dd} to {1:yyyy.MM.dd}", invoiceIndexViewModel.InvoiceFilter.StartDate, invoiceIndexViewModel.InvoiceFilter.EndDate);
+            var Filename = Title + ".xlsx";
 
-            // add header row
-            var Columns = new string[] { "Service Date", "Entry Date", "Store", "Employee", "Invoice", "Key REC", "PO", "Invoice Total", 
-                                         "SKU", "Service", "Quantity", "Unit Price", "Total Line Item Price" };
+            report.TextFields.Title = Title;
+            report.TextFields.SubTitle = string.Format("Generated on {0} UTC", DateTime.UtcNow);
 
-            Row HeaderRow = new Row();
-            foreach (var CellName in Columns)
+            report.TextFields.Header = string.Format(@"
+                            Report Generated: {0}
+                            Invoices: {1}
+                            Total: {2:c}", DateTime.UtcNow, invoiceIndexViewModel.Invoices.Count, invoiceIndexViewModel.Invoices.Sum(i => i.Total));
+
+            // Render hints allow you to pass additional hints to the reports as they are being rendered
+            report.RenderHints.BooleansAsYesNo = true;
+            
+            report.DataFields["InvoiceTotal"].DataFormatString = "{0:c}";
+            report.DataFields["UnitPrice"].DataFormatString = "{0:c}";
+            report.DataFields["TotalLineItemPrice"].DataFormatString = "{0:c}";
+
+            return new ReportResult(report, new ExcelReportWriter(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
             {
-                HeaderRow.Cells.Add(new Cell(CellName, "Header"));
-            }
-            worksheet.Rows.Add(HeaderRow);
-
-            // add content rows
-            foreach (var Invoice in invoiceIndexViewModel.Invoices)
-            {
-                foreach (var Item in Invoice.Items)
-                {
-                    var Row = new Row();
-                    Row.Cells.AddRange(GetInvoiceCells(Invoice));
-                    Row.Cells.AddRange(GetInvoiceItemCells(Item));
-                    worksheet.Rows.Add(Row);
-                }
-            }
-
-            //Add worksheet to Workbook
-            workbook.Worksheets.Add(worksheet);
-
-            //Return the byte array  
-            return new ExcelResult(workbook.getBytes(), Title);
+                FileName = Filename
+            };
         }
 
         private IEnumerable<Cell> GetInvoiceCells(Invoice invoice)
