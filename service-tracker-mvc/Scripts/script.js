@@ -19,8 +19,9 @@ $(function () {
 
     if ($.validator) {
         // patch the validate "date" method to accomodate iOS-style ISO dates
-        // because somehow iOS supports HTML5 date inputs, but its Date() implementation
-        // doesn't parse them... WUT?!
+        // because somehow some browsers (including Chrome 19+ and iOS) support HTML5 date 
+        // inputs, but some of those same browsers' Date() implementation
+        // doesn't parse them... WUT?! I'm looking at you iOS
         var originalDateValidator1 = $.validator.methods.date;
         var originalDateValidator2 = $.validator.methods.dateISO;
         $.validator.methods.date = function (value, element) {

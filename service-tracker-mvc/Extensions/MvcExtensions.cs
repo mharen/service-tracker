@@ -17,6 +17,16 @@ namespace service_tracker_mvc.Extensions
 {
     public static class MvcExtensions
     {
+        public static string ToHtmlDateInputString(this DateTime? value)
+        {
+            if (value != null && value != DateTime.MinValue)
+            {
+                return value.Value.ToString("yyyy-MM-dd");
+            }
+
+            return "";
+        }
+
         // via: http://stackoverflow.com/a/968873/29
         private static object sync = new object();
         public const int DefaultCacheExpiration = 20;
