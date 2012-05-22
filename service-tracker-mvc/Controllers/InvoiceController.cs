@@ -123,8 +123,7 @@ namespace service_tracker_mvc.Controllers
         [RequiresAuthorization("Customer")]
         public ActionResult Export(InvoiceIndexViewModel invoiceIndexViewModel)
         {
-            //get the invoices
-            invoiceIndexViewModel = QueryInvoices(invoiceIndexViewModel);
+            // note: the model already has invoices when passed to this action
 
             var reportItems = invoiceIndexViewModel.Invoices.SelectMany(invoice =>
                 invoice.Items.Select(item =>
@@ -148,6 +147,7 @@ namespace service_tracker_mvc.Controllers
                     }
                 )
             );
+
             // Create the report and turn our query into a ReportSource
             var report = new Report(reportItems.ToReportSource());
 
