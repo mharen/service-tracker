@@ -33,7 +33,8 @@ My dad own's a company and he needed some tracking software. It didn't exist
 - jQuery + plugins + UI
 - Entity Framework + Code First
 - HTML5 Boilerplate
-- DotNetOpenAuth
+- DotNetOpenAuth 
+- Many others
 
 Most of the above awesmeness is included via Nuget.
 
