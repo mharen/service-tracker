@@ -8,7 +8,7 @@ More to come...
 
 # Who
 
-I'm Michael Haren. You can find out more about me elsewhere. Try Google.
+I'm Michael Haren. You can find out more about me elsewhere. Try Google. Or Bing.
 
 # What
 
