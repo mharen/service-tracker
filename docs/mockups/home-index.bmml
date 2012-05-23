@@ -7,7 +7,7 @@
     </control>
     <control controlID="1" controlTypeID="com.balsamiq.mockups::Title" x="81" y="149" w="-1" h="-1" measuredW="188" measuredH="51" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Welcome%21</text>
+        <text>Welcome%21</text> 
       </controlProperties>
     </control>
     <control controlID="6" controlTypeID="com.balsamiq.mockups::IconLabel" x="438" y="110" w="-1" h="-1" measuredW="63" measuredH="24" zOrder="2" locked="false" isInGroup="-1">
