@@ -34,7 +34,7 @@ My dad own's a company and he needed some tracking software. It didn't exist
 - Entity Framework + Code First
 - HTML5 Boilerplate
 - DotNetOpenAuth 
-- Many others
+- Many other great libraries!
 
 Most of the above awesmeness is included via Nuget.
 
